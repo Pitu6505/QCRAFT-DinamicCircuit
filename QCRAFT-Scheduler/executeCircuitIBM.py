@@ -14,12 +14,29 @@ import qiskit
 import numpy as np
 import re
 import threading
+import config
 
 class executeCircuitIBM:
     def __init__(self):
         self.transpile_lock = threading.Lock()
         self.condition = threading.Condition()
-        self.service = QiskitRuntimeService()
+        
+        # Intentar cargar desde cuenta guardada, si no, usar credenciales de config.py
+        try:
+            self.service = QiskitRuntimeService()
+        except Exception:
+            # Si no hay cuenta guardada, usar credenciales de config.py
+            if config.IBM_INSTANCE:
+                self.service = QiskitRuntimeService(
+                    channel=config.IBM_CHANNEL,
+                    token=config.IBM_TOKEN,
+                    instance=config.IBM_INSTANCE
+                )
+            else:
+                self.service = QiskitRuntimeService(
+                    channel=config.IBM_CHANNEL,
+                    token=config.IBM_TOKEN
+                )
         all_jobs = self.service.jobs()
         
         self.queued_jobs = len([job for job in all_jobs if job.status() == qiskit.providers.JobStatus.QUEUED])  # Number of queued jobs de la cola generado

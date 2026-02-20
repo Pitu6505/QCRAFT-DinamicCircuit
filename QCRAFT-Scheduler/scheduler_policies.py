@@ -94,7 +94,7 @@ class SchedulerPolicies:
         self.time_limit_seconds = 10
         self.max_qubits = 127
         self.forced_threshold = 12
-        self.machine_ibm =  'ibm_brisbane' #''local'
+        self.machine_ibm =  'ibm_fez' #''local'
         self.machine_aws = 'local' #'arn:aws:braket:::device/quantum-simulator/amazon/sv1'
         self.executeCircuitIBM = executeCircuitIBM()
         # Cargar modelo de ML si existe, sino entrenarlo
