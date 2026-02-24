@@ -11,6 +11,9 @@ from threading import Thread
 from collections import deque
 from DeepMochilaId_copy import optimizar_espacio_ml, SeleccionadorNN, ColaDataset, train_model
 from dinamico_copy import optimizar_espacio_dinamico
+from circuit_Compresor import AdvancedTopologyCompressor
+from Ibm_api import get_backend_data as get_ibm_data
+from Aws_api import get_aws_backend_data
 import json
 import numpy as np
 import os
@@ -92,11 +95,44 @@ class SchedulerPolicies:
         """
         self.app = app
         self.time_limit_seconds = 10
-        self.max_qubits = 127
+        self.max_qubits = 156
         self.forced_threshold = 12
         self.machine_ibm =  'ibm_fez' #''local'
         self.machine_aws = 'local' #'arn:aws:braket:::device/quantum-simulator/amazon/sv1'
         self.executeCircuitIBM = executeCircuitIBM()
+        
+        # Inicializar compresores con topología física
+        print("🔧 Inicializando compresores de topología...")
+        
+        # Compresor IBM
+        try:
+            # Intentar cargar topología desde el servicio ya inicializado
+            if self.machine_ibm != 'local':
+                service = self.executeCircuitIBM.service
+                backend_ibm = service.backend(self.machine_ibm)
+                cmap_ibm = backend_ibm.coupling_map
+                self.compressor_ibm = AdvancedTopologyCompressor(coupling_map=cmap_ibm)
+                print(f"✅ Compresor IBM inicializado con topología de {self.machine_ibm}")
+            else:
+                self.compressor_ibm = AdvancedTopologyCompressor(coupling_map=None)
+                print(f"ℹ️  IBM en modo 'local' - compresor sin topología específica")
+        except Exception as e:
+            print(f"⚠️ No se pudo cargar topología IBM: {e}. Usando compresor sin topología.")
+            self.compressor_ibm = AdvancedTopologyCompressor(coupling_map=None)
+        
+        # Compresor AWS
+        try:
+            if self.machine_aws != 'local':
+                cmap_aws, backend_aws = get_aws_backend_data("Ankaa-3")
+                self.compressor_aws = AdvancedTopologyCompressor(coupling_map=cmap_aws)
+                print(f"✅ Compresor AWS inicializado con topología")
+            else:
+                self.compressor_aws = AdvancedTopologyCompressor(coupling_map=None)
+                print(f"ℹ️  AWS en modo 'local' - compresor sin topología específica")
+        except Exception as e:
+            print(f"⚠️ No se pudo cargar topología AWS: {e}. Usando compresor sin topología.")
+            self.compressor_aws = AdvancedTopologyCompressor(coupling_map=None)
+        
         # Cargar modelo de ML si existe, sino entrenarlo
         self.model = SeleccionadorNN(input_dim=2, hidden_dim=16)
 
@@ -117,7 +153,8 @@ class SchedulerPolicies:
                         'shots_depth': Policy(self.send_shots_depth, self.max_qubits, self.time_limit_seconds, self.executeCircuit, self.machine_aws, self.machine_ibm),
                         'shots_optimized': Policy(self.send_shots_optimized, self.max_qubits, self.time_limit_seconds, self.executeCircuit, self.machine_aws, self.machine_ibm),
                         'Optimizacion_ML': Policy(self.send_ML, self.max_qubits, self.time_limit_seconds, self.executeCircuit, self.machine_aws, self.machine_ibm),
-                        'Optimizacion_PD': Policy(self.send_PD, self.max_qubits, self.time_limit_seconds , self.executeCircuit, self.machine_aws, self.machine_ibm),}
+                        'Optimizacion_PD': Policy(self.send_PD, self.max_qubits, self.time_limit_seconds , self.executeCircuit, self.machine_aws, self.machine_ibm),
+                        'Topology_Compressed': Policy(self.send_topology_compressed, self.max_qubits, self.time_limit_seconds, self.executeCircuitCompressed, self.machine_aws, self.machine_ibm),}
         
         self.translator = f"http://{self.app.config['TRANSLATOR']}:{self.app.config['TRANSLATOR_PORT']}/code/"
         self.unscheduler = f"http://{self.app.config['HOST']}:{self.app.config['PORT']}/unscheduler"
@@ -275,7 +312,13 @@ class SchedulerPolicies:
             provider (str): The provider of the circuit
         """
         composition_qubits = 0
-        for url, num_qubits, shots, user, circuit_name, depth, Iterator in urls:  #Aqui he cambiado algo
+        for item in urls:
+            # Manejar tanto tuplas de 6 elementos (sin iteracion) como de 7 (con iteracion)
+            if len(item) == 7:
+                url, num_qubits, shots, user, circuit_name, depth, Iterator = item
+            else:
+                url, num_qubits, shots, user, circuit_name, depth = item
+                Iterator = 0  # Valor por defecto
         #Change the q[...] and c[...] to q[composition_qubits+...] and c[composition_qubits+...]
             if 'algassert' in url: 
                 # Send a request to the translator, in the post, the field url will be url and the field d will be composition_qubits
@@ -755,6 +798,267 @@ class SchedulerPolicies:
 
             #executeCircuit(json.dumps(data),qb,shotsUsr,provider,urls)
             self.services['time'].timers[provider].reset()
+
+    
+    def executeCircuitCompressed(self, data: dict, qb: list, shots: list, provider: str, urls: list, machine: str) -> None:
+        """
+        Ejecuta el circuito aplicando compresión de topología antes de la ejecución.
+        
+        Args:
+            data (dict): Los datos del circuito a ejecutar
+            qb (list): El número de qubits por circuito
+            shots (list): El número de shots por circuito
+            provider (str): El proveedor del circuito (ibm o aws)
+            urls (list): Los datos de cada circuito
+            machine (str): La máquina en la que ejecutar el circuito
+        
+        Raises:
+            Exception: Si ocurre un error durante la ejecución del circuito
+        """
+        print("\n" + "="*80)
+        print(f"🔄 INICIANDO EJECUCIÓN CON COMPRESIÓN DE TOPOLOGÍA")
+        print(f"📊 Provider: {provider.upper()} | Machine: {machine}")
+        print("="*80)
+        
+        # 1. Convertir código string a QuantumCircuit
+        circuit_code = ''
+        for line in json.loads(data)['code']:
+            circuit_code = circuit_code + line + '\n'
+        
+        print(f"\n📝 Código del circuito compuesto recibido ({len(circuit_code)} caracteres)")
+        
+        loc = {}
+        original_qubits = sum(qb)
+        
+        print(f"\n🔢 Circuito original: {original_qubits} qubits lógicos totales")
+        print(f"   📦 Compuesto por {len(qb)} circuitos individuales: {qb}")
+        
+        # 2. Convertir a objeto QuantumCircuit según el provider
+        try:
+            if provider == 'ibm':
+                print(f"\n⚙️  Convirtiendo código a QuantumCircuit (IBM)...")
+                loc['circuit'] = self.executeCircuitIBM.code_to_circuit_ibm(circuit_code)
+                print(f"✅ Circuito IBM creado exitosamente")
+                print(f"   - Qubits: {loc['circuit'].num_qubits}")
+                print(f"   - Depth: {loc['circuit'].depth()}")
+                print(f"   - Gates: {len(loc['circuit'].data)}")
+            else:
+                print(f"\n⚙️  Convirtiendo código a Circuit (AWS)...")
+                loc['circuit'] = code_to_circuit_aws(circuit_code)
+                print(f"✅ Circuito AWS creado exitosamente")
+        except Exception as e:
+            print(f"\n❌ ERROR al convertir código a circuito: {e}")
+            raise
+        
+        # 3. Aplicar compresión de topología
+        print(f"\n🗜️  APLICANDO COMPRESIÓN DE TOPOLOGÍA...")
+        print(f"   Compresor: {'IBM' if provider == 'ibm' else 'AWS'}")
+        
+        try:
+            compressor = self.compressor_ibm if provider == 'ibm' else self.compressor_aws
+            
+            print(f"   └─ Paso 1: Adelantando medidas y optimizando...")
+            compressed_circuit = compressor.compress_and_map(loc['circuit'])
+            
+            compressed_qubits = compressed_circuit.num_qubits
+            compression_ratio = (1 - compressed_qubits / original_qubits) * 100 if original_qubits > 0 else 0
+            
+            print(f"\n✨ COMPRESIÓN COMPLETADA:")
+            print(f"   📉 Qubits: {original_qubits} → {compressed_qubits}")
+            print(f"   💾 Ahorro: {compression_ratio:.1f}%")
+            print(f"   📏 Depth comprimido: {compressed_circuit.depth()}")
+            print(f"   🚪 Gates comprimidos: {len(compressed_circuit.data)}")
+            
+            # Reemplazar el circuito original con el comprimido
+            loc['circuit'] = compressed_circuit
+            
+        except Exception as e:
+            print(f"\n⚠️  ERROR en compresión: {e}")
+            print(f"   Continuando con circuito sin comprimir...")
+        
+        # 4. Ejecutar el circuito (comprimido o no)
+        print(f"\n🚀 EJECUTANDO CIRCUITO EN {provider.upper()}...")
+        print(f"   Machine: {machine}")
+        print(f"   Shots: {max(shots)}")
+        
+        # ⚠️ MODO SIMULACIÓN - Ejecución real comentada para testing
+        print(f"\n⚠️  MODO SIMULACIÓN ACTIVADO - No se ejecuta en backend real")
+        
+        try:
+            # COMENTADO: Ejecución real en IBM/AWS
+            """
+            if provider == 'ibm':
+                print(f"   Ejecutando en IBM Quantum...")
+                counts = self.executeCircuitIBM.runIBM_save(
+                    machine, 
+                    loc['circuit'], 
+                    max(shots),
+                    [url[3] for url in urls], 
+                    qb, 
+                    [url[4] for url in urls]
+                )
+            else:
+                print(f"   Ejecutando en AWS Braket...")
+                counts = runAWS_save(
+                    machine, 
+                    loc['circuit'], 
+                    max(shots),
+                    [url[3] for url in urls], 
+                    qb, 
+                    [url[4] for url in urls], 
+                    ''
+                )
+            """
+            
+            # SIMULACIÓN: Generar resultados ficticios para testing
+            print(f"   🎭 Simulando ejecución en {provider.upper()}...")
+            num_compressed_qubits = loc['circuit'].num_qubits
+            # Generar conteos simulados (todos los qubits a 0 como estado más probable)
+            counts = {'0' * num_compressed_qubits: int(max(shots) * 0.7),  # 70% en estado base
+                      '1' * num_compressed_qubits: int(max(shots) * 0.1),  # 10% en estado excitado
+                      '0' * (num_compressed_qubits-1) + '1': int(max(shots) * 0.1),  # 10%
+                      '1' + '0' * (num_compressed_qubits-1): int(max(shots) * 0.1)}  # 10%
+            
+            print(f"\n✅ SIMULACIÓN COMPLETADA")
+            print(f"   Resultados simulados: {len(counts)} estados generados")
+            
+        except Exception as e:
+            print(f"\n❌ ERROR en simulación: {e}")
+            raise
+        
+        # 5. Enviar resultados al unscheduler
+        print(f"\n📤 Enviando resultados al unscheduler...")
+        print(f"   Users: {[url[3] for url in urls]}")
+        print(f"   Circuit names: {[url[4] for url in urls]}")
+        
+        result_data = {
+            "counts": counts, 
+            "shots": shots, 
+            "provider": provider, 
+            "qb": qb,  # Mantenemos qb original para descomponer correctamente
+            "users": [url[3] for url in urls], 
+            "circuit_names": [url[4] for url in urls]
+        }
+        
+        # COMENTADO: Envío real al unscheduler
+        # requests.post(self.unscheduler, json=result_data)
+        print(f"   🎭 SIMULACIÓN: POST al unscheduler omitido")
+        print(f"   📊 Datos que se enviarían: {len(result_data['counts'])} estados")
+        
+        print(f"✅ Simulación de envío completada")
+        print("="*80 + "\n")
+
+
+    def send_topology_compressed(self, queue: list, max_qubits: int, provider: str, executeCircuit: Callable, machine: str) -> None:
+        """
+        Política de scheduling que aplica compresión de topología a los circuitos.
+        Agrupa circuitos hasta llenar la capacidad y luego aplica compresión para 
+        reducir el uso de qubits físicos.
+        
+        Args:
+            queue (list): La cola de espera con circuitos pendientes
+            max_qubits (int): El número máximo de qubits disponibles
+            provider (str): El proveedor del circuito (ibm o aws)
+            executeCircuit (Callable): La función para ejecutar el circuito (executeCircuitCompressed)
+            machine (str): La máquina en la que ejecutar el circuito
+        """
+        print("\n" + "🔷"*40)
+        print(f"🎯 POLÍTICA: TOPOLOGY COMPRESSED ({provider.upper()})")
+        print("🔷"*40)
+        
+        start_time = time.process_time()
+        
+        if not queue:
+            print("📭 Cola vacía, nada que procesar.")
+            return
+        
+        print(f"\n📊 ESTADO INICIAL DE LA COLA:")
+        print(f"   Circuitos en espera: {len(queue)}")
+        print(f"   Capacidad máxima: {max_qubits} qubits")
+        
+        # Información detallada de cada circuito
+        total_qubits_queue = sum(item[1] for item in queue)
+        print(f"   Total qubits en cola: {total_qubits_queue}")
+        print(f"\n   Detalles de circuitos:")
+        for i, (circuit, num_qubits, shots, user, circuit_name, maxDepth, iteracion) in enumerate(queue[:5], 1):
+            print(f"      {i}. {circuit_name[:30]:30s} | {num_qubits:3d} qubits | User: {user}")
+        if len(queue) > 5:
+            print(f"      ... y {len(queue)-5} circuitos más")
+        
+        # Seleccionar circuitos que caben en max_qubits
+        urls = []
+        iterator = queue.copy()
+        sumQb = 0
+        
+        print(f"\n🔍 SELECCIONANDO CIRCUITOS PARA BATCH...")
+        for item in iterator:
+            circuit, num_qubits, shots, user, circuit_name, maxDepth, iteracion = item
+            if num_qubits + sumQb <= max_qubits:
+                urls.append(item)
+                sumQb += num_qubits
+                # Eliminar de forma segura (protección contra race conditions)
+                try:
+                    queue.remove(item)
+                    print(f"   ✓ Añadido: {circuit_name[:30]:30s} ({num_qubits:3d} qubits) → Total: {sumQb}/{max_qubits}")
+                except ValueError:
+                    # El item ya fue eliminado por otra ejecución concurrente
+                    print(f"   ⚠️ Skippeado: {circuit_name[:30]:30s} (ya procesado por otro thread)")
+                    urls.remove(item)  # También quitarlo de urls ya que no está en queue
+                    sumQb -= num_qubits  # Revertir suma
+        
+        if not urls:
+            print(f"\n⚠️  No se pudo seleccionar ningún circuito (el primero requiere más de {max_qubits} qubits)")
+            return
+        
+        print(f"\n✅ BATCH SELECCIONADO:")
+        print(f"   Circuitos a ejecutar: {len(urls)}")
+        print(f"   Qubits lógicos totales: {sumQb}")
+        print(f"   Utilización: {sumQb/max_qubits*100:.1f}%")
+        print(f"   Circuitos restantes en cola: {len(queue)}")
+        
+        # Formatear URLs para create_circuit (sin el campo iteracion)
+        urls_for_create = [(circuit, num_qubits, shots, user, circuit_name, maxDepth) 
+                           for (circuit, num_qubits, shots, user, circuit_name, maxDepth, iteracion) in urls]
+        
+        # Crear el circuito compuesto
+        code, qb = [], []
+        shotsUsr = [item[2] for item in urls_for_create]
+        
+        print(f"\n🔨 CREANDO CIRCUITO COMPUESTO...")
+        self.create_circuit(urls_for_create, code, qb, provider)
+        data = {"code": code}
+        print(f"   ✅ Circuito compuesto creado: {len(code)} líneas de código")
+        
+        # Ejecutar con compresión en un hilo
+        print(f"\n🧵 Lanzando ejecución en thread separado...")
+        Thread(target=executeCircuit, args=(json.dumps(data), qb, shotsUsr, provider, urls_for_create, machine)).start()
+        
+        end_time = time.process_time()
+        elapsed_time = end_time - start_time
+        
+        print(f"\n⏱️  TIEMPO DE PROCESAMIENTO:")
+        print(f"   Tiempo de scheduling: {elapsed_time:.6f} segundos")
+        
+        # Guardar métricas en archivo
+        with open("./SalidaTopologyCompressed.txt", 'a') as file:
+            file.write(f"\n{'='*60}\n")
+            file.write(f"Timestamp: {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
+            file.write(f"Provider: {provider}\n")
+            file.write(f"Circuitos procesados: {len(urls)}\n")
+            file.write(f"Qubits lógicos totales: {sumQb}\n")
+            file.write(f"Qubits por circuito: {qb}\n")
+            file.write(f"Tiempo de scheduling: {elapsed_time:.6f} seg\n")
+            file.write(f"Circuitos en cola restante: {len(queue)}\n")
+        
+        # Gestión del temporizador
+        if not queue:
+            print(f"\n✅ Cola vacía, deteniendo temporizador.")
+            self.services['Topology_Compressed'].timers[provider].stop()
+        else:
+            print(f"\n🔁 Reiniciando temporizador ({len(queue)} circuitos restantes)...")
+            self.services['Topology_Compressed'].timers[provider].reset()
+        
+        print("🔷"*40 + "\n")
 
     
 

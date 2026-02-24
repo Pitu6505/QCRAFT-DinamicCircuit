@@ -54,10 +54,15 @@ class Scheduler:
         
         self.max_qubits = 127
         
-        mongo_uri = f"mongodb://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{self.app.config['DB']}:{self.app.config['DB_PORT']}/"
-        self.client = MongoClient(mongo_uri)
-        self.db = self.client[os.getenv('DB_NAME')]
-        self.collection = self.db[os.getenv('DB_COLLECTION')]
+        # COMENTADO PARA TESTING: Inicialización de MongoDB
+        # mongo_uri = f"mongodb://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{self.app.config['DB']}:{self.app.config['DB_PORT']}/"
+        # self.client = MongoClient(mongo_uri)
+        # self.db = self.client[os.getenv('DB_NAME')]
+        # self.collection = self.db[os.getenv('DB_COLLECTION')]
+        print("⚠️  MODO SIMULACIÓN: MongoDB deshabilitado para testing")
+        self.client = None
+        self.db = None
+        self.collection = None
 
         self.translator = f"http://{self.app.config['TRANSLATOR']}:{self.app.config['TRANSLATOR_PORT']}/code/"
         self.policy_service = f"http://{self.app.config['HOST']}:{self.app.config['PORT']}/service/"
@@ -276,7 +281,9 @@ class Scheduler:
             '_id': str(user),
             'circuit': url
         }
-        self.collection.insert_one(document)
+        # COMENTADO PARA TESTING: MongoDB insert
+        # self.collection.insert_one(document)
+        print(f"🎭 SIMULACIÓN: MongoDB insert omitido para user {user}")
 
         # Parse the URL and extract the fragment
         try:
@@ -376,8 +383,10 @@ class Scheduler:
         '_id': str(user),
         'circuit': url
         }
-        with self.result_lock:
-            self.collection.insert_one(document)
+        # COMENTADO PARA TESTING: MongoDB insert
+        # with self.result_lock:
+        #     self.collection.insert_one(document)
+        print(f"🎭 SIMULACIÓN: MongoDB insert omitido para user {user}")
 
         # URL is a raw GitHub url, get its content
         try:

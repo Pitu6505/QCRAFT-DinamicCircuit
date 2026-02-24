@@ -1,0 +1,63 @@
+
+============================================================
+Timestamp: 2026-02-24 08:53:22
+Provider: ibm
+Circuitos procesados: 18
+Qubits lógicos totales: 123
+Qubits por circuito: [14, 4, 4, 3, 5, 4, 5, 7, 3, 4, 20, 3, 7, 4, 7, 5, 20, 4]
+Tiempo de scheduling: 0.031250 seg
+Circuitos en cola restante: 2
+
+============================================================
+Timestamp: 2026-02-24 08:53:22
+Provider: ibm
+Circuitos procesados: 22
+Qubits lógicos totales: 126
+Qubits por circuito: [5, 2, 4, 6, 3, 7, 4, 16, 4, 7, 4, 3, 4, 6, 3, 5, 9, 8, 10, 6, 4, 6]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 1
+
+============================================================
+Timestamp: 2026-02-24 08:53:23
+Provider: ibm
+Circuitos procesados: 25
+Qubits lógicos totales: 126
+Qubits por circuito: [5, 4, 3, 3, 6, 3, 10, 2, 14, 3, 4, 2, 4, 4, 3, 6, 4, 11, 2, 3, 9, 4, 7, 6, 4]
+Tiempo de scheduling: 0.031250 seg
+Circuitos en cola restante: 3
+
+============================================================
+Timestamp: 2026-02-24 08:53:33
+Provider: ibm
+Circuitos procesados: 10
+Qubits lógicos totales: 70
+Qubits por circuito: [3, 6, 3, 5, 5, 3, 13, 7, 20, 5]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 0
+
+============================================================
+Timestamp: 2026-02-24 08:59:27
+Provider: ibm
+Circuitos procesados: 24
+Qubits lógicos totales: 155
+Qubits por circuito: [6, 5, 20, 5, 3, 8, 20, 4, 10, 6, 14, 3, 7, 6, 4, 4, 4, 5, 2, 5, 2, 3, 6, 3]
+Tiempo de scheduling: 0.015625 seg
+Circuitos en cola restante: 1
+
+============================================================
+Timestamp: 2026-02-24 08:59:28
+Provider: ibm
+Circuitos procesados: 27
+Qubits lógicos totales: 153
+Qubits por circuito: [4, 3, 4, 4, 4, 4, 3, 4, 16, 7, 7, 3, 3, 5, 4, 6, 7, 4, 14, 7, 10, 7, 2, 4, 5, 3, 9]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 1
+
+============================================================
+Timestamp: 2026-02-24 08:59:38
+Provider: ibm
+Circuitos procesados: 24
+Qubits lógicos totales: 137
+Qubits por circuito: [5, 3, 4, 5, 3, 3, 11, 4, 3, 3, 3, 13, 6, 9, 4, 5, 4, 2, 4, 7, 6, 20, 4, 6]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 0
