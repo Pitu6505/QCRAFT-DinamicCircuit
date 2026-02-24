@@ -52,7 +52,7 @@ class Scheduler:
         self.app.config['DB'] = os.getenv('DB')
         self.app.config['DB_PORT'] = os.getenv('DB_PORT')
         
-        self.max_qubits = 127
+        self.max_qubits = 156
         
         # COMENTADO PARA TESTING: Inicialización de MongoDB
         # mongo_uri = f"mongodb://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{self.app.config['DB']}:{self.app.config['DB_PORT']}/"

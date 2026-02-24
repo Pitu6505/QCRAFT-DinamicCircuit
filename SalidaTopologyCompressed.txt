@@ -61,3 +61,183 @@ Qubits lógicos totales: 137
 Qubits por circuito: [5, 3, 4, 5, 3, 3, 11, 4, 3, 3, 3, 13, 6, 9, 4, 5, 4, 2, 4, 7, 6, 20, 4, 6]
 Tiempo de scheduling: 0.000000 seg
 Circuitos en cola restante: 0
+
+============================================================
+Timestamp: 2026-02-24 09:14:20
+Provider: ibm
+Circuitos procesados: 28
+Qubits lógicos totales: 152
+Qubits por circuito: [7, 4, 5, 2, 3, 4, 6, 4, 4, 4, 6, 6, 6, 4, 5, 4, 4, 5, 8, 3, 7, 14, 3, 14, 7, 7, 3, 3]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 1
+
+============================================================
+Timestamp: 2026-02-24 09:14:20
+Provider: ibm
+Circuitos procesados: 1
+Qubits lógicos totales: 20
+Qubits por circuito: [20]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 1
+
+============================================================
+Timestamp: 2026-02-24 09:14:21
+Provider: ibm
+Circuitos procesados: 24
+Qubits lógicos totales: 151
+Qubits por circuito: [4, 4, 20, 4, 3, 10, 5, 5, 3, 7, 4, 6, 6, 5, 3, 2, 10, 3, 7, 9, 2, 16, 4, 9]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 1
+
+============================================================
+Timestamp: 2026-02-24 09:14:32
+Provider: ibm
+Circuitos procesados: 22
+Qubits lógicos totales: 122
+Qubits por circuito: [13, 11, 3, 4, 5, 5, 2, 5, 7, 4, 4, 6, 3, 6, 20, 4, 3, 4, 4, 3, 3, 3]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 0
+
+============================================================
+Timestamp: 2026-02-24 09:19:32
+Provider: ibm
+Circuitos procesados: 24
+Qubits lógicos totales: 150
+Qubits por circuito: [16, 5, 20, 6, 7, 6, 2, 4, 7, 8, 7, 4, 4, 4, 5, 7, 4, 5, 4, 7, 5, 6, 3, 4]
+Tiempo de scheduling: 0.015625 seg
+Circuitos en cola restante: 1
+
+============================================================
+Timestamp: 2026-02-24 09:19:32
+Provider: ibm
+Circuitos procesados: 26
+Qubits lógicos totales: 150
+Qubits por circuito: [10, 20, 14, 4, 3, 4, 2, 3, 2, 3, 4, 14, 6, 5, 7, 5, 3, 6, 3, 3, 4, 2, 4, 4, 4, 11]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 1
+
+============================================================
+Timestamp: 2026-02-24 09:19:42
+Provider: ibm
+Circuitos procesados: 25
+Qubits lógicos totales: 145
+Qubits por circuito: [10, 5, 3, 3, 3, 4, 5, 3, 3, 9, 3, 4, 5, 3, 4, 4, 20, 6, 6, 7, 6, 4, 9, 13, 3]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 0
+
+============================================================
+Timestamp: 2026-02-24 09:30:50
+Provider: ibm
+Circuitos procesados: 24
+Qubits lógicos totales: 156
+Qubits por circuito: [20, 2, 20, 7, 14, 3, 7, 4, 4, 5, 6, 7, 4, 3, 5, 4, 4, 8, 4, 4, 4, 6, 4, 7]
+Tiempo de scheduling: 0.015625 seg
+Circuitos en cola restante: 51
+
+============================================================
+Timestamp: 2026-02-24 09:31:00
+Provider: ibm
+Circuitos procesados: 30
+Qubits lógicos totales: 156
+Qubits por circuito: [5, 4, 4, 3, 5, 3, 10, 6, 5, 4, 2, 6, 7, 9, 3, 16, 3, 11, 3, 3, 4, 2, 6, 3, 10, 3, 3, 7, 3, 3]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 21
+
+============================================================
+Timestamp: 2026-02-24 09:31:10
+Provider: ibm
+Circuitos procesados: 21
+Qubits lógicos totales: 133
+Qubits por circuito: [5, 5, 9, 4, 5, 14, 3, 4, 6, 6, 2, 4, 20, 13, 5, 7, 4, 3, 4, 4, 6]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 0
+
+============================================================
+Timestamp: 2026-02-24 09:40:13
+Provider: ibm
+Circuitos procesados: 24
+Qubits lógicos totales: 156
+Qubits por circuito: [8, 3, 10, 14, 4, 4, 3, 7, 7, 7, 20, 4, 4, 3, 6, 5, 6, 4, 7, 4, 4, 4, 16, 2]
+Tiempo de scheduling: 0.015625 seg
+Circuitos en cola restante: 51
+
+============================================================
+Timestamp: 2026-02-24 09:40:23
+Provider: ibm
+Circuitos procesados: 31
+Qubits lógicos totales: 156
+Qubits por circuito: [3, 4, 20, 4, 4, 5, 6, 4, 5, 4, 3, 3, 3, 5, 14, 2, 4, 3, 2, 5, 11, 6, 3, 7, 5, 3, 6, 2, 3, 4, 3]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 20
+
+============================================================
+Timestamp: 2026-02-24 09:40:33
+Provider: ibm
+Circuitos procesados: 20
+Qubits lógicos totales: 133
+Qubits por circuito: [5, 7, 4, 5, 4, 13, 9, 9, 3, 3, 5, 10, 3, 6, 7, 6, 4, 6, 4, 20]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 0
+
+============================================================
+Timestamp: 2026-02-24 09:44:09
+Provider: ibm
+Circuitos procesados: 28
+Qubits lógicos totales: 155
+Qubits por circuito: [8, 3, 4, 7, 4, 3, 6, 5, 7, 3, 6, 3, 4, 4, 6, 5, 4, 5, 6, 7, 10, 20, 6, 4, 3, 4, 4, 4]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 47
+
+============================================================
+Timestamp: 2026-02-24 09:44:19
+Provider: ibm
+Circuitos procesados: 24
+Qubits lógicos totales: 156
+Qubits por circuito: [16, 4, 7, 20, 7, 2, 4, 5, 14, 2, 2, 9, 3, 3, 14, 5, 7, 5, 4, 2, 11, 4, 3, 3]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 23
+
+============================================================
+Timestamp: 2026-02-24 09:44:29
+Provider: ibm
+Circuitos procesados: 23
+Qubits lógicos totales: 134
+Qubits por circuito: [10, 4, 4, 4, 5, 3, 3, 5, 9, 3, 4, 6, 6, 7, 3, 5, 13, 3, 4, 4, 3, 6, 20]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 0
+
+============================================================
+Timestamp: 2026-02-24 10:40:53
+Provider: ibm
+Circuitos procesados: 25
+Qubits lógicos totales: 156
+Qubits por circuito: [7, 4, 4, 4, 4, 4, 5, 3, 7, 20, 20, 4, 6, 3, 6, 14, 2, 5, 7, 4, 7, 3, 5, 4, 4]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 50
+
+============================================================
+Timestamp: 2026-02-24 10:41:03
+Provider: ibm
+Circuitos procesados: 27
+Qubits lógicos totales: 156
+Qubits por circuito: [6, 5, 8, 16, 10, 6, 6, 3, 5, 4, 5, 4, 4, 7, 3, 3, 3, 3, 2, 3, 4, 14, 10, 9, 7, 4, 2]
+Tiempo de scheduling: 0.015625 seg
+Circuitos en cola restante: 23
+
+============================================================
+Timestamp: 2026-02-24 10:44:41
+Provider: ibm
+Circuitos procesados: 25
+Qubits lógicos totales: 156
+Qubits por circuito: [4, 4, 7, 3, 5, 5, 4, 2, 3, 20, 4, 5, 20, 4, 16, 3, 4, 3, 4, 10, 7, 8, 6, 2, 3]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 50
+
+============================================================
+Timestamp: 2026-02-24 10:44:51
+Provider: ibm
+Circuitos procesados: 28
+Qubits lógicos totales: 154
+Qubits por circuito: [6, 6, 4, 7, 3, 4, 14, 7, 3, 5, 4, 7, 6, 6, 10, 4, 4, 9, 4, 5, 7, 3, 5, 11, 2, 2, 3, 3]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 22

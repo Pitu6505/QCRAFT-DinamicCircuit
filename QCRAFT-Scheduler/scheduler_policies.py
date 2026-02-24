@@ -154,7 +154,8 @@ class SchedulerPolicies:
                         'shots_optimized': Policy(self.send_shots_optimized, self.max_qubits, self.time_limit_seconds, self.executeCircuit, self.machine_aws, self.machine_ibm),
                         'Optimizacion_ML': Policy(self.send_ML, self.max_qubits, self.time_limit_seconds, self.executeCircuit, self.machine_aws, self.machine_ibm),
                         'Optimizacion_PD': Policy(self.send_PD, self.max_qubits, self.time_limit_seconds , self.executeCircuit, self.machine_aws, self.machine_ibm),
-                        'Topology_Compressed': Policy(self.send_topology_compressed, self.max_qubits, self.time_limit_seconds, self.executeCircuitCompressed, self.machine_aws, self.machine_ibm),}
+                        'Topology_Compressed': Policy(self.send_topology_compressed, self.max_qubits, self.time_limit_seconds, self.executeCircuitCompressed, self.machine_aws, self.machine_ibm),
+                        'Compressed_ML_Knapsack': Policy(self.send_compressed_ml_knapsack, self.max_qubits, self.time_limit_seconds, self.executeCircuit, self.machine_aws, self.machine_ibm),}
         
         self.translator = f"http://{self.app.config['TRANSLATOR']}:{self.app.config['TRANSLATOR_PORT']}/code/"
         self.unscheduler = f"http://{self.app.config['HOST']}:{self.app.config['PORT']}/unscheduler"
@@ -195,7 +196,7 @@ class SchedulerPolicies:
         if not self.services[service_name].timers[provider].is_alive():
             self.services[service_name].timers[provider].start()
         n_qubits = sum(item[1] for item in self.services[service_name].queues[provider])
-        if  n_qubits >= self.max_qubits and (service_name != 'Optimizacion_ML' and service_name != 'Optimizacion_PD'):
+        if  n_qubits >= self.max_qubits and (service_name != 'Optimizacion_ML' and service_name != 'Optimizacion_PD' and service_name != 'Topology_Compressed' and service_name != 'Compressed_ML_Knapsack'):
             self.services[service_name].timers[provider].execute_and_reset()
         return 'Data received', 200
         
@@ -860,21 +861,28 @@ class SchedulerPolicies:
             print(f"   └─ Paso 1: Adelantando medidas y optimizando...")
             compressed_circuit = compressor.compress_and_map(loc['circuit'])
             
-            compressed_qubits = compressed_circuit.num_qubits
-            compression_ratio = (1 - compressed_qubits / original_qubits) * 100 if original_qubits > 0 else 0
-            
-            print(f"\n✨ COMPRESIÓN COMPLETADA:")
-            print(f"   📉 Qubits: {original_qubits} → {compressed_qubits}")
-            print(f"   💾 Ahorro: {compression_ratio:.1f}%")
-            print(f"   📏 Depth comprimido: {compressed_circuit.depth()}")
-            print(f"   🚪 Gates comprimidos: {len(compressed_circuit.data)}")
-            
-            # Reemplazar el circuito original con el comprimido
-            loc['circuit'] = compressed_circuit
+            # Validar que la compresión retornó un circuito válido
+            if compressed_circuit is None:
+                print(f"\n⚠️  ERROR: El compresor retornó None")
+                print(f"   Continuando con circuito sin comprimir...")
+            else:
+                compressed_qubits = compressed_circuit.num_qubits
+                compression_ratio = (1 - compressed_qubits / original_qubits) * 100 if original_qubits > 0 else 0
+                
+                print(f"\n✨ COMPRESIÓN COMPLETADA:")
+                print(f"   📉 Qubits: {original_qubits} → {compressed_qubits}")
+                print(f"   💾 Ahorro: {compression_ratio:.1f}%")
+                print(f"   📏 Depth comprimido: {compressed_circuit.depth()}")
+                print(f"   🚪 Gates comprimidos: {len(compressed_circuit.data)}")
+                
+                # Reemplazar el circuito original con el comprimido
+                loc['circuit'] = compressed_circuit
             
         except Exception as e:
             print(f"\n⚠️  ERROR en compresión: {e}")
             print(f"   Continuando con circuito sin comprimir...")
+            import traceback
+            traceback.print_exc()  # Mostrar traceback completo para debugging
         
         # 4. Ejecutar el circuito (comprimido o no)
         print(f"\n🚀 EJECUTANDO CIRCUITO EN {provider.upper()}...")
@@ -1059,6 +1067,348 @@ class SchedulerPolicies:
             self.services['Topology_Compressed'].timers[provider].reset()
         
         print("🔷"*40 + "\n")
+
+
+    def send_compressed_ml_knapsack(self, queue: list, max_qubits: int, provider: str, executeCircuit: Callable, machine: str) -> None:
+        """
+        Política que comprime circuitos individualmente antes de aplicar mochila ML.
+        
+        Flujo:
+        1. Timer de 10s se dispara
+        2. Comprimir cada circuito individualmente
+        3. Usar tamaños comprimidos para algoritmo ML de mochila
+        4. Ejecutar circuitos YA comprimidos (sin re-comprimir)
+        
+        Args:
+            queue (list): Cola de espera con circuitos pendientes
+            max_qubits (int): Número máximo de qubits disponibles
+            provider (str): Proveedor (ibm o aws)
+            executeCircuit (Callable): Función para ejecutar circuitos
+            machine (str): Máquina donde ejecutar
+        """
+        print("\n" + "🔶"*40)
+        print(f"🎯 POLÍTICA: COMPRESSED ML KNAPSACK ({provider.upper()})")
+        print("🔶"*40)
+        
+        start_time = time.process_time()
+        
+        if not queue:
+            print("⚠️ La cola está vacía, deteniendo temporizador.")
+            self.services['Compressed_ML_Knapsack'].timers[provider].stop()
+            return
+        
+        # Verificar cola de IBM si es necesario
+        if provider == 'ibm':
+            while self.get_ibm_queue_length() >= 3:
+                print("⏳ La cola de IBM tiene 3 o más trabajos. Esperando...")
+                time.sleep(10)
+        
+        print(f"\n📊 ESTADO INICIAL:")
+        print(f"   Circuitos en cola: {len(queue)}")
+        print(f"   Capacidad máxima: {max_qubits} qubits")
+        
+        # PASO 1: COMPRIMIR INDIVIDUALMENTE CADA CIRCUITO
+        print(f"\n🗜️  FASE 1: COMPRESIÓN INDIVIDUAL DE CIRCUITOS")
+        print("="*60)
+        
+        compressor = self.compressor_ibm if provider == 'ibm' else self.compressor_aws
+        compressed_data = []  # [(user, qubits_compressed, iteracion, circuit_compressed_code, original_item), ...]
+        
+        for idx, item in enumerate(queue, 1):
+            circuit_url, num_qubits, shots, user, circuit_name, maxDepth, iteracion = item
+            
+            # Generar ID único: combinación de índice en cola + nombre del circuito
+            unique_id = f"{idx}_{circuit_name}"
+            
+            print(f"\n   [{idx}/{len(queue)}] Comprimiendo: {circuit_name[:40]}")
+            
+            try:
+                # PASO 1a: Descargar código desde GitHub
+                if 'github' in circuit_url or 'raw.githubusercontent' in circuit_url:
+                    # Es una URL de GitHub, descargar directamente
+                    try:
+                        response = requests.get(circuit_url, timeout=10)
+                        if response.status_code == 200:
+                            circuit_code = response.text
+                        else:
+                            print(f"        ❌ Error descargando GitHub (status {response.status_code})")
+                            continue
+                    except Exception as e:
+                        print(f"        ❌ Error descargando desde GitHub: {e}")
+                        continue
+                elif 'algassert' in circuit_url:
+                    # URL de algassert, usar traductor
+                    try:
+                        response = requests.post(
+                            self.translator + provider + '/individual',
+                            json={'url': circuit_url, 'd': 0},
+                            timeout=10
+                        )
+                        if response.status_code == 200:
+                            translated_data = json.loads(response.text)
+                            circuit_code = '\n'.join(translated_data['code'])
+                        else:
+                            print(f"        ❌ Error en traductor (status {response.status_code})")
+                            continue
+                    except Exception as e:
+                        print(f"        ❌ Error traduciendo URL: {e}")
+                        continue
+                else:
+                    # Asumir que ya es código
+                    circuit_code = circuit_url
+                
+                # PASO 1b: Convertir código a QuantumCircuit
+                loc = {}
+                if provider == 'ibm':
+                    loc['circuit'] = self.executeCircuitIBM.code_to_circuit_ibm(circuit_code)
+                else:
+                    loc['circuit'] = code_to_circuit_aws(circuit_code)
+                
+                # Validar que el circuito se creó correctamente
+                if loc['circuit'] is None:
+                    print(f"        ⚠️ No se pudo crear circuito desde el código")
+                    continue
+                
+                # Obtener qubits reales del circuito creado
+                real_qubits = loc['circuit'].num_qubits
+                print(f"        Qubits reales: {real_qubits}")
+                
+                # PASO 1c: Aplicar compresión
+                compressed_circuit = compressor.compress_and_map(loc['circuit'])
+                
+                if compressed_circuit is None:
+                    print(f"        ⚠️ Compresión falló, usando original")
+                    compressed_qubits = real_qubits
+                    compressed_code = loc['circuit']  # Guardar circuito original como objeto
+                else:
+                    compressed_qubits = compressed_circuit.num_qubits
+                    compression_ratio = (1 - compressed_qubits / real_qubits) * 100 if real_qubits > 0 else 0
+                    print(f"        ✅ Comprimido: {real_qubits} → {compressed_qubits} qubits ({compression_ratio:.1f}% ahorro)")
+                    
+                    # Guardar el circuito comprimido como objeto QuantumCircuit
+                    compressed_code = compressed_circuit  # Guardar objeto, no string
+                
+                # Guardar datos comprimidos
+                compressed_data.append({
+                    'unique_id': unique_id,  # ID único para diferenciar circuitos
+                    'queue_index': idx - 1,  # Índice original en la cola (enumerate empieza en 1)
+                    'user': str(user),  # User original para enviar resultados
+                    'qubits_compressed': compressed_qubits,
+                    'iteracion': iteracion,
+                    'compressed_code': compressed_code,
+                    'shots': shots,
+                    'circuit_name': circuit_name,
+                    'maxDepth': maxDepth,
+                    'original_qubits': real_qubits
+                })
+                
+            except Exception as e:
+                print(f"        ❌ Error en compresión: {e}")
+                import traceback
+                traceback.print_exc()
+                # Si falla completamente, skip este circuito
+                continue  # No agregar a compressed_data
+        
+        # PASO 2: FORMATEAR PARA ALGORITMO ML CON TAMAÑOS COMPRIMIDOS
+        print(f"\n🤖 FASE 2: ALGORITMO ML DE MOCHILA")
+        print("="*60)
+        
+        # Usar unique_id para que ML pueda diferenciar los circuitos
+        formatted_queue = [(item['unique_id'], item['qubits_compressed'], item['iteracion']) 
+                          for item in compressed_data]
+        
+        print(f"   Cola formateada (tamaños comprimidos): {len(formatted_queue)} circuitos")
+        print(f"   Capacidad: {max_qubits} qubits")
+        
+        # PASO 3: APLICAR MOCHILA ML
+        seleccionados, _, nueva_cola = optimizar_espacio_ml(
+            self.model, 
+            formatted_queue, 
+            max_qubits, 
+            self.forced_threshold
+        )
+        
+        if not seleccionados:
+            print("⚠️ No se seleccionaron elementos con ML.")
+            print("   Incrementando prioridad de circuitos procesados y esperando siguiente ciclo...")
+            
+            # Crear set de índices procesados
+            processed_indices = {item['queue_index'] for item in compressed_data}
+            
+            # Actualizar cola: incrementar iteración solo de los procesados
+            new_queue = []
+            for idx, item in enumerate(queue):
+                if idx in processed_indices:
+                    # Fue procesado pero no seleccionado, incrementar prioridad
+                    circuit_url, num_qubits, shots, user, circuit_name, maxDepth, iteracion = item
+                    new_queue.append((circuit_url, num_qubits, shots, user, circuit_name, maxDepth, iteracion + 1))
+                else:
+                    # No fue procesado (falló), mantener sin cambios
+                    new_queue.append(item)
+            
+            queue[:] = new_queue
+            
+            # Reiniciar timer para intentar de nuevo
+            self.services['Compressed_ML_Knapsack'].timers[provider].reset()
+            return
+        
+        selected_qubits = sum(item[1] for item in seleccionados)
+        print(f"\n   ✅ Seleccionados: {len(seleccionados)} circuitos")
+        print(f"   📊 Qubits totales (comprimidos): {selected_qubits}/{max_qubits}")
+        print(f"   📈 Utilización: {selected_qubits/max_qubits*100:.1f}%")
+        
+        # PASO 4: PREPARAR EJECUCIÓN (SIN RE-COMPRIMIR)
+        print(f"\n🚀 FASE 3: PREPARACIÓN PARA EJECUCIÓN")
+        print("="*60)
+        
+        seleccionados_ids = {str(s[0]) for s in seleccionados}
+        
+        # Filtrar circuitos comprimidos seleccionados (por unique_id)
+        selected_compressed = [item for item in compressed_data 
+                              if item['unique_id'] in seleccionados_ids]
+        
+        # COMPONER MANUALMENTE los circuitos comprimidos
+        print(f"   🔨 Componiendo {len(selected_compressed)} circuitos comprimidos...")
+        
+        if provider == 'ibm':
+            from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister
+            
+            # Calcular qubits/cbits totales
+            total_qubits = sum(item['qubits_compressed'] for item in selected_compressed)
+            total_clbits = 0
+            for item in selected_compressed:
+                circuit = item['compressed_code']
+                if circuit is not None:
+                    total_clbits += len(circuit.clbits)
+            
+            qreg = QuantumRegister(total_qubits, 'q')
+            creg = ClassicalRegister(total_clbits, 'c')
+            composed_circuit = QuantumCircuit(qreg, creg)
+            
+            # Componer circuitos con offset separados para qubits y cbits
+            qubit_offset = 0
+            clbit_offset = 0
+            qb = []
+            for item in selected_compressed:
+                circuit = item['compressed_code']  # QuantumCircuit comprimido
+                if circuit is not None:
+                    # Mapear qubits y clbits del circuito actual al circuito compuesto
+                    qubit_map = {circuit.qubits[i]: composed_circuit.qubits[qubit_offset + i] 
+                                for i in range(len(circuit.qubits))}
+                    clbit_map = {circuit.clbits[i]: composed_circuit.clbits[clbit_offset + i] 
+                                for i in range(len(circuit.clbits))}
+                    
+                    # Agregar instrucciones del circuito comprimido
+                    for instr, qargs, cargs in circuit.data:
+                        mapped_qargs = [qubit_map[q] for q in qargs]
+                        mapped_cargs = [clbit_map[c] for c in cargs]
+                        composed_circuit.append(instr, mapped_qargs, mapped_cargs)
+                    
+                    qb.append(item['qubits_compressed'])
+                    qubit_offset += item['qubits_compressed']
+                    clbit_offset += len(circuit.clbits)
+            
+            print(f"   ✅ Circuito compuesto creado:")
+            print(f"      - Total qubits: {composed_circuit.num_qubits}")
+            print(f"      - Depth: {composed_circuit.depth()}")
+            print(f"      - Gates: {len(composed_circuit.data)}")
+            print(f"      - Qubits por circuito: {qb}")
+            
+        else:  # AWS
+            # Para AWS, similar pero con Circuit de Braket
+            print(f"   ⚠️ Composición manual para AWS no implementada aún")
+            # TODO: Implementar para AWS si es necesario
+            self.services['Compressed_ML_Knapsack'].timers[provider].stop()
+            return
+        
+        # Actualizar cola: eliminar procesados, incrementar iteración de no procesados
+        # Crear sets para identificar qué circuitos fueron procesados y seleccionados
+        processed_indices = {item['queue_index'] for item in compressed_data}
+        selected_indices = {item['queue_index'] for item in selected_compressed}
+        
+        new_queue = []
+        for idx, item in enumerate(queue):
+            if idx in selected_indices:
+                # Este fue seleccionado y ejecutado, eliminar de cola
+                continue
+            elif idx in processed_indices:
+                # Este fue procesado pero no seleccionado, incrementar prioridad
+                circuit_code, num_qubits, shots, user, circuit_name, maxDepth, iteracion = item
+                new_queue.append((circuit_code, num_qubits, shots, user, circuit_name, maxDepth, iteracion + 1))
+            else:
+                # Este no fue procesado (falló compresión), mantener sin cambios
+                new_queue.append(item)
+        
+        queue[:] = new_queue
+        
+        # PASO 5: EJECUTAR CIRCUITO COMPUESTO (YA COMPRIMIDO)
+        print(f"\n🚀 FASE 4: EJECUCIÓN")
+        print("="*60)
+        
+        shotsUsr = [item['shots'] for item in selected_compressed]
+        users = [item['user'] for item in selected_compressed]
+        circuit_names = [item['circuit_name'] for item in selected_compressed]
+        
+        print(f"   🎯 Ejecutando circuito compuesto...")
+        print(f"   📊 Shots: {max(shotsUsr)}")
+        print(f"   🔢 Circuitos: {len(selected_compressed)}")
+        
+        # Ejecutar directamente con IBM (sin re-comprimir)
+        try:
+            # SIMULACIÓN - descomentar para ejecución real
+            print(f"   🎭 SIMULACIÓN: Ejecutando en {provider.upper()}...")
+            counts = {'0' * composed_circuit.num_qubits: int(max(shotsUsr) * 0.7),
+                     '1' * composed_circuit.num_qubits: int(max(shotsUsr) * 0.3)}
+            
+            # REAL - comentado para testing
+            # counts = self.executeCircuitIBM.runIBM_save(
+            #     machine, composed_circuit, max(shotsUsr), users, qb, circuit_names
+            # )
+            
+            # Enviar resultados
+            result_data = {
+                "counts": counts,
+                "shots": shotsUsr,
+                "provider": provider,
+                "qb": qb,
+                "users": users,
+                "circuit_names": circuit_names
+            }
+            
+            print(f"   ✅ Ejecución completada")
+            # requests.post(self.unscheduler, json=result_data)  # Descomentar para real
+            
+        except Exception as e:
+            print(f"   ❌ Error en ejecución: {e}")
+        
+        end_time = time.process_time()
+        elapsed_time = end_time - start_time
+        
+        print(f"\n⏱️  TIEMPO TOTAL: {elapsed_time:.6f} segundos")
+        
+        # Guardar métricas
+        with open("./SalidaCompressedML.txt", 'a', encoding='utf-8') as file:
+            file.write(f"\n{'='*60}\n")
+            file.write(f"Timestamp: {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
+            file.write(f"Provider: {provider}\n")
+            file.write(f"Circuitos comprimidos: {len(compressed_data)}\n")
+            file.write(f"Circuitos seleccionados: {len(seleccionados)}\n")
+            file.write(f"Qubits totales (comprimidos): {selected_qubits}/{max_qubits}\n")
+            file.write(f"Utilización: {selected_qubits/max_qubits*100:.1f}%\n")
+            file.write(f"Tiempo total: {elapsed_time:.6f} seg\n")
+            file.write(f"Detalles compresión:\n")
+            for item in selected_compressed:
+                file.write(f"  - {item['circuit_name']}: {item['original_qubits']} → {item['qubits_compressed']} qubits\n")
+        
+        # Gestión del temporizador
+        if not queue:
+            print(f"✅ Cola vacía, deteniendo temporizador.")
+            self.services['Compressed_ML_Knapsack'].timers[provider].stop()
+        else:
+            print(f"🔁 Reiniciando temporizador ({len(queue)} circuitos restantes)...")
+            self.services['Compressed_ML_Knapsack'].timers[provider].reset()
+        
+        print("🔶"*40 + "\n")
 
     
 

@@ -1,5 +1,6 @@
 # circuit_Compresor.py
 from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, transpile
+from qiskit.transpiler import CouplingMap
 
 class AdvancedTopologyCompressor:
     """
@@ -107,45 +108,123 @@ class AdvancedTopologyCompressor:
         return new_qc
 
     def compress_and_map(self, circuit):
-        print(f"-> Circuito Original: {circuit.num_qubits} qubits lógicos.")
-        qc_early = self._advance_measurements(circuit)
+        """
+        Comprime el circuito y lo mapea a la topología física.
         
-        lifetimes = self._get_qubit_lifetimes(qc_early)
-        sorted_qubits = sorted(lifetimes.keys(), key=lambda q: lifetimes[q]['start'])
-        
-        physical_lanes_end_time = []
-        logical_to_physical_map = {}
-        resets_needed = {}
-
-        for logical_q in sorted_qubits:
-            start = lifetimes[logical_q]['start']
-            end = lifetimes[logical_q]['end']
-            if start == float('inf'): continue
-                
-            assigned = False
-            for lane_idx, lane_end_time in enumerate(physical_lanes_end_time):
-                if lane_end_time <= start:
-                    physical_lanes_end_time[lane_idx] = end
-                    logical_to_physical_map[logical_q] = lane_idx
-                    resets_needed[logical_q] = True
-                    assigned = True
-                    break
+        Args:
+            circuit: QuantumCircuit de Qiskit
             
-            if not assigned:
-                physical_lanes_end_time.append(end)
-                logical_to_physical_map[logical_q] = len(physical_lanes_end_time) - 1
-                resets_needed[logical_q] = False
+        Returns:
+            QuantumCircuit comprimido (o el original si falla la compresión)
+        """
+        try:
+            # Validar que el circuito no sea None
+            if circuit is None:
+                print("-> ❌ Error: Circuito es None, no se puede comprimir")
+                return None
+            
+            print(f"-> Circuito Original: {circuit.num_qubits} qubits lógicos.")
+            qc_early = self._advance_measurements(circuit)
+            
+            if qc_early is None:
+                print("-> ⚠️ Advertencia: _advance_measurements retornó None, usando circuito original")
+                return circuit
+            
+            lifetimes = self._get_qubit_lifetimes(qc_early)
+            sorted_qubits = sorted(lifetimes.keys(), key=lambda q: lifetimes[q]['start'])
+            
+            physical_lanes_end_time = []
+            logical_to_physical_map = {}
+            resets_needed = {}
 
-        num_phys = len(physical_lanes_end_time)
-        qc_compressed = self._rebuild_circuit(qc_early, logical_to_physical_map, resets_needed, num_phys)
-        print(f"-> Compresión completada: de {circuit.num_qubits} a {num_phys} qubits físicos.")
-        
-        if self.coupling_map:
-            print("-> Adaptando a la topología física (Routing)...")
-            qc_mapped = transpile(qc_compressed, 
-                                  coupling_map=self.coupling_map, 
-                                  optimization_level=3, 
-                                  routing_method='sabre')
-            return qc_mapped
-        else:
-            return qc_compressed
+            for logical_q in sorted_qubits:
+                start = lifetimes[logical_q]['start']
+                end = lifetimes[logical_q]['end']
+                if start == float('inf'): continue
+                    
+                assigned = False
+                for lane_idx, lane_end_time in enumerate(physical_lanes_end_time):
+                    if lane_end_time <= start:
+                        physical_lanes_end_time[lane_idx] = end
+                        logical_to_physical_map[logical_q] = lane_idx
+                        resets_needed[logical_q] = True
+                        assigned = True
+                        break
+                
+                if not assigned:
+                    physical_lanes_end_time.append(end)
+                    logical_to_physical_map[logical_q] = len(physical_lanes_end_time) - 1
+                    resets_needed[logical_q] = False
+
+            num_phys = len(physical_lanes_end_time)
+            
+            # Si no se pudo comprimir (misma cantidad de qubits), retornar original
+            if num_phys == 0 or num_phys >= circuit.num_qubits:
+                print(f"-> ⚠️ No se logró compresión efectiva ({circuit.num_qubits} → {num_phys}), usando original")
+                return circuit
+                
+            qc_compressed = self._rebuild_circuit(qc_early, logical_to_physical_map, resets_needed, num_phys)
+            
+            if qc_compressed is None:
+                print("-> ⚠️ Advertencia: _rebuild_circuit retornó None, usando circuito original")
+                return circuit
+                
+            print(f"-> Compresión completada: de {circuit.num_qubits} a {num_phys} qubits físicos.")
+            
+            if self.coupling_map:
+                print("-> Adaptando a la topología física (Routing con subgrafo limitado)...")
+                try:
+                    # Crear coupling_map reducido: solo qubits 0 a num_phys-1
+                    # Esto IMPIDE que SABRE expanda más allá de los qubits comprimidos
+                    edges = self.coupling_map.get_edges()
+                    reduced_edges = []
+                    for edge in edges:
+                        # Solo incluir conexiones dentro del rango [0, num_phys-1]
+                        if edge[0] < num_phys and edge[1] < num_phys:
+                            reduced_edges.append(edge)
+                    
+                    # Crear CouplingMap reducido
+                    reduced_coupling = CouplingMap(reduced_edges)
+                    
+                    print(f"   └─ Coupling reducido: {len(edges)} aristas → {len(reduced_edges)} aristas ({num_phys} qubits)")
+                    
+                    # Layout inicial: qubits contiguos
+                    initial_layout = list(range(num_phys))
+                    
+                    qc_mapped = transpile(
+                        qc_compressed,
+                        coupling_map=reduced_coupling,   # ← CLAVE: Solo qubits 0..num_phys-1
+                        initial_layout=initial_layout,
+                        optimization_level=2,
+                        routing_method='sabre',
+                        layout_method='dense'
+                    )
+                    
+                    if qc_mapped is not None:
+                        print(f"-> Routing completado: {qc_compressed.num_qubits} → {qc_mapped.num_qubits} qubits")
+                        
+                        # Verificar expansión (ahora DEBE ser <= num_phys por diseño)
+                        if qc_mapped.num_qubits > num_phys:
+                            print(f"-> ⚠️ IMPOSIBLE: Routing expandió con coupling reducido ({num_phys} → {qc_mapped.num_qubits})")
+                            print(f"   Esto indica un bug - reportar. Usando sin routing.")
+                            return qc_compressed
+                        
+                        print(f"   ✅ Routing exitoso sin expansión ({qc_mapped.num_qubits} qubits)")
+                        return qc_mapped
+                    else:
+                        print("-> ⚠️ Transpile retornó None, usando circuito comprimido sin routing")
+                        return qc_compressed
+                        
+                except Exception as e:
+                    print(f"-> ⚠️ Error en routing: {e}")
+                    print("   Usando circuito comprimido sin routing")
+                    return qc_compressed
+            else:
+                return qc_compressed
+                
+        except Exception as e:
+            print(f"-> ❌ Error fatal en compress_and_map: {e}")
+            print("-> Retornando circuito original sin comprimir")
+            import traceback
+            traceback.print_exc()
+            return circuit  # Siempre retornar el circuito original si algo falla
