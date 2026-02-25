@@ -1171,7 +1171,27 @@ class SchedulerPolicies:
                 
                 # Obtener qubits reales del circuito creado
                 real_qubits = loc['circuit'].num_qubits
-                print(f"        Qubits reales: {real_qubits}")
+                real_depth = loc['circuit'].depth()
+                real_gates = len(loc['circuit'].data)
+                real_clbits = len(loc['circuit'].clbits)
+                
+                # Contar operaciones
+                from collections import Counter
+                real_ops = Counter(instr.operation.name for instr in loc['circuit'].data)
+                has_measurements = 'measure' in real_ops
+                
+                print(f"        📋 ANTES: {real_qubits} qubits, {real_clbits} clbits, depth={real_depth}, gates={real_gates}")
+                print(f"           Operaciones: {dict(real_ops)}")
+                
+                # Mostrar circuito original (solo si es pequeño)
+                if real_qubits <= 8 and real_depth <= 20:
+                    try:
+                        print(f"\n        🎨 Circuito Original:")
+                        circuit_drawing = loc['circuit'].draw(output='text', fold=-1)
+                        for line in str(circuit_drawing).split('\n'):
+                            print(f"           {line}")
+                    except Exception as e:
+                        print(f"           ⚠️ No se pudo dibujar: {e}")
                 
                 # PASO 1c: Aplicar compresión
                 compressed_circuit = compressor.compress_and_map(loc['circuit'])
@@ -1182,8 +1202,27 @@ class SchedulerPolicies:
                     compressed_code = loc['circuit']  # Guardar circuito original como objeto
                 else:
                     compressed_qubits = compressed_circuit.num_qubits
+                    compressed_depth = compressed_circuit.depth()
+                    compressed_gates = len(compressed_circuit.data)
+                    compressed_clbits = len(compressed_circuit.clbits)
                     compression_ratio = (1 - compressed_qubits / real_qubits) * 100 if real_qubits > 0 else 0
-                    print(f"        ✅ Comprimido: {real_qubits} → {compressed_qubits} qubits ({compression_ratio:.1f}% ahorro)")
+                    
+                    # Contar operaciones del comprimido
+                    compressed_ops = Counter(instr.operation.name for instr in compressed_circuit.data)
+                    
+                    print(f"        📋 DESPUÉS: {compressed_qubits} qubits, {compressed_clbits} clbits, depth={compressed_depth}, gates={compressed_gates}")
+                    print(f"           Operaciones: {dict(compressed_ops)}")
+                    print(f"        ✅ Compresión: {real_qubits}→{compressed_qubits} qubits ({compression_ratio:.1f}%), {real_depth}→{compressed_depth} depth, {real_gates}→{compressed_gates} gates")
+                    
+                    # Mostrar circuito comprimido (solo si es pequeño)
+                    if compressed_qubits <= 8 and compressed_depth <= 20:
+                        try:
+                            print(f"\n        🎨 Circuito Comprimido:")
+                            compressed_drawing = compressed_circuit.draw(output='text', fold=-1)
+                            for line in str(compressed_drawing).split('\n'):
+                                print(f"           {line}")
+                        except Exception as e:
+                            print(f"           ⚠️ No se pudo dibujar: {e}")
                     
                     # Guardar el circuito comprimido como objeto QuantumCircuit
                     compressed_code = compressed_circuit  # Guardar objeto, no string
@@ -1282,7 +1321,7 @@ class SchedulerPolicies:
                     total_clbits += len(circuit.clbits)
             
             qreg = QuantumRegister(total_qubits, 'q')
-            creg = ClassicalRegister(total_clbits, 'c')
+            creg = ClassicalRegister(total_clbits, 'creg_c')
             composed_circuit = QuantumCircuit(qreg, creg)
             
             # Componer circuitos con offset separados para qubits y cbits
@@ -1355,15 +1394,10 @@ class SchedulerPolicies:
         
         # Ejecutar directamente con IBM (sin re-comprimir)
         try:
-            # SIMULACIÓN - descomentar para ejecución real
-            print(f"   🎭 SIMULACIÓN: Ejecutando en {provider.upper()}...")
-            counts = {'0' * composed_circuit.num_qubits: int(max(shotsUsr) * 0.7),
-                     '1' * composed_circuit.num_qubits: int(max(shotsUsr) * 0.3)}
-            
-            # REAL - comentado para testing
-            # counts = self.executeCircuitIBM.runIBM_save(
-            #     machine, composed_circuit, max(shotsUsr), users, qb, circuit_names
-            # )
+            print(f"   🚀 EJECUTANDO en {provider.upper()}...")
+            counts = self.executeCircuitIBM.runIBM_save(
+                machine, composed_circuit, max(shotsUsr), users, qb, circuit_names
+            )
             
             # Enviar resultados
             result_data = {
@@ -1376,7 +1410,11 @@ class SchedulerPolicies:
             }
             
             print(f"   ✅ Ejecución completada")
-            # requests.post(self.unscheduler, json=result_data)  # Descomentar para real
+            
+            # Enviar resultados al unscheduler para guardar en MongoDB
+            print(f"   📤 Enviando resultados a unscheduler...")
+            requests.post(self.unscheduler, json=result_data)
+            print(f"   ✅ Resultados enviados correctamente")
             
         except Exception as e:
             print(f"   ❌ Error en ejecución: {e}")

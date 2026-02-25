@@ -54,15 +54,25 @@ class Scheduler:
         
         self.max_qubits = 156
         
-        # COMENTADO PARA TESTING: Inicialización de MongoDB
-        # mongo_uri = f"mongodb://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{self.app.config['DB']}:{self.app.config['DB_PORT']}/"
-        # self.client = MongoClient(mongo_uri)
-        # self.db = self.client[os.getenv('DB_NAME')]
-        # self.collection = self.db[os.getenv('DB_COLLECTION')]
-        print("⚠️  MODO SIMULACIÓN: MongoDB deshabilitado para testing")
-        self.client = None
-        self.db = None
-        self.collection = None
+        # Inicialización de MongoDB
+        # Intentar primero sin autenticación (MongoDB local)
+        try:
+            mongo_uri = f"mongodb://{self.app.config['DB']}:{self.app.config['DB_PORT']}/"
+            self.client = MongoClient(mongo_uri, serverSelectionTimeoutMS=5000)
+            # Forzar conexión para validar
+            self.client.server_info()
+            self.db = self.client[os.getenv('DB_NAME')]
+            self.collection = self.db[os.getenv('DB_COLLECTION')]
+            print(f"✅ MongoDB conectado correctamente (sin autenticación): {mongo_uri}")
+        except Exception as e:
+            # Si falla, intentar con autenticación
+            print(f"⚠️ Conexión sin autenticación falló, intentando con credenciales...")
+            mongo_uri = f"mongodb://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{self.app.config['DB']}:{self.app.config['DB_PORT']}/"
+            self.client = MongoClient(mongo_uri)
+            self.db = self.client[os.getenv('DB_NAME')]
+            self.collection = self.db[os.getenv('DB_COLLECTION')]
+            print(f"✅ MongoDB conectado correctamente (con autenticación): mongodb://***:***@{self.app.config['DB']}:{self.app.config['DB_PORT']}/")
+
 
         self.translator = f"http://{self.app.config['TRANSLATOR']}:{self.app.config['TRANSLATOR_PORT']}/code/"
         self.policy_service = f"http://{self.app.config['HOST']}:{self.app.config['PORT']}/service/"
@@ -214,11 +224,26 @@ class Scheduler:
             for key, value in dividedResult.items():
                 # Split the key into the id and the circuit name
                 id, circuit_name = key
+                
+                # Crear _id único combinando user + circuit_name
+                doc_id = f"{id}_{circuit_name}"
+                
+                # Filtrar claves vacías o inválidas del diccionario de valores
+                filtered_value = {k: v for k, v in value.items() if k and isinstance(k, str) and len(k.strip()) > 0}
+                
+                if not filtered_value:
+                    print(f"⚠️ No hay valores válidos para guardar: {doc_id}")
+                    continue
+                
                 # Create the update document
-                update = {'$inc': {'value.' + k: v for k, v in value.items()}}
+                update = {
+                    '$inc': {'value.' + k: v for k, v in filtered_value.items()},
+                    '$set': {'user': str(id), 'circuit': circuit_name, 'provider': provider}
+                }
+                
                 # Upsert the document
-                with self.result_lock: #In the case provider is both so the data retrieval is done after the first update finishes
-                    self.collection.update_one({'_id': str(id), 'circuit': circuit_name}, update, upsert=True)
+                with self.result_lock:
+                    self.collection.update_one({'_id': doc_id}, update, upsert=True)
 
         return "Results stored successfully", 200  # Return a response
 
@@ -281,9 +306,9 @@ class Scheduler:
             '_id': str(user),
             'circuit': url
         }
-        # COMENTADO PARA TESTING: MongoDB insert
-        # self.collection.insert_one(document)
-        print(f"🎭 SIMULACIÓN: MongoDB insert omitido para user {user}")
+        # Guardar en MongoDB
+        self.collection.insert_one(document)
+        print(f"✅ MongoDB: Documento insertado para user {user}")
 
         # Parse the URL and extract the fragment
         try:
@@ -383,10 +408,10 @@ class Scheduler:
         '_id': str(user),
         'circuit': url
         }
-        # COMENTADO PARA TESTING: MongoDB insert
-        # with self.result_lock:
-        #     self.collection.insert_one(document)
-        print(f"🎭 SIMULACIÓN: MongoDB insert omitido para user {user}")
+        # Guardar en MongoDB
+        with self.result_lock:
+            self.collection.insert_one(document)
+        print(f"✅ MongoDB: Documento insertado para user {user}")
 
         # URL is a raw GitHub url, get its content
         try:

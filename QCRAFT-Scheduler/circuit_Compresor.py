@@ -124,6 +124,8 @@ class AdvancedTopologyCompressor:
                 return None
             
             print(f"-> Circuito Original: {circuit.num_qubits} qubits lógicos.")
+            print("\n Circuito original:")
+            print(circuit)
             qc_early = self._advance_measurements(circuit)
             
             if qc_early is None:
@@ -210,14 +212,19 @@ class AdvancedTopologyCompressor:
                             return qc_compressed
                         
                         print(f"   ✅ Routing exitoso sin expansión ({qc_mapped.num_qubits} qubits)")
+                        print("\n Circuito mapeado a topología física:")
+                        print(qc_mapped)
                         return qc_mapped
                     else:
+            
                         print("-> ⚠️ Transpile retornó None, usando circuito comprimido sin routing")
                         return qc_compressed
                         
                 except Exception as e:
                     print(f"-> ⚠️ Error en routing: {e}")
                     print("   Usando circuito comprimido sin routing")
+                    print("\n Circuito comprimido sin routing:")
+                    print(qc_compressed)
                     return qc_compressed
             else:
                 return qc_compressed
