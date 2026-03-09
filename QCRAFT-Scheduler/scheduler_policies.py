@@ -360,7 +360,7 @@ class SchedulerPolicies:
         if provider == 'ibm':
             # Add at the first position of the code[]
             code.insert(0,"circuit = QuantumCircuit(qreg_q, creg_c)")
-            code.insert(0, f"creg_c = ClassicalRegister({composition_qubits}, 'c')")  # Set composition_qubits as the number of classical bits
+            code.insert(0, f"creg_c = ClassicalRegister({composition_qubits}, 'creg_c')")  # Usar 'creg_c' como nombre del registro
             code.insert(0, f"qreg_q = QuantumRegister({composition_qubits}, 'q')")  # Set composition_qubits as the number of classical bits
             code.insert(0,"from numpy import pi")
             code.insert(0,"import numpy as np")
@@ -889,14 +889,10 @@ class SchedulerPolicies:
         print(f"   Machine: {machine}")
         print(f"   Shots: {max(shots)}")
         
-        # ⚠️ MODO SIMULACIÓN - Ejecución real comentada para testing
-        print(f"\n⚠️  MODO SIMULACIÓN ACTIVADO - No se ejecuta en backend real")
-        
+        # Ejecución real en IBM/AWS
         try:
-            # COMENTADO: Ejecución real en IBM/AWS
-            """
             if provider == 'ibm':
-                print(f"   Ejecutando en IBM Quantum...")
+                print(f"   🚀 EJECUTANDO en IBM Quantum...")
                 counts = self.executeCircuitIBM.runIBM_save(
                     machine, 
                     loc['circuit'], 
@@ -906,7 +902,7 @@ class SchedulerPolicies:
                     [url[4] for url in urls]
                 )
             else:
-                print(f"   Ejecutando en AWS Braket...")
+                print(f"   🚀 EJECUTANDO en AWS Braket...")
                 counts = runAWS_save(
                     machine, 
                     loc['circuit'], 
@@ -916,22 +912,12 @@ class SchedulerPolicies:
                     [url[4] for url in urls], 
                     ''
                 )
-            """
             
-            # SIMULACIÓN: Generar resultados ficticios para testing
-            print(f"   🎭 Simulando ejecución en {provider.upper()}...")
-            num_compressed_qubits = loc['circuit'].num_qubits
-            # Generar conteos simulados (todos los qubits a 0 como estado más probable)
-            counts = {'0' * num_compressed_qubits: int(max(shots) * 0.7),  # 70% en estado base
-                      '1' * num_compressed_qubits: int(max(shots) * 0.1),  # 10% en estado excitado
-                      '0' * (num_compressed_qubits-1) + '1': int(max(shots) * 0.1),  # 10%
-                      '1' + '0' * (num_compressed_qubits-1): int(max(shots) * 0.1)}  # 10%
-            
-            print(f"\n✅ SIMULACIÓN COMPLETADA")
-            print(f"   Resultados simulados: {len(counts)} estados generados")
+            print(f"\n✅ EJECUCIÓN COMPLETADA")
+            print(f"   Resultados obtenidos: {len(counts)} estados")
             
         except Exception as e:
-            print(f"\n❌ ERROR en simulación: {e}")
+            print(f"\n❌ ERROR en ejecución: {e}")
             raise
         
         # 5. Enviar resultados al unscheduler
@@ -948,12 +934,12 @@ class SchedulerPolicies:
             "circuit_names": [url[4] for url in urls]
         }
         
-        # COMENTADO: Envío real al unscheduler
-        # requests.post(self.unscheduler, json=result_data)
-        print(f"   🎭 SIMULACIÓN: POST al unscheduler omitido")
-        print(f"   📊 Datos que se enviarían: {len(result_data['counts'])} estados")
+        # Enviar resultados al unscheduler para guardar en MongoDB
+        print(f"   📤 Enviando resultados a unscheduler...")
+        requests.post(self.unscheduler, json=result_data)
+        print(f"   ✅ Resultados enviados correctamente: {len(result_data['counts'])} estados")
         
-        print(f"✅ Simulación de envío completada")
+        print(f"✅ Ejecución completada")
         print("="*80 + "\n")
 
 

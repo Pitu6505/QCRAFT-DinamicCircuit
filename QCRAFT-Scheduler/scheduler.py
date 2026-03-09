@@ -404,15 +404,7 @@ class Scheduler:
 
         user = uuid.uuid4().int
         user = request.headers.get('X-Forwarded-For', request.remote_addr)
-        document = {
-        '_id': str(user),
-        'circuit': url
-        }
-        # Guardar en MongoDB
-        with self.result_lock:
-            self.collection.insert_one(document)
-        print(f"✅ MongoDB: Documento insertado para user {user}")
-
+        
         # URL is a raw GitHub url, get its content
         try:
             parsed_url = urlparse(url)
@@ -425,6 +417,21 @@ class Scheduler:
         except requests.exceptions.RequestException as e:
             print(f"Error getting URL content: {e}")
             return "Invalid URL", 400
+        
+        # Crear _id único combinando user + circuit_name
+        doc_id = f"{user}_{circuit_name}"
+        
+        document = {
+            '_id': doc_id,
+            'user': str(user),
+            'circuit': url,
+            'circuit_name': circuit_name
+        }
+        
+        # Guardar en MongoDB
+        with self.result_lock:
+            self.collection.insert_one(document)
+        print(f"✅ MongoDB: Documento insertado para user {user}, circuit {circuit_name}")
         
         circuit = response.text
         # Split the circuit string into lines once

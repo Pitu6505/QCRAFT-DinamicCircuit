@@ -250,3 +250,57 @@ Qubits lógicos totales: 20
 Qubits por circuito: [20]
 Tiempo de scheduling: 0.000000 seg
 Circuitos en cola restante: 0
+
+============================================================
+Timestamp: 2026-02-25 10:08:52
+Provider: ibm
+Circuitos procesados: 30
+Qubits lógicos totales: 154
+Qubits por circuito: [14, 5, 6, 7, 11, 5, 2, 3, 3, 4, 4, 3, 7, 3, 10, 3, 4, 5, 2, 6, 3, 3, 4, 2, 7, 7, 3, 2, 10, 6]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 45
+
+============================================================
+Timestamp: 2026-02-25 10:09:02
+Provider: ibm
+Circuitos procesados: 29
+Qubits lógicos totales: 155
+Qubits por circuito: [5, 6, 4, 9, 6, 3, 3, 4, 3, 9, 5, 4, 4, 7, 5, 3, 4, 4, 4, 5, 4, 4, 6, 4, 3, 4, 20, 7, 6]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 16
+
+============================================================
+Timestamp: 2026-02-25 10:09:12
+Provider: ibm
+Circuitos procesados: 16
+Qubits lógicos totales: 136
+Qubits por circuito: [20, 4, 8, 16, 5, 4, 6, 4, 4, 5, 13, 20, 3, 7, 3, 14]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 0
+
+============================================================
+Timestamp: 2026-03-09 10:26:18
+Provider: ibm
+Circuitos procesados: 26
+Qubits lógicos totales: 156
+Qubits por circuito: [3, 4, 6, 4, 20, 5, 4, 7, 2, 4, 4, 4, 3, 20, 4, 5, 7, 14, 8, 5, 4, 5, 4, 3, 3, 4]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 49
+
+============================================================
+Timestamp: 2026-03-09 10:26:28
+Provider: ibm
+Circuitos procesados: 27
+Qubits lógicos totales: 156
+Qubits por circuito: [6, 7, 6, 4, 5, 10, 5, 7, 4, 2, 6, 14, 3, 4, 16, 9, 6, 2, 5, 2, 3, 4, 7, 6, 7, 3, 3]
+Tiempo de scheduling: 0.015625 seg
+Circuitos en cola restante: 22
+
+============================================================
+Timestamp: 2026-03-09 10:26:38
+Provider: ibm
+Circuitos procesados: 22
+Qubits lógicos totales: 133
+Qubits por circuito: [3, 3, 10, 3, 6, 3, 3, 4, 4, 3, 9, 5, 11, 7, 20, 6, 3, 5, 13, 4, 4, 4]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 0
