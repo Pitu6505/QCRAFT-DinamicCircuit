@@ -858,3 +858,108 @@ Tiempo total: 2.046875 seg
 Detalles compresión:
   - Popular-adder-1: 10 → 10 qubits
   - vqe-1: 3 → 3 qubits
+
+============================================================
+Timestamp: 2026-03-09 11:30:58
+Provider: ibm
+Circuitos comprimidos: 75
+Circuitos seleccionados: 45
+Qubits totales (comprimidos): 156/156
+Utilización: 100.0%
+Tiempo total: 2.437500 seg
+Detalles compresión:
+  - Deutsch-Jozsa_qcraft.py: 4 → 4 qubits
+  - qaoa_qcraft.py: 2 → 2 qubits
+  - qft_4_mqt.py: 4 → 4 qubits
+  - vqe_indep_4_mqt.py: 4 → 4 qubits
+  - qft_3_vq.py: 3 → 3 qubits
+  - 20QBT_4CYC_8GN_1.0P2_0_vq.py: 17 → 5 qubits
+  - dj_indep_4_mqt.py: 4 → 4 qubits
+  - tsp_qcraft.py: 3 → 3 qubits
+  - bernstein-vazirani_qcraft.py: 4 → 4 qubits
+  - vqe_indep_3_mqt.py: 3 → 3 qubits
+  - qft_3_mqt.py: 3 → 3 qubits
+  - qft_qcraft.py: 3 → 3 qubits
+  - vqe_indep_5_mqt.py: 5 → 5 qubits
+  - su2random_4_mqt.py: 4 → 4 qubits
+  - grover_3_vq.py: 3 → 3 qubits
+  - shor_mod15_mqt.py: 5 → 4 qubits
+  - dj_indep_5_mqt.py: 5 → 5 qubits
+  - shor_qcraft.py: 4 → 4 qubits
+  - qaoa_indep_3_mqt.py: 3 → 3 qubits
+  - qaoa_indep_5_mqt.py: 5 → 5 qubits
+  - grover-noancilla_3_mqt.py: 3 → 3 qubits
+  - grover-v-chain_3_mqt.py: 3 → 3 qubits
+  - bv_4_vq.py: 4 → 4 qubits
+  - grover_qcraft.py: 2 → 2 qubits
+  - 3_17tc_vq.py: 3 → 3 qubits
+  - bv_3_vq.py: 3 → 3 qubits
+  - qft_2_mqt.py: 2 → 2 qubits
+  - qwalk-v-chain_3_mqt.py: 3 → 3 qubits
+  - pe_3_mqt.py: 3 → 3 qubits
+  - qwalk-noancilla_3_mqt.py: 3 → 3 qubits
+  - kickback_7_vq.py: 7 → 3 qubits
+  - pe_2_vq.py: 3 → 3 qubits
+  - bv_2_vq.py: 2 → 2 qubits
+  - pe_4_mqt.py: 4 → 4 qubits
+  - kickback_qcraft.py: 2 → 2 qubits
+  - su2random_3_mqt.py: 3 → 3 qubits
+  - su2_5_vq.py: 4 → 4 qubits
+  - qwalk_qcraft.py: 3 → 3 qubits
+  - grover-noancilla_4_mqt.py: 4 → 4 qubits
+  - phase_estimation_qcraft.py: 4 → 4 qubits
+  - adder_qcraft.py: 4 → 4 qubits
+  - adder_n4_vq.py: 4 → 4 qubits
+  - tsp_indep_4_mqt.py: 4 → 4 qubits
+  - qaoa_indep_4_mqt.py: 4 → 4 qubits
+  - grover-v-chain_4_mqt.py: 4 → 4 qubits
+
+============================================================
+Timestamp: 2026-03-09 11:31:27
+Provider: ibm
+Circuitos comprimidos: 30
+Circuitos seleccionados: 23
+Qubits totales (comprimidos): 156/156
+Utilización: 100.0%
+Tiempo total: 2.156250 seg
+Detalles compresión:
+  - qft_7_vq.py: 7 → 7 qubits
+  - qaoa_indep_6_mqt.py: 6 → 6 qubits
+  - grover_7_vq.py: 7 → 7 qubits
+  - 20QBT_8CYC_16GN_1.0P2_0_vq.py: 20 → 10 qubits
+  - qft_6_mqt.py: 6 → 6 qubits
+  - dj_indep_7_mqt.py: 7 → 7 qubits
+  - shor_mod21_mqt.py: 8 → 7 qubits
+  - vqe_indep_6_mqt.py: 6 → 6 qubits
+  - simon_vq.py: 6 → 6 qubits
+  - pe_7_mqt.py: 7 → 7 qubits
+  - adder_n7_vq.py: 7 → 7 qubits
+  - adder_n10_vq.py: 10 → 10 qubits
+  - tsp_indep_5_mqt.py: 5 → 5 qubits
+  - pe_6_mqt.py: 6 → 6 qubits
+  - 6symd2_vq.py: 10 → 8 qubits
+  - qwalk-v-chain_5_mqt.py: 5 → 5 qubits
+  - simon_qcraft.py: 6 → 6 qubits
+  - grover_9_vq.py: 9 → 9 qubits
+  - pe_5_mqt.py: 5 → 5 qubits
+  - bv_9_vq.py: 9 → 9 qubits
+  - bv_5_vq.py: 5 → 5 qubits
+  - qaoa_6_vq.py: 6 → 6 qubits
+  - pe_5_vq.py: 6 → 6 qubits
+
+============================================================
+Timestamp: 2026-03-09 11:32:01
+Provider: ibm
+Circuitos comprimidos: 7
+Circuitos seleccionados: 7
+Qubits totales (comprimidos): 88/156
+Utilización: 56.4%
+Tiempo total: 1.390625 seg
+Detalles compresión:
+  - dj_indep_14_mqt.py: 14 → 14 qubits
+  - adder_n16_vq.py: 16 → 16 qubits
+  - reversible_5_adder_vq.py: 11 → 11 qubits
+  - bv_14_vq.py: 14 → 14 qubits
+  - adder_n13_vq.py: 13 → 13 qubits
+  - pe_6_vq.py: 7 → 7 qubits
+  - 20QBT_16CYC_32GN_1.0P2_0_vq.py: 20 → 13 qubits

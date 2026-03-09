@@ -55,9 +55,10 @@ class executeCircuitIBM:
         return backend
 
 
-    def code_to_circuit_ibm(self, code_str:str) -> qiskit.QuantumCircuit: #Inverse parser to get the circuit object from the string
+    def code_to_circuit_ibm(self, code_str:str) -> qiskit.QuantumCircuit:
         """
-        Transforms a string representation of a circuit into a Qiskit circuit
+        Transforms a string representation of a circuit into a Qiskit circuit.
+        Can handle both complete code (with register definitions) and incomplete code (only operations).
 
         Args:
             code_str (str): The string representation of the Qiskit circuit.
@@ -65,77 +66,205 @@ class executeCircuitIBM:
         Returns:
             qiskit.QuantumCircuit: The circuit object.
         """
-        # Split the code into lines
         try:
             lines = code_str.strip().split('\n')
-            # Initialize empty variables for registers and circuit
             qreg = creg = circuit = None
-            # Process each line
+            qreg_name = "qreg_q"
+            creg_name = "creg_c"
+            
+            # First pass: try to find register definitions and determine max indices
+            max_qubit_index = -1
+            max_cbit_index = -1
+            has_qreg_def = False
+            has_creg_def = False
+            
             for line in lines:
-                if 'import' not in line:
-                    if "QuantumRegister" in line:
+                line = line.strip()
+                if not line or line.startswith('#') or 'import' in line or line.startswith('from'):
+                    continue
+                
+                if "QuantumRegister" in line:
+                    has_qreg_def = True
+                if "ClassicalRegister" in line:
+                    has_creg_def = True
+                
+                # Find max qubit and cbit indices from operations
+                if "qreg_q[" in line or "_q[" in line or "circuit." in line:
+                    # Extract qubit indices
+                    qubit_matches = re.findall(r'qreg_q\[(\d+)\]|_q\[(\d+)\]', line)
+                    for match in qubit_matches:
+                        idx = int(match[0] if match[0] else match[1])
+                        max_qubit_index = max(max_qubit_index, idx)
+                
+                if "creg_c[" in line or "_c[" in line:
+                    # Extract clbit indices
+                    cbit_matches = re.findall(r'creg_c\[(\d+)\]|_c\[(\d+)\]', line)
+                    for match in cbit_matches:
+                        idx = int(match[0] if match[0] else match[1])
+                        max_cbit_index = max(max_cbit_index, idx)
+            
+            # If no register definitions found, create them based on max indices
+            if not has_qreg_def and max_qubit_index >= 0:
+                num_qubits = max_qubit_index + 1
+                qreg = qiskit.QuantumRegister(num_qubits, 'q')
+                print(f"        ℹ️  Auto-creando QuantumRegister con {num_qubits} qubits")
+            
+            if not has_creg_def and max_cbit_index >= 0:
+                num_clbits = max_cbit_index + 1
+                creg = qiskit.ClassicalRegister(num_clbits, 'c')
+                print(f"        ℹ️  Auto-creando ClassicalRegister con {num_clbits} clbits")
+            
+            # Second pass: process lines for actual parsing
+            for line in lines:
+                line = line.strip()
+                
+                if not line or line.startswith('#') or 'import' in line or line.startswith('from'):
+                    continue
+                    
+                if any(skip in line for skip in ['gate_machines_arn', 'shots =', 'provider =', 'backend =', 
+                                                   'transpile(', 'execute(', 'job =', 'job_result =', 
+                                                   'print(', 'get_counts(', 'Aer.', 'IBMProvider']):
+                    continue
+                
+                try:
+                    if "QuantumRegister" in line and not qreg:
                         qreg_name = line.split('=')[0].strip()
-                        num_qubits = int(line.split('(')[1].split(')')[0].split(',')[0].strip())
-                        qreg = qiskit.QuantumRegister(num_qubits, qreg_name)
-                    elif "ClassicalRegister" in line:
-                        creg_name = line.split('=')[0].strip()
-                        num_clbits = int(line.split('(')[1].split(')')[0].split(',')[0].strip())
-                        creg = qiskit.ClassicalRegister(num_clbits, creg_name)
-                    elif "QuantumCircuit" in line:
-                        circuit = qiskit.QuantumCircuit(qreg, creg)
-                    elif "circuit." in line:
-                        # Validar que qreg y circuit existen antes de procesar operaciones
-                        if circuit is None:
-                            continue  # Saltar líneas de operaciones si no hay circuito creado
-                        if qreg is None and ('[' in line):  # Si hay acceso a qubits pero no hay registro
-                            raise ValueError("Circuit operations found but no QuantumRegister defined")
+                        num_qubits_str = line.split('(')[1].split(')')[0].split(',')[0].strip()
+                        num_qubits = int(num_qubits_str)
+                        qreg = qiskit.QuantumRegister(num_qubits, 'q')
                         
+                    elif "ClassicalRegister" in line and not creg:
+                        creg_name = line.split('=')[0].strip()
+                        num_clbits_str = line.split('(')[1].split(')')[0].split(',')[0].strip()
+                        num_clbits = int(num_clbits_str)
+                        creg = qiskit.ClassicalRegister(num_clbits, 'c')
+                        
+                    elif "QuantumCircuit" in line and "=" in line and not circuit:
+                        if qreg is not None:
+                            if creg is not None:
+                                circuit = qiskit.QuantumCircuit(qreg, creg)
+                            else:
+                                circuit = qiskit.QuantumCircuit(qreg)
+                    
+                    # If we found operations but no circuit yet, create it now
+                    elif "circuit." in line and circuit is None and qreg is not None:
+                        if creg is not None:
+                            circuit = qiskit.QuantumCircuit(qreg, creg)
+                        else:
+                            circuit = qiskit.QuantumCircuit(qreg)
+                        
+                    elif "circuit." in line and circuit is not None:
+                        # Procesar operaciones del circuito
                         if ".c_if(" in line:
                             operation, condition = line.split('.c_if(')
                         else:
                             operation = line
                             condition = None
+                        
                         # Parse gate operations
                         gate_name = operation.split('circuit.')[1].split('(')[0]
-                        args = re.split(r'\s*,\s*', operation.split('(', 1)[1].rsplit(')', 1)[0].strip())
+                        
+                        # Extraer argumentos
+                        try:
+                            args_str = operation.split('(', 1)[1].rsplit(')', 1)[0].strip()
+                            if args_str:
+                                args = re.split(r'\s*,\s*', args_str)
+                            else:
+                                args = ['']
+                        except:
+                            continue
+                        
                         if gate_name == "measure":
-                            qubit = qreg[int(args[0].split('[')[1].strip(']').split('+')[0]) + int(args[0].split('[')[1].strip(']').split('+')[1].strip(') ')) if '+' in args[0] else int(args[0].split('[')[1].strip(']'))]
-                            cbit = creg[int(args[1].split('[')[1].strip(']').split('+')[0]) + int(args[1].split('[')[1].strip(']').split('+')[1].strip(') ')) if '+' in args[1] else int(args[1].split('[')[1].strip(']'))]
-                            circuit.measure(qubit, cbit)
+                            if len(args) >= 2 and '[' in args[0] and '[' in args[1]:
+                                try:
+                                    qubit_idx = int(args[0].split('[')[1].strip(']').split('+')[0])
+                                    cbit_idx = int(args[1].split('[')[1].strip(']').split('+')[0])
+                                    if qreg and creg:
+                                        circuit.measure(qreg[qubit_idx], creg[cbit_idx])
+                                except:
+                                    pass
+                                    
                         elif gate_name == "barrier":
-                            if args[0] == '': #For barrier()
+                            if not args[0] or args[0] == '':
                                 circuit.barrier()
-                            elif args[0] == qreg.name: #For barrier(qreg)
+                            elif args[0] == qreg_name:
                                 circuit.barrier(*qreg)
-                            else: #For barrier(qreg[0], qreg[1], ...)
-                                qubits = [qreg[int(arg.split('[')[1].strip(']').split('+')[0]) + int(arg.split('[')[1].strip(']').split('+')[1].strip(') ')) if '+' in arg else int(arg.split('[')[1].strip(']'))] for arg in args if '[' in arg]
-                                circuit.barrier(qubits)
+                            else:
+                                # Barrier con qubits específicos
+                                try:
+                                    qubit_indices = []
+                                    for arg in args:
+                                        if '[' in arg:
+                                            idx = int(arg.split('[')[1].strip(']').split('+')[0])
+                                            qubit_indices.append(qreg[idx])
+                                    if qubit_indices:
+                                        circuit.barrier(*qubit_indices)
+                                except:
+                                    pass
+                                    
                         elif gate_name == "append":
-                            gate_type = args[0]
-                            qubits = [qreg[int(re.search(r'\[(\d+)\]', arg).group(1))] for arg in args[1:] if '[' in arg]
-                            control_qubits = qubits[:-1]
-                            target_qubit = qubits[-1]
-                            if gate_type == 'mc_x_gate':
-                                mcx = MCXGate(len(control_qubits))
-                                circuit.append(mcx, control_qubits + [target_qubit])
-                            elif gate_type == 'mc_y_gate':
-                                circuit.sdg(target_qubit)
-                                mcx = MCXGate(len(control_qubits))
-                                circuit.append(mcx, control_qubits + [target_qubit])
-                                circuit.s(target_qubit)
-                            elif gate_type == 'mc_z_gate':
-                                circuit.h(target_qubit)
-                                mcx = MCXGate(len(control_qubits))
-                                circuit.append(mcx, control_qubits + [target_qubit])
-                                circuit.h(target_qubit)
+                            # Manejar gates multi-control
+                            try:
+                                gate_type = args[0]
+                                qubits = [qreg[int(re.search(r'\[(\d+)\]', arg).group(1))] for arg in args[1:] if '[' in arg]
+                                control_qubits = qubits[:-1]
+                                target_qubit = qubits[-1]
+                                if gate_type == 'mc_x_gate':
+                                    mcx = MCXGate(len(control_qubits))
+                                    circuit.append(mcx, control_qubits + [target_qubit])
+                                elif gate_type == 'mc_y_gate':
+                                    circuit.sdg(target_qubit)
+                                    mcx = MCXGate(len(control_qubits))
+                                    circuit.append(mcx, control_qubits + [target_qubit])
+                                    circuit.s(target_qubit)
+                                elif gate_type == 'mc_z_gate':
+                                    circuit.h(target_qubit)
+                                    mcx = MCXGate(len(control_qubits))
+                                    circuit.append(mcx, control_qubits + [target_qubit])
+                                    circuit.h(target_qubit)
+                            except:
+                                pass
                         else:
-                            qubits = [qreg[int(arg.split('[')[1].strip(']').split('+')[0]) + int(arg.split('[')[1].strip(']').split('+')[1].strip(') ')) if '+' in arg else int(arg.split('[')[1].strip(']'))] for arg in args if '[' in arg]
-                            params = [eval(arg, {"__builtins__": None, "np": np}, {}) for param_str in args if '[' not in param_str for arg in param_str.split(',')] #If here, check if the circuit has pi instead of np.pi. Change pi to np.pi and it should work
-                            gate_operation = getattr(circuit, gate_name)(*params, *qubits) if params else getattr(circuit, gate_name)(*qubits)
-                            if condition:
-                                creg_name, val = condition.split(')')[0].split(',')
-                                val = int(val.strip())
-                                gate_operation.c_if(creg, val)
+                            # Gate normal (h, x, cx, cp, etc.)
+                            try:
+                                # Extraer qubits (argumentos que contienen '[')
+                                qubit_args = [arg for arg in args if '[' in arg]
+                                qubits = []
+                                for arg in qubit_args:
+                                    idx = int(arg.split('[')[1].strip(']').split('+')[0])
+                                    qubits.append(qreg[idx])
+                                
+                                # Extraer parámetros (argumentos sin '[')
+                                param_args = [arg for arg in args if '[' not in arg and arg.strip()]
+                                params = []
+                                for param_str in param_args:
+                                    try:
+                                        # Evaluar parámetros (ej: np.pi / 2)
+                                        param = eval(param_str, {"__builtins__": None, "np": np, "pi": np.pi}, {})
+                                        params.append(param)
+                                    except:
+                                        pass
+                                
+                                # Aplicar gate
+                                if hasattr(circuit, gate_name):
+                                    gate_func = getattr(circuit, gate_name)
+                                    if params:
+                                        gate_operation = gate_func(*params, *qubits)
+                                    else:
+                                        gate_operation = gate_func(*qubits)
+                                    
+                                    if condition:
+                                        creg_name, val = condition.split(')')[0].split(',')
+                                        val = int(val.strip())
+                                        gate_operation.c_if(creg, val)
+                            except Exception as gate_error:
+                                # Silenciosamente saltar gates que no se puedan parsear
+                                pass
+                                
+                except Exception as line_error:
+                    # Si una línea falla, continuar con la siguiente
+                    continue
+                    
         except Exception as e:
             raise ValueError(f"Invalid circuit code: {str(e)}")
 

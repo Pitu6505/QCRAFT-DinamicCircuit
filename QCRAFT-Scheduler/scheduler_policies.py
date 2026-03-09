@@ -1141,7 +1141,7 @@ class SchedulerPolicies:
                         print(f"        ❌ Error descargando desde GitHub: {e}")
                         continue
                 elif 'algassert' in circuit_url:
-                    # URL de algassert, usar traductor
+                    # URL de algassert/Quirk, usar traductor
                     try:
                         response = requests.post(
                             self.translator + provider + '/individual',
@@ -1173,9 +1173,12 @@ class SchedulerPolicies:
                     if loc['circuit'] is None:
                         print(f"        ⚠️ No se pudo crear circuito desde el código")
                         continue
-                except (ValueError, TypeError, AttributeError) as e:
-                    print(f"        ⚠️ Formato de circuito no compatible, salteando...")
-                    print(f"           Detalle: {str(e)[:100]}")
+                except (ValueError, TypeError, AttributeError, KeyError, IndexError) as e:
+                    print(f"        ⚠️ No se pudo parsear circuito, salteando...")
+                    print(f"           Detalle: {str(e)[:150]}")
+                    continue
+                except Exception as e:
+                    print(f"        ⚠️ Error inesperado parseando circuito: {type(e).__name__}")
                     continue
                 
                 # Obtener qubits reales del circuito creado
