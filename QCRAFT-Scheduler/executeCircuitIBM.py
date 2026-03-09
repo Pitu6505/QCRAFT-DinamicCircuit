@@ -84,6 +84,12 @@ class executeCircuitIBM:
                     elif "QuantumCircuit" in line:
                         circuit = qiskit.QuantumCircuit(qreg, creg)
                     elif "circuit." in line:
+                        # Validar que qreg y circuit existen antes de procesar operaciones
+                        if circuit is None:
+                            continue  # Saltar líneas de operaciones si no hay circuito creado
+                        if qreg is None and ('[' in line):  # Si hay acceso a qubits pero no hay registro
+                            raise ValueError("Circuit operations found but no QuantumRegister defined")
+                        
                         if ".c_if(" in line:
                             operation, condition = line.split('.c_if(')
                         else:
@@ -131,8 +137,11 @@ class executeCircuitIBM:
                                 val = int(val.strip())
                                 gate_operation.c_if(creg, val)
         except Exception as e:
-            raise ValueError("Invalid circuit code")
+            raise ValueError(f"Invalid circuit code: {str(e)}")
 
+        if circuit is None:
+            raise ValueError("No valid QuantumCircuit found in code")
+        
         return circuit
 
 

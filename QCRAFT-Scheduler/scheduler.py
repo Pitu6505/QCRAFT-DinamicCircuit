@@ -299,16 +299,9 @@ class Scheduler:
             awsShots = shots - ibmShots
 
     
+        # Generar ID único aleatorio para el circuito
         user = uuid.uuid4().int
-        #user = request.headers.get('X-Forwarded-For', request.remote_addr) quitar esto
-
-        document = {
-            '_id': str(user),
-            'circuit': url
-        }
-        # Guardar en MongoDB
-        self.collection.insert_one(document)
-        print(f"✅ MongoDB: Documento insertado para user {user}")
+        # El documento se guardará en MongoDB después de la ejecución (en el unscheduler)
 
         # Parse the URL and extract the fragment
         try:
@@ -402,8 +395,8 @@ class Scheduler:
         if not isinstance(shots, int) or shots <= 0 or shots > 20000:
             return "Invalid shots value", 400
 
+        # Generar ID único aleatorio para el circuito
         user = uuid.uuid4().int
-        user = request.headers.get('X-Forwarded-For', request.remote_addr)
         
         # URL is a raw GitHub url, get its content
         try:
@@ -418,20 +411,8 @@ class Scheduler:
             print(f"Error getting URL content: {e}")
             return "Invalid URL", 400
         
-        # Crear _id único combinando user + circuit_name
-        doc_id = f"{user}_{circuit_name}"
-        
-        document = {
-            '_id': doc_id,
-            'user': str(user),
-            'circuit': url,
-            'circuit_name': circuit_name
-        }
-        
-        # Guardar en MongoDB
-        with self.result_lock:
-            self.collection.insert_one(document)
-        print(f"✅ MongoDB: Documento insertado para user {user}, circuit {circuit_name}")
+        # El documento se guardará en MongoDB después de la ejecución (en el unscheduler)
+        print(f"📋 Circuito recibido - ID: {user}, circuit: {circuit_name}")
         
         circuit = response.text
         # Split the circuit string into lines once

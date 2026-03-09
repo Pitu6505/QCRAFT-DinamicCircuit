@@ -875,6 +875,24 @@ class SchedulerPolicies:
                 print(f"   📏 Depth comprimido: {compressed_circuit.depth()}")
                 print(f"   🚪 Gates comprimidos: {len(compressed_circuit.data)}")
                 
+                # Guardar información de circuitos comprimidos en archivo
+                try:
+                    with open("./CircuitosComprimidos.txt", 'a', encoding='utf-8') as file:
+                        file.write(f"\n{'='*70}\n")
+                        file.write(f"Timestamp: {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
+                        file.write(f"Provider: {provider.upper()} | Machine: {machine}\n")
+                        file.write(f"Tipo: Compresión de topología (batch)\n")
+                        file.write(f"Circuitos comprimidos juntos: {len(urls)}\n")
+                        file.write(f"Qubits: {original_qubits} → {compressed_qubits} (Ahorro: {compression_ratio:.1f}%)\n")
+                        file.write(f"Depth: {compressed_circuit.depth()} | Gates: {len(compressed_circuit.data)}\n")
+                        file.write(f"\nCircuitos en el batch:\n")
+                        for i, (circuit, num_qubits, shot, user, circuit_name, maxDepth) in enumerate(urls, 1):
+                            file.write(f"  {i}. ID: {user} | {circuit_name} | {num_qubits} qubits\n")
+                        file.write(f"{'='*70}\n")
+                    print(f"   💾 Información guardada en CircuitosComprimidos.txt")
+                except Exception as e:
+                    print(f"   ⚠️ Error al guardar información: {e}")
+                
                 # Reemplazar el circuito original con el comprimido
                 loc['circuit'] = compressed_circuit
             
@@ -1145,14 +1163,19 @@ class SchedulerPolicies:
                 
                 # PASO 1b: Convertir código a QuantumCircuit
                 loc = {}
-                if provider == 'ibm':
-                    loc['circuit'] = self.executeCircuitIBM.code_to_circuit_ibm(circuit_code)
-                else:
-                    loc['circuit'] = code_to_circuit_aws(circuit_code)
-                
-                # Validar que el circuito se creó correctamente
-                if loc['circuit'] is None:
-                    print(f"        ⚠️ No se pudo crear circuito desde el código")
+                try:
+                    if provider == 'ibm':
+                        loc['circuit'] = self.executeCircuitIBM.code_to_circuit_ibm(circuit_code)
+                    else:
+                        loc['circuit'] = code_to_circuit_aws(circuit_code)
+                    
+                    # Validar que el circuito se creó correctamente
+                    if loc['circuit'] is None:
+                        print(f"        ⚠️ No se pudo crear circuito desde el código")
+                        continue
+                except (ValueError, TypeError, AttributeError) as e:
+                    print(f"        ⚠️ Formato de circuito no compatible, salteando...")
+                    print(f"           Detalle: {str(e)[:100]}")
                     continue
                 
                 # Obtener qubits reales del circuito creado
@@ -1200,6 +1223,22 @@ class SchedulerPolicies:
                     print(f"           Operaciones: {dict(compressed_ops)}")
                     print(f"        ✅ Compresión: {real_qubits}→{compressed_qubits} qubits ({compression_ratio:.1f}%), {real_depth}→{compressed_depth} depth, {real_gates}→{compressed_gates} gates")
                     
+                    # Guardar información de circuito comprimido en archivo
+                    try:
+                        with open("./CircuitosComprimidos.txt", 'a', encoding='utf-8') as file:
+                            file.write(f"\n{'='*70}\n")
+                            file.write(f"Timestamp: {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
+                            file.write(f"Provider: {provider.upper()}\n")
+                            file.write(f"Tipo: Compresión individual (ML Knapsack)\n")
+                            file.write(f"ID: {user} | Circuit: {circuit_name}\n")
+                            file.write(f"Qubits: {real_qubits} → {compressed_qubits} (Ahorro: {compression_ratio:.1f}%)\n")
+                            file.write(f"Depth: {real_depth} → {compressed_depth}\n")
+                            file.write(f"Gates: {real_gates} → {compressed_gates}\n")
+                            file.write(f"Classical bits: {real_clbits} → {compressed_clbits}\n")
+                            file.write(f"{'='*70}\n")
+                    except Exception as e:
+                        print(f"        ⚠️ Error al guardar información: {e}")
+                    
                     # Mostrar circuito comprimido (solo si es pequeño)
                     if compressed_qubits <= 8 and compressed_depth <= 20:
                         try:
@@ -1228,9 +1267,7 @@ class SchedulerPolicies:
                 })
                 
             except Exception as e:
-                print(f"        ❌ Error en compresión: {e}")
-                import traceback
-                traceback.print_exc()
+                print(f"        ❌ Error procesando circuito: {str(e)[:100]}")
                 # Si falla completamente, skip este circuito
                 continue  # No agregar a compressed_data
         
