@@ -250,6 +250,7 @@ class SchedulerPolicies:
                 counts = runAWS_save(machine,loc['circuit'],max(shots),[url[3] for url in urls],qb,[url[4] for url in urls],'') #Ejecutar el circuito y obtener el resultado
         except Exception as e:
             print(f"Error executing circuit: {e}")
+            return
 
         print(counts.items())
 
@@ -781,8 +782,8 @@ class SchedulerPolicies:
             self.create_circuit(urls,code,qb,provider)
             data = {"code":code}
 
-            """
-            Thread(target=executeCircuit, args=(json.dumps(data),qb,shotsUsr,provider,urls,machine)).start()"""
+            
+            Thread(target=executeCircuit, args=(json.dumps(data),qb,shotsUsr,provider,urls,machine)).start()
 
             end_time = time.process_time()  # Finalizar el timer
             elapsed_time = end_time - start_time  # Calcular el tiempo transcurrido
@@ -1369,7 +1370,9 @@ class SchedulerPolicies:
                         mapped_cargs = [clbit_map[c] for c in cargs]
                         composed_circuit.append(instr, mapped_qargs, mapped_cargs)
                     
-                    qb.append(item['qubits_compressed'])
+                    # Usar clbits (no qubits) para descomponer resultados correctamente
+                    # El compresor mantiene clbits originales aunque reduzca qubits
+                    qb.append(len(circuit.clbits))
                     qubit_offset += item['qubits_compressed']
                     clbit_offset += len(circuit.clbits)
             

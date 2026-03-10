@@ -1,0 +1,8 @@
+Suma de qBits:20
+Tiempo Ejecucion:0.0
+Suma de qBits:20
+Tiempo Ejecucion:0.0
+Suma de qBits:20
+Tiempo Ejecucion:0.0
+Suma de qBits:20
+Tiempo Ejecucion:0.0

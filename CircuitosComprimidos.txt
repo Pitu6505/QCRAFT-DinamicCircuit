@@ -1338,3 +1338,1270 @@ Depth: 16 → 23
 Gates: 48 → 64
 Classical bits: 20 → 20
 ======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:52
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 37653858312204542440512413231785433529 | Circuit: adder_n10_vq.py
+Qubits: 10 → 10 (Ahorro: 0.0%)
+Depth: 6 → 6
+Gates: 20 → 20
+Classical bits: 9 → 9
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 779693094033835744518071895061165657 | Circuit: qft_7_vq.py
+Qubits: 7 → 7 (Ahorro: 0.0%)
+Depth: 13 → 13
+Gates: 34 → 34
+Classical bits: 7 → 7
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 131649468587888641547248194145991571911 | Circuit: qaoa_indep_3_mqt.py
+Qubits: 3 → 3 (Ahorro: 0.0%)
+Depth: 10 → 10
+Gates: 18 → 18
+Classical bits: 3 → 3
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 43614018900772479571634745039883788576 | Circuit: dj_indep_4_mqt.py
+Qubits: 4 → 4 (Ahorro: 0.0%)
+Depth: 6 → 6
+Gates: 13 → 13
+Classical bits: 3 → 3
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 67802057267407154940797765341285077841 | Circuit: vqe_indep_3_mqt.py
+Qubits: 3 → 3 (Ahorro: 0.0%)
+Depth: 8 → 8
+Gates: 16 → 16
+Classical bits: 3 → 3
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 190547119603899124578221525624199526525 | Circuit: qft_3_mqt.py
+Qubits: 3 → 3 (Ahorro: 0.0%)
+Depth: 6 → 6
+Gates: 10 → 10
+Classical bits: 3 → 3
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 92577516625612563023513776691790134584 | Circuit: qft_qcraft.py
+Qubits: 3 → 3 (Ahorro: 0.0%)
+Depth: 8 → 8
+Gates: 13 → 13
+Classical bits: 2 → 2
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 110825461211770691226765410702516567715 | Circuit: qaoa_qcraft.py
+Qubits: 2 → 2 (Ahorro: 0.0%)
+Depth: 7 → 7
+Gates: 9 → 9
+Classical bits: 2 → 2
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 276198942752124910775392418824837936365 | Circuit: 6symd2_vq.py
+Qubits: 10 → 8 (Ahorro: 20.0%)
+Depth: 11 → 18
+Gates: 29 → 37
+Classical bits: 10 → 10
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 310459729159327150071686967896827528066 | Circuit: vqe_indep_5_mqt.py
+Qubits: 5 → 5 (Ahorro: 0.0%)
+Depth: 10 → 10
+Gates: 28 → 28
+Classical bits: 5 → 5
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 5039962407080754895721379012542183719 | Circuit: grover-noancilla_3_mqt.py
+Qubits: 3 → 3 (Ahorro: 0.0%)
+Depth: 10 → 10
+Gates: 16 → 16
+Classical bits: 3 → 3
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 103902558493335810769543594817544293880 | Circuit: vqe_indep_6_mqt.py
+Qubits: 6 → 6 (Ahorro: 0.0%)
+Depth: 11 → 11
+Gates: 34 → 34
+Classical bits: 6 → 6
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 287249519856376142360781794294680210470 | Circuit: 20QBT_4CYC_8GN_1.0P2_0_vq.py
+Qubits: 17 → 5 (Ahorro: 70.6%)
+Depth: 4 → 4
+Gates: 12 → 10
+Classical bits: 17 → 17
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 223075713710808319487837510779452941113 | Circuit: qft_2_mqt.py
+Qubits: 2 → 2 (Ahorro: 0.0%)
+Depth: 4 → 4
+Gates: 6 → 6
+Classical bits: 2 → 2
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 166300389956075933828232192370479516492 | Circuit: bv_2_vq.py
+Qubits: 2 → 2 (Ahorro: 0.0%)
+Depth: 5 → 5
+Gates: 7 → 7
+Classical bits: 2 → 2
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 81789358605088449991790283693944529923 | Circuit: grover_3_vq.py
+Qubits: 3 → 3 (Ahorro: 0.0%)
+Depth: 10 → 10
+Gates: 18 → 18
+Classical bits: 3 → 3
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 237235332490640583282911763097142440872 | Circuit: su2random_4_mqt.py
+Qubits: 4 → 4 (Ahorro: 0.0%)
+Depth: 18 → 18
+Gates: 38 → 38
+Classical bits: 4 → 4
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 120449131276572527787724037769369500718 | Circuit: qft_4_mqt.py
+Qubits: 4 → 4 (Ahorro: 0.0%)
+Depth: 8 → 8
+Gates: 16 → 16
+Classical bits: 4 → 4
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 175129746191760003622130559983905870625 | Circuit: grover-v-chain_3_mqt.py
+Qubits: 3 → 3 (Ahorro: 0.0%)
+Depth: 10 → 10
+Gates: 16 → 16
+Classical bits: 3 → 3
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 8986816442336195488659879189272958720 | Circuit: qft_6_mqt.py
+Qubits: 6 → 6 (Ahorro: 0.0%)
+Depth: 12 → 12
+Gates: 30 → 30
+Classical bits: 6 → 6
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 320749996154340027510755761737659872723 | Circuit: Deutsch-Jozsa_qcraft.py
+Qubits: 4 → 4 (Ahorro: 0.0%)
+Depth: 8 → 8
+Gates: 21 → 21
+Classical bits: 4 → 4
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 245376990405754354775897493817744238603 | Circuit: dj_indep_5_mqt.py
+Qubits: 5 → 5 (Ahorro: 0.0%)
+Depth: 7 → 7
+Gates: 17 → 17
+Classical bits: 4 → 4
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 301256598713952959340288066399688080806 | Circuit: grover_qcraft.py
+Qubits: 2 → 2 (Ahorro: 0.0%)
+Depth: 8 → 8
+Gates: 9 → 9
+Classical bits: 2 → 2
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 256517090989955673448458650897103013729 | Circuit: qwalk-v-chain_3_mqt.py
+Qubits: 3 → 3 (Ahorro: 0.0%)
+Depth: 19 → 19
+Gates: 28 → 28
+Classical bits: 3 → 3
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 170593302516630412901375763388241642556 | Circuit: 3_17tc_vq.py
+Qubits: 3 → 3 (Ahorro: 0.0%)
+Depth: 6 → 6
+Gates: 8 → 8
+Classical bits: 3 → 3
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 338303650648766691128121224186985479726 | Circuit: dj_indep_14_mqt.py
+Qubits: 14 → 14 (Ahorro: 0.0%)
+Depth: 16 → 16
+Gates: 53 → 53
+Classical bits: 13 → 13
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 248125086879848459762704264750946747343 | Circuit: dj_indep_7_mqt.py
+Qubits: 7 → 7 (Ahorro: 0.0%)
+Depth: 9 → 9
+Gates: 25 → 25
+Classical bits: 6 → 6
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 190630634607185701573599474243517417425 | Circuit: bv_9_vq.py
+Qubits: 9 → 9 (Ahorro: 0.0%)
+Depth: 12 → 12
+Gates: 35 → 35
+Classical bits: 9 → 9
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 25122888572694972056596288245427924498 | Circuit: simon_vq.py
+Qubits: 6 → 6 (Ahorro: 0.0%)
+Depth: 5 → 5
+Gates: 15 → 15
+Classical bits: 3 → 3
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 325892113675898043240876131149905938508 | Circuit: vqe_indep_4_mqt.py
+Qubits: 4 → 4 (Ahorro: 0.0%)
+Depth: 9 → 9
+Gates: 22 → 22
+Classical bits: 4 → 4
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 148479987189182025112759472779357350182 | Circuit: tsp_indep_5_mqt.py
+Qubits: 5 → 5 (Ahorro: 0.0%)
+Depth: 13 → 13
+Gates: 28 → 28
+Classical bits: 3 → 3
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 239281626654153138454655946713432905076 | Circuit: shor_mod15_mqt.py
+Qubits: 5 → 4 (Ahorro: 20.0%)
+Depth: 12 → 9
+Gates: 19 → 13
+Classical bits: 5 → 5
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 176332893582148339651177805265194307729 | Circuit: pe_6_vq.py
+Qubits: 7 → 7 (Ahorro: 0.0%)
+Depth: 19 → 19
+Gates: 38 → 38
+Classical bits: 7 → 7
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 309358384109836407272681498419705598882 | Circuit: shor_qcraft.py
+Qubits: 4 → 4 (Ahorro: 0.0%)
+Depth: 12 → 12
+Gates: 21 → 21
+Classical bits: 4 → 4
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 253265644357845975569338048499604189906 | Circuit: grover_7_vq.py
+Qubits: 7 → 7 (Ahorro: 0.0%)
+Depth: 14 → 14
+Gates: 38 → 38
+Classical bits: 7 → 7
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:53
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 136971670110337582572303402733468989490 | Circuit: qwalk_qcraft.py
+Qubits: 3 → 3 (Ahorro: 0.0%)
+Depth: 15 → 15
+Gates: 19 → 19
+Classical bits: 3 → 3
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 148293750715653528780791727811887747311 | Circuit: shor_mod21_mqt.py
+Qubits: 8 → 7 (Ahorro: 12.5%)
+Depth: 10 → 16
+Gates: 20 → 25
+Classical bits: 4 → 4
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 224650025199126132260823543651936489113 | Circuit: pe_7_mqt.py
+Qubits: 7 → 7 (Ahorro: 0.0%)
+Depth: 16 → 16
+Gates: 41 → 41
+Classical bits: 6 → 6
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 92604249313242536009611886673979014865 | Circuit: adder_n7_vq.py
+Qubits: 7 → 7 (Ahorro: 0.0%)
+Depth: 5 → 5
+Gates: 14 → 14
+Classical bits: 7 → 7
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 215811763750928467094297116770446751891 | Circuit: pe_6_mqt.py
+Qubits: 6 → 6 (Ahorro: 0.0%)
+Depth: 15 → 15
+Gates: 32 → 32
+Classical bits: 5 → 5
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 972515315317193362866127925173294326 | Circuit: bv_4_vq.py
+Qubits: 4 → 4 (Ahorro: 0.0%)
+Depth: 7 → 7
+Gates: 15 → 15
+Classical bits: 4 → 4
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 232276621375684384460794725946935063916 | Circuit: pe_5_vq.py
+Qubits: 6 → 6 (Ahorro: 0.0%)
+Depth: 15 → 15
+Gates: 29 → 29
+Classical bits: 6 → 6
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 202253518484516245033341066816010143578 | Circuit: reversible_5_adder_vq.py
+Qubits: 11 → 11 (Ahorro: 0.0%)
+Depth: 23 → 23
+Gates: 38 → 38
+Classical bits: 11 → 11
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 137672860489115712270145589439708250970 | Circuit: 20QBT_8CYC_16GN_1.0P2_0_vq.py
+Qubits: 20 → 10 (Ahorro: 50.0%)
+Depth: 8 → 17
+Gates: 27 → 42
+Classical bits: 20 → 20
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 213910845241337292181743638490344554263 | Circuit: kickback_qcraft.py
+Qubits: 2 → 2 (Ahorro: 0.0%)
+Depth: 4 → 4
+Gates: 7 → 7
+Classical bits: 2 → 2
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 258996761049961474391085329571420289149 | Circuit: bv_3_vq.py
+Qubits: 3 → 3 (Ahorro: 0.0%)
+Depth: 6 → 6
+Gates: 11 → 11
+Classical bits: 3 → 3
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 71241987748115281634539108811757455556 | Circuit: kickback_7_vq.py
+Qubits: 7 → 3 (Ahorro: 57.1%)
+Depth: 7 → 11
+Gates: 9 → 12
+Classical bits: 1 → 1
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 235662089352624480653550107807440856954 | Circuit: pe_5_mqt.py
+Qubits: 5 → 5 (Ahorro: 0.0%)
+Depth: 14 → 14
+Gates: 25 → 25
+Classical bits: 4 → 4
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 112899724937377530172508665063929945304 | Circuit: adder_n16_vq.py
+Qubits: 16 → 16 (Ahorro: 0.0%)
+Depth: 8 → 8
+Gates: 35 → 35
+Classical bits: 16 → 16
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 222690414279282350275779843270755775806 | Circuit: pe_3_mqt.py
+Qubits: 3 → 3 (Ahorro: 0.0%)
+Depth: 7 → 7
+Gates: 10 → 10
+Classical bits: 2 → 2
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 308481905048055303142306747124393087334 | Circuit: qaoa_indep_4_mqt.py
+Qubits: 4 → 4 (Ahorro: 0.0%)
+Depth: 9 → 9
+Gates: 24 → 24
+Classical bits: 4 → 4
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 67525815497914074756746853802222298412 | Circuit: su2random_3_mqt.py
+Qubits: 3 → 3 (Ahorro: 0.0%)
+Depth: 14 → 14
+Gates: 23 → 23
+Classical bits: 2 → 2
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 1715786914989269341140623373615762454 | Circuit: qwalk-v-chain_5_mqt.py
+Qubits: 5 → 5 (Ahorro: 0.0%)
+Depth: 37 → 37
+Gates: 53 → 53
+Classical bits: 5 → 5
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 163875619370155817600212495719683121547 | Circuit: phase_estimation_qcraft.py
+Qubits: 4 → 4 (Ahorro: 0.0%)
+Depth: 15 → 15
+Gates: 22 → 22
+Classical bits: 3 → 3
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 182672272985648113614710758794517821946 | Circuit: qaoa_indep_5_mqt.py
+Qubits: 5 → 5 (Ahorro: 0.0%)
+Depth: 10 → 10
+Gates: 30 → 30
+Classical bits: 5 → 5
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 135697133900592417170308317900378058750 | Circuit: qwalk-noancilla_3_mqt.py
+Qubits: 3 → 3 (Ahorro: 0.0%)
+Depth: 19 → 19
+Gates: 28 → 28
+Classical bits: 3 → 3
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 285011649723180380649291725563671465270 | Circuit: tsp_indep_4_mqt.py
+Qubits: 4 → 4 (Ahorro: 0.0%)
+Depth: 18 → 18
+Gates: 43 → 43
+Classical bits: 4 → 4
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 172268618430513912331048352513136046265 | Circuit: 20QBT_16CYC_32GN_1.0P2_0_vq.py
+Qubits: 20 → 13 (Ahorro: 35.0%)
+Depth: 16 → 23
+Gates: 48 → 64
+Classical bits: 20 → 20
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 177544410603441817760077092462186174205 | Circuit: qaoa_indep_6_mqt.py
+Qubits: 6 → 6 (Ahorro: 0.0%)
+Depth: 9 → 9
+Gates: 36 → 36
+Classical bits: 6 → 6
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 285683739149164519135271409424742013550 | Circuit: bv_5_vq.py
+Qubits: 5 → 5 (Ahorro: 0.0%)
+Depth: 8 → 8
+Gates: 19 → 19
+Classical bits: 5 → 5
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 295435749149259711256230729796116606646 | Circuit: bernstein-vazirani_qcraft.py
+Qubits: 4 → 4 (Ahorro: 0.0%)
+Depth: 6 → 6
+Gates: 15 → 15
+Classical bits: 4 → 4
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 294612159202374528047133481405607597805 | Circuit: adder_n4_vq.py
+Qubits: 4 → 4 (Ahorro: 0.0%)
+Depth: 4 → 4
+Gates: 7 → 7
+Classical bits: 4 → 4
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 128383475366026454489475111968626588253 | Circuit: grover-noancilla_4_mqt.py
+Qubits: 4 → 4 (Ahorro: 0.0%)
+Depth: 34 → 34
+Gates: 48 → 48
+Classical bits: 4 → 4
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:54
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 159131103132663060901951005384528088270 | Circuit: qft_3_vq.py
+Qubits: 3 → 3 (Ahorro: 0.0%)
+Depth: 5 → 5
+Gates: 8 → 8
+Classical bits: 3 → 3
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:55
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 226610411080562704239466848634582467824 | Circuit: bv_14_vq.py
+Qubits: 14 → 14 (Ahorro: 0.0%)
+Depth: 17 → 17
+Gates: 54 → 54
+Classical bits: 14 → 14
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:55
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 238422386086632653103527151200871726639 | Circuit: tsp_qcraft.py
+Qubits: 3 → 3 (Ahorro: 0.0%)
+Depth: 5 → 5
+Gates: 10 → 10
+Classical bits: 3 → 3
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:55
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 157317817101078472274101376478705111720 | Circuit: adder_qcraft.py
+Qubits: 4 → 4 (Ahorro: 0.0%)
+Depth: 7 → 7
+Gates: 13 → 13
+Classical bits: 4 → 4
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:55
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 188874656086047605217254453093427047925 | Circuit: pe_4_mqt.py
+Qubits: 4 → 4 (Ahorro: 0.0%)
+Depth: 9 → 9
+Gates: 15 → 15
+Classical bits: 3 → 3
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:55
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 304381781924171534143557818109995579854 | Circuit: grover_9_vq.py
+Qubits: 9 → 9 (Ahorro: 0.0%)
+Depth: 18 → 18
+Gates: 49 → 49
+Classical bits: 9 → 9
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:55
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 118529444516115198190878712941220202263 | Circuit: pe_2_vq.py
+Qubits: 3 → 3 (Ahorro: 0.0%)
+Depth: 7 → 7
+Gates: 9 → 9
+Classical bits: 3 → 3
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:55
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 325414412558297643538645502123192654578 | Circuit: simon_qcraft.py
+Qubits: 6 → 6 (Ahorro: 0.0%)
+Depth: 6 → 6
+Gates: 18 → 18
+Classical bits: 6 → 6
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:55
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 118218544235856902346356411874633646438 | Circuit: adder_n13_vq.py
+Qubits: 13 → 13 (Ahorro: 0.0%)
+Depth: 7 → 7
+Gates: 28 → 28
+Classical bits: 13 → 13
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:55
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 3142312697028597840309478077819042774 | Circuit: qaoa_6_vq.py
+Qubits: 6 → 6 (Ahorro: 0.0%)
+Depth: 32 → 32
+Gates: 115 → 115
+Classical bits: 6 → 6
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:55
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 88384786972216920995239076686209826891 | Circuit: grover-v-chain_4_mqt.py
+Qubits: 4 → 4 (Ahorro: 0.0%)
+Depth: 34 → 34
+Gates: 48 → 48
+Classical bits: 4 → 4
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:34:55
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 112302469671827768276462998933271288390 | Circuit: su2_5_vq.py
+Qubits: 4 → 4 (Ahorro: 0.0%)
+Depth: 8 → 8
+Gates: 22 → 22
+Classical bits: 4 → 4
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 37653858312204542440512413231785433529 | Circuit: adder_n10_vq.py
+Qubits: 10 → 10 (Ahorro: 0.0%)
+Depth: 6 → 6
+Gates: 20 → 20
+Classical bits: 9 → 9
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 779693094033835744518071895061165657 | Circuit: qft_7_vq.py
+Qubits: 7 → 7 (Ahorro: 0.0%)
+Depth: 13 → 13
+Gates: 34 → 34
+Classical bits: 7 → 7
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 276198942752124910775392418824837936365 | Circuit: 6symd2_vq.py
+Qubits: 10 → 8 (Ahorro: 20.0%)
+Depth: 11 → 18
+Gates: 29 → 37
+Classical bits: 10 → 10
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 103902558493335810769543594817544293880 | Circuit: vqe_indep_6_mqt.py
+Qubits: 6 → 6 (Ahorro: 0.0%)
+Depth: 11 → 11
+Gates: 34 → 34
+Classical bits: 6 → 6
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 8986816442336195488659879189272958720 | Circuit: qft_6_mqt.py
+Qubits: 6 → 6 (Ahorro: 0.0%)
+Depth: 12 → 12
+Gates: 30 → 30
+Classical bits: 6 → 6
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 338303650648766691128121224186985479726 | Circuit: dj_indep_14_mqt.py
+Qubits: 14 → 14 (Ahorro: 0.0%)
+Depth: 16 → 16
+Gates: 53 → 53
+Classical bits: 13 → 13
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 248125086879848459762704264750946747343 | Circuit: dj_indep_7_mqt.py
+Qubits: 7 → 7 (Ahorro: 0.0%)
+Depth: 9 → 9
+Gates: 25 → 25
+Classical bits: 6 → 6
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 190630634607185701573599474243517417425 | Circuit: bv_9_vq.py
+Qubits: 9 → 9 (Ahorro: 0.0%)
+Depth: 12 → 12
+Gates: 35 → 35
+Classical bits: 9 → 9
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 25122888572694972056596288245427924498 | Circuit: simon_vq.py
+Qubits: 6 → 6 (Ahorro: 0.0%)
+Depth: 5 → 5
+Gates: 15 → 15
+Classical bits: 3 → 3
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 176332893582148339651177805265194307729 | Circuit: pe_6_vq.py
+Qubits: 7 → 7 (Ahorro: 0.0%)
+Depth: 19 → 19
+Gates: 38 → 38
+Classical bits: 7 → 7
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 253265644357845975569338048499604189906 | Circuit: grover_7_vq.py
+Qubits: 7 → 7 (Ahorro: 0.0%)
+Depth: 14 → 14
+Gates: 38 → 38
+Classical bits: 7 → 7
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 148293750715653528780791727811887747311 | Circuit: shor_mod21_mqt.py
+Qubits: 8 → 7 (Ahorro: 12.5%)
+Depth: 10 → 15
+Gates: 20 → 25
+Classical bits: 4 → 4
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 224650025199126132260823543651936489113 | Circuit: pe_7_mqt.py
+Qubits: 7 → 7 (Ahorro: 0.0%)
+Depth: 16 → 16
+Gates: 41 → 41
+Classical bits: 6 → 6
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 92604249313242536009611886673979014865 | Circuit: adder_n7_vq.py
+Qubits: 7 → 7 (Ahorro: 0.0%)
+Depth: 5 → 5
+Gates: 14 → 14
+Classical bits: 7 → 7
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 215811763750928467094297116770446751891 | Circuit: pe_6_mqt.py
+Qubits: 6 → 6 (Ahorro: 0.0%)
+Depth: 15 → 15
+Gates: 32 → 32
+Classical bits: 5 → 5
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 232276621375684384460794725946935063916 | Circuit: pe_5_vq.py
+Qubits: 6 → 6 (Ahorro: 0.0%)
+Depth: 15 → 15
+Gates: 29 → 29
+Classical bits: 6 → 6
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 202253518484516245033341066816010143578 | Circuit: reversible_5_adder_vq.py
+Qubits: 11 → 11 (Ahorro: 0.0%)
+Depth: 23 → 23
+Gates: 38 → 38
+Classical bits: 11 → 11
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 137672860489115712270145589439708250970 | Circuit: 20QBT_8CYC_16GN_1.0P2_0_vq.py
+Qubits: 20 → 10 (Ahorro: 50.0%)
+Depth: 8 → 17
+Gates: 27 → 42
+Classical bits: 20 → 20
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 235662089352624480653550107807440856954 | Circuit: pe_5_mqt.py
+Qubits: 5 → 5 (Ahorro: 0.0%)
+Depth: 14 → 14
+Gates: 25 → 25
+Classical bits: 4 → 4
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 112899724937377530172508665063929945304 | Circuit: adder_n16_vq.py
+Qubits: 16 → 16 (Ahorro: 0.0%)
+Depth: 8 → 8
+Gates: 35 → 35
+Classical bits: 16 → 16
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 1715786914989269341140623373615762454 | Circuit: qwalk-v-chain_5_mqt.py
+Qubits: 5 → 5 (Ahorro: 0.0%)
+Depth: 37 → 37
+Gates: 53 → 53
+Classical bits: 5 → 5
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 182672272985648113614710758794517821946 | Circuit: qaoa_indep_5_mqt.py
+Qubits: 5 → 5 (Ahorro: 0.0%)
+Depth: 10 → 10
+Gates: 30 → 30
+Classical bits: 5 → 5
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 172268618430513912331048352513136046265 | Circuit: 20QBT_16CYC_32GN_1.0P2_0_vq.py
+Qubits: 20 → 13 (Ahorro: 35.0%)
+Depth: 16 → 23
+Gates: 48 → 64
+Classical bits: 20 → 20
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 177544410603441817760077092462186174205 | Circuit: qaoa_indep_6_mqt.py
+Qubits: 6 → 6 (Ahorro: 0.0%)
+Depth: 9 → 9
+Gates: 36 → 36
+Classical bits: 6 → 6
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 285683739149164519135271409424742013550 | Circuit: bv_5_vq.py
+Qubits: 5 → 5 (Ahorro: 0.0%)
+Depth: 8 → 8
+Gates: 19 → 19
+Classical bits: 5 → 5
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 226610411080562704239466848634582467824 | Circuit: bv_14_vq.py
+Qubits: 14 → 14 (Ahorro: 0.0%)
+Depth: 17 → 17
+Gates: 54 → 54
+Classical bits: 14 → 14
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 304381781924171534143557818109995579854 | Circuit: grover_9_vq.py
+Qubits: 9 → 9 (Ahorro: 0.0%)
+Depth: 18 → 18
+Gates: 49 → 49
+Classical bits: 9 → 9
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 325414412558297643538645502123192654578 | Circuit: simon_qcraft.py
+Qubits: 6 → 6 (Ahorro: 0.0%)
+Depth: 6 → 6
+Gates: 18 → 18
+Classical bits: 6 → 6
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 118218544235856902346356411874633646438 | Circuit: adder_n13_vq.py
+Qubits: 13 → 13 (Ahorro: 0.0%)
+Depth: 7 → 7
+Gates: 28 → 28
+Classical bits: 13 → 13
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:35:58
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 3142312697028597840309478077819042774 | Circuit: qaoa_6_vq.py
+Qubits: 6 → 6 (Ahorro: 0.0%)
+Depth: 32 → 32
+Gates: 115 → 115
+Classical bits: 6 → 6
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:39:14
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 338303650648766691128121224186985479726 | Circuit: dj_indep_14_mqt.py
+Qubits: 14 → 14 (Ahorro: 0.0%)
+Depth: 16 → 16
+Gates: 53 → 53
+Classical bits: 13 → 13
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:39:14
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 92604249313242536009611886673979014865 | Circuit: adder_n7_vq.py
+Qubits: 7 → 7 (Ahorro: 0.0%)
+Depth: 5 → 5
+Gates: 14 → 14
+Classical bits: 7 → 7
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:39:14
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 202253518484516245033341066816010143578 | Circuit: reversible_5_adder_vq.py
+Qubits: 11 → 11 (Ahorro: 0.0%)
+Depth: 23 → 23
+Gates: 38 → 38
+Classical bits: 11 → 11
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:39:14
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 112899724937377530172508665063929945304 | Circuit: adder_n16_vq.py
+Qubits: 16 → 16 (Ahorro: 0.0%)
+Depth: 8 → 8
+Gates: 35 → 35
+Classical bits: 16 → 16
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:39:14
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 172268618430513912331048352513136046265 | Circuit: 20QBT_16CYC_32GN_1.0P2_0_vq.py
+Qubits: 20 → 13 (Ahorro: 35.0%)
+Depth: 16 → 23
+Gates: 48 → 64
+Classical bits: 20 → 20
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:39:14
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 226610411080562704239466848634582467824 | Circuit: bv_14_vq.py
+Qubits: 14 → 14 (Ahorro: 0.0%)
+Depth: 17 → 17
+Gates: 54 → 54
+Classical bits: 14 → 14
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:39:14
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 118218544235856902346356411874633646438 | Circuit: adder_n13_vq.py
+Qubits: 13 → 13 (Ahorro: 0.0%)
+Depth: 7 → 7
+Gates: 28 → 28
+Classical bits: 13 → 13
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 08:59:51
+Provider: IBM | Machine: ibm_fez
+Tipo: Compresión de topología (batch)
+Circuitos comprimidos juntos: 1
+Qubits: 20 → 1 (Ahorro: 95.0%)
+Depth: 6 | Gates: 6
+
+Circuitos en el batch:
+  1. ID: 38703674399729583291267481637606946154 | 20QBT_4CYC_8GN_1.0P2_0_vq.py | 20 qubits
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 09:00:56
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 212256139421617341711826557787189061598 | Circuit: 20QBT_4CYC_8GN_1.0P2_0_vq.py
+Qubits: 17 → 5 (Ahorro: 70.6%)
+Depth: 4 → 4
+Gates: 12 → 10
+Classical bits: 17 → 17
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 09:30:25
+Provider: IBM | Machine: ibm_fez
+Tipo: Compresión de topología (batch)
+Circuitos comprimidos juntos: 1
+Qubits: 20 → 1 (Ahorro: 95.0%)
+Depth: 6 | Gates: 6
+
+Circuitos en el batch:
+  1. ID: 277042219579347757512448965390870995432 | 20QBT_4CYC_8GN_1.0P2_0_vq.py | 20 qubits
+======================================================================
