@@ -1101,3 +1101,14 @@ Utilización: 1.9%
 Tiempo total: 1.015625 seg
 Detalles compresión:
   - tsp_qcraft.py: 3 → 3 qubits
+
+============================================================
+Timestamp: 2026-03-23 09:47:53
+Provider: ibm
+Circuitos comprimidos: 1
+Circuitos seleccionados: 1
+Qubits totales (comprimidos): 3/156
+Utilización: 1.9%
+Tiempo total: 1.218750 seg
+Detalles compresión:
+  - tsp_qcraft.py: 3 → 3 qubits
