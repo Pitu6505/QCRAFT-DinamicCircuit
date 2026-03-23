@@ -1221,6 +1221,21 @@ class SchedulerPolicies:
                 loc = {}
                 try:
                     if provider == 'ibm':
+                        # En la ruta /circuit con URL GitHub, el scheduler puede haber
+                        # guardado en cola solo lineas de operaciones (sin QuantumRegister
+                        # ni ClassicalRegister). Si el parser auto-infiere desde indices
+                        # usados, puede reducir 5->3 cuando solo se miden 3 qubits.
+                        # Forzamos cabecera completa con el ancho original de entrada.
+                        if "QuantumRegister(" not in circuit_code or "ClassicalRegister(" not in circuit_code:
+                            op_lines = [ln.strip() for ln in circuit_code.split('\n') if ln.strip().startswith('circuit.')]
+                            header_lines = [
+                                "from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit",
+                                "qreg_q = QuantumRegister(" + str(num_qubits) + ", 'q')",
+                                "creg_c = ClassicalRegister(" + str(num_qubits) + ", 'c')",
+                                "circuit = QuantumCircuit(qreg_q, creg_c)",
+                            ]
+                            circuit_code = "\n".join(header_lines + op_lines)
+
                         loc['circuit'] = self.executeCircuitIBM.code_to_circuit_ibm(circuit_code)
                     else:
                         loc['circuit'] = code_to_circuit_aws(circuit_code)
@@ -1322,7 +1337,8 @@ class SchedulerPolicies:
                     'shots': shots,
                     'circuit_name': circuit_name,
                     'maxDepth': maxDepth,
-                    'original_qubits': real_qubits
+                    'original_qubits': real_qubits,
+                    'original_clbits': real_clbits
                 })
                 
             except Exception as e:
@@ -1400,7 +1416,9 @@ class SchedulerPolicies:
             for item in selected_compressed:
                 circuit = item['compressed_code']
                 if circuit is not None:
-                    total_clbits += len(circuit.clbits)
+                    # Mantener el ancho clásico original para comparabilidad de resultados.
+                    target_clbits = item.get('original_clbits', len(circuit.clbits))
+                    total_clbits += max(target_clbits, len(circuit.clbits))
             
             qreg = QuantumRegister(total_qubits, 'q')
             creg = ClassicalRegister(total_clbits, 'creg_c')
@@ -1413,6 +1431,9 @@ class SchedulerPolicies:
             for item in selected_compressed:
                 circuit = item['compressed_code']  # QuantumCircuit comprimido
                 if circuit is not None:
+                    target_clbits = item.get('original_clbits', len(circuit.clbits))
+                    target_clbits = max(target_clbits, len(circuit.clbits))
+
                     # Mapear qubits y clbits del circuito actual al circuito compuesto
                     qubit_map = {circuit.qubits[i]: composed_circuit.qubits[qubit_offset + i] 
                                 for i in range(len(circuit.qubits))}
@@ -1425,17 +1446,17 @@ class SchedulerPolicies:
                         mapped_cargs = [clbit_map[c] for c in cargs]
                         composed_circuit.append(instr, mapped_qargs, mapped_cargs)
                     
-                    # Usar clbits (no qubits) para descomponer resultados correctamente
-                    # El compresor mantiene clbits originales aunque reduzca qubits
-                    qb.append(len(circuit.clbits))
+                    # Usar el ancho clasico original para que pre/post sean comparables.
+                    qb.append(target_clbits)
                     qubit_offset += item['qubits_compressed']
-                    clbit_offset += len(circuit.clbits)
+                    clbit_offset += target_clbits
             
             print(f"   ✅ Circuito compuesto creado:")
             print(f"      - Total qubits: {composed_circuit.num_qubits}")
+            print(f"      - Total clbits: {composed_circuit.num_clbits}")
             print(f"      - Depth: {composed_circuit.depth()}")
             print(f"      - Gates: {len(composed_circuit.data)}")
-            print(f"      - Qubits por circuito: {qb}")
+            print(f"      - Ancho clásico por circuito (qb): {qb}")
             
         else:  # AWS
             # Para AWS, similar pero con Circuit de Braket

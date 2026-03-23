@@ -2722,3 +2722,70 @@ Depth: 5 → 5
 Gates: 10 → 10
 Classical bits: 3 → 3
 ======================================================================
+
+======================================================================
+Timestamp: 2026-03-23 10:24:09
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 15530810293944970083873363700443793574 | Circuit: tsp_qcraft.py
+Qubits: 3 → 3 (Ahorro: 0.0%)
+Depth: 5 → 5
+Gates: 10 → 10
+Classical bits: 3 → 3
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-23 10:29:21
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 329058218641800047802273285563828265996 | Circuit: tsp_qcraft.py
+Qubits: 3 → 3 (Ahorro: 0.0%)
+Depth: 5 → 5
+Gates: 10 → 10
+Classical bits: 3 → 3
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-23 10:30:05
+Provider: IBM | Machine: ibm_fez
+Tipo: Compresión de topología (batch)
+Circuitos comprimidos juntos: 1
+Qubits: 5 → 3 (Ahorro: 40.0%)
+Depth: 6 | Gates: 10
+
+Circuitos en el batch:
+  1. ID: 212804630571265678163070945397968158233 | tsp_qcraft.py | 5 qubits
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-23 10:36:26
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 107031339996180900647966185260555768550 | Circuit: tsp_qcraft.py
+Qubits: 3 → 3 (Ahorro: 0.0%)
+Depth: 5 → 5
+Gates: 10 → 10
+Classical bits: 3 → 3
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-23 10:40:48
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 139337443336548844717832343573681058685 | Circuit: tsp_qcraft.py
+Qubits: 3 → 3 (Ahorro: 0.0%)
+Depth: 5 → 5
+Gates: 10 → 10
+Classical bits: 3 → 3
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-23 10:45:08
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 328191640797439521217971480493212680633 | Circuit: tsp_qcraft.py
+Qubits: 5 → 3 (Ahorro: 40.0%)
+Depth: 5 → 6
+Gates: 11 → 10
+Classical bits: 5 → 5
+======================================================================

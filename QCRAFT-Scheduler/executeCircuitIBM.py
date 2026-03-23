@@ -88,6 +88,20 @@ class executeCircuitIBM:
             max_cbit_index = -1
             has_qreg_def = False
             has_creg_def = False
+
+            # Fallback robusto: detectar declaraciones en todo el texto, no solo por línea.
+            # Esto evita perder tamaño real cuando el formato del archivo es irregular.
+            qreg_decl = re.search(r"([A-Za-z_][A-Za-z0-9_]*)\s*=\s*QuantumRegister\(\s*(\d+)\s*,", code_str)
+            if qreg_decl:
+                has_qreg_def = True
+                qreg_name = qreg_decl.group(1)
+                qreg = qiskit.QuantumRegister(int(qreg_decl.group(2)), 'q')
+
+            creg_decl = re.search(r"([A-Za-z_][A-Za-z0-9_]*)\s*=\s*ClassicalRegister\(\s*(\d+)\s*,", code_str)
+            if creg_decl:
+                has_creg_def = True
+                creg_name = creg_decl.group(1)
+                creg = qiskit.ClassicalRegister(int(creg_decl.group(2)), 'c')
             
             for line in lines:
                 line = line.strip()
@@ -99,20 +113,22 @@ class executeCircuitIBM:
                 if "ClassicalRegister" in line:
                     has_creg_def = True
                 
-                # Find max qubit and cbit indices from operations
-                if "qreg_q[" in line or "_q[" in line or "circuit." in line:
-                    # Extract qubit indices
-                    qubit_matches = re.findall(r'qreg_q\[(\d+)\]|_q\[(\d+)\]', line)
-                    for match in qubit_matches:
-                        idx = int(match[0] if match[0] else match[1])
-                        max_qubit_index = max(max_qubit_index, idx)
-                
-                if "creg_c[" in line or "_c[" in line:
-                    # Extract clbit indices
-                    cbit_matches = re.findall(r'creg_c\[(\d+)\]|_c\[(\d+)\]', line)
-                    for match in cbit_matches:
-                        idx = int(match[0] if match[0] else match[1])
-                        max_cbit_index = max(max_cbit_index, idx)
+                # Find max qubit and cbit indices from operations (incluye offsets tipo [0+2]).
+                if "circuit." in line or '[' in line:
+                    q_pat = rf"(?:{re.escape(qreg_name)}|qreg_q|_q)\[([^\]]+)\]"
+                    c_pat = rf"(?:{re.escape(creg_name)}|creg_c|_c)\[([^\]]+)\]"
+                    for expr in re.findall(q_pat, line):
+                        try:
+                            idx = int(eval(expr.strip(), {"__builtins__": None, "np": np, "pi": np.pi}, {}))
+                            max_qubit_index = max(max_qubit_index, idx)
+                        except Exception:
+                            pass
+                    for expr in re.findall(c_pat, line):
+                        try:
+                            idx = int(eval(expr.strip(), {"__builtins__": None, "np": np, "pi": np.pi}, {}))
+                            max_cbit_index = max(max_cbit_index, idx)
+                        except Exception:
+                            pass
             
             # If no register definitions found, create them based on max indices
             if not has_qreg_def and max_qubit_index >= 0:
@@ -336,7 +352,7 @@ class executeCircuitIBM:
             job = backend.run(circuit, shots=x)
             result = job.result()
             counts = result.get_counts()
-            return counts
+            return self._normalize_counts_bitwidth(counts, circuit.num_clbits)
         else:
             # Load your IBM Quantum account
 
@@ -347,7 +363,7 @@ class executeCircuitIBM:
             job = backend.run(qc_basis, shots=x) 
             result = job.result()
             counts = result.get_counts()
-            return counts
+            return self._normalize_counts_bitwidth(counts, circuit.num_clbits)
 
     def retrieve_result_ibm(self, id) -> dict:
         """
@@ -403,6 +419,27 @@ class executeCircuitIBM:
             f"No se pudo extraer counts desde DataBin. Campos disponibles: {available_public_fields}"
         )
 
+    def _normalize_counts_bitwidth(self, counts: dict, target_width: int) -> dict:
+        """
+        Normaliza las claves de counts al ancho objetivo.
+        Si Sampler devuelve solo bits medidos (ej. 3), se rellena a la izquierda
+        hasta target_width (ej. 5) para mantener consistencia en todo el pipeline.
+        """
+        if not isinstance(counts, dict) or target_width is None or target_width <= 0:
+            return counts
+
+        normalized = {}
+        for key, value in counts.items():
+            if isinstance(key, str):
+                key_clean = key.replace(' ', '')
+                if len(key_clean) < target_width:
+                    key_clean = key_clean.rjust(target_width, '0')
+                normalized[key_clean] = normalized.get(key_clean, 0) + value
+            else:
+                normalized[key] = normalized.get(key, 0) + value
+
+        return normalized
+
     def runIBM_save(self, machine:str, circuit:QuantumCircuit, shots:int,users:list, qubit_number:list, circuit_names:list) -> dict:
         """
         Executes a circuit in the IBM cloud and saves the task id if the machine crashes.
@@ -425,7 +462,7 @@ class executeCircuitIBM:
             job = backend.run(circuit, shots=x)
             result = job.result()
             counts = result.get_counts()
-            return counts
+            return self._normalize_counts_bitwidth(counts, circuit.num_clbits)
         else:
             # Load your IBM Quantum account
 
@@ -462,6 +499,7 @@ class executeCircuitIBM:
             try:
                 result = job.result()
                 counts = self._extract_counts_from_sampler_result(result)
+                counts = self._normalize_counts_bitwidth(counts, circuit.num_clbits)
             finally:
                 # Liberar siempre la cola interna aunque falle el parseo del resultado.
                 with self.condition:

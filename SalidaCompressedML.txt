@@ -1112,3 +1112,58 @@ Utilización: 1.9%
 Tiempo total: 1.218750 seg
 Detalles compresión:
   - tsp_qcraft.py: 3 → 3 qubits
+
+============================================================
+Timestamp: 2026-03-23 10:24:34
+Provider: ibm
+Circuitos comprimidos: 1
+Circuitos seleccionados: 1
+Qubits totales (comprimidos): 3/156
+Utilización: 1.9%
+Tiempo total: 1.578125 seg
+Detalles compresión:
+  - tsp_qcraft.py: 3 → 3 qubits
+
+============================================================
+Timestamp: 2026-03-23 10:29:34
+Provider: ibm
+Circuitos comprimidos: 1
+Circuitos seleccionados: 1
+Qubits totales (comprimidos): 3/156
+Utilización: 1.9%
+Tiempo total: 1.000000 seg
+Detalles compresión:
+  - tsp_qcraft.py: 3 → 3 qubits
+
+============================================================
+Timestamp: 2026-03-23 10:36:46
+Provider: ibm
+Circuitos comprimidos: 1
+Circuitos seleccionados: 1
+Qubits totales (comprimidos): 3/156
+Utilización: 1.9%
+Tiempo total: 1.078125 seg
+Detalles compresión:
+  - tsp_qcraft.py: 3 → 3 qubits
+
+============================================================
+Timestamp: 2026-03-23 10:40:56
+Provider: ibm
+Circuitos comprimidos: 1
+Circuitos seleccionados: 1
+Qubits totales (comprimidos): 3/156
+Utilización: 1.9%
+Tiempo total: 0.921875 seg
+Detalles compresión:
+  - tsp_qcraft.py: 3 → 3 qubits
+
+============================================================
+Timestamp: 2026-03-23 11:01:16
+Provider: ibm
+Circuitos comprimidos: 1
+Circuitos seleccionados: 1
+Qubits totales (comprimidos): 3/156
+Utilización: 1.9%
+Tiempo total: 19.484375 seg
+Detalles compresión:
+  - tsp_qcraft.py: 5 → 3 qubits
