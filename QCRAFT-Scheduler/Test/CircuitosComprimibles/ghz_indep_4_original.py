@@ -1,0 +1,17 @@
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit
+
+qreg_q = QuantumRegister(4, 'q')
+creg_c = ClassicalRegister(4, 'c')
+circuit = QuantumCircuit(qreg_q, creg_c)
+
+circuit.u(1.5707963267948966, 0.0, 3.141592653589793, qreg_q[3])
+circuit.cx(qreg_q[3], qreg_q[2])
+circuit.cx(qreg_q[2], qreg_q[1])
+circuit.cx(qreg_q[1], qreg_q[0])
+circuit.barrier(qreg_q[0], qreg_q[1], qreg_q[2], qreg_q[3])
+circuit.measure(qreg_q[0], creg_c[0])
+circuit.measure(qreg_q[1], creg_c[1])
+circuit.measure(qreg_q[2], creg_c[2])
+circuit.measure(qreg_q[3], creg_c[3])
+
+# Optional: print(circuit)

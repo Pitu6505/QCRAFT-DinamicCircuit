@@ -1,0 +1,245 @@
+==========================================================================================
+REPORT: MQT BENCH LOCAL TOPOLOGY COMPRESSION
+==========================================================================================
+Algorithms: ghz,dj,qft,graphstate,wstate,grover,cdkm_ripple_carry_adder,vbe_ripple_carry_adder,hrs_cumulative_multiplier,multiplier,modular_adder,shor,hhl,qwalk
+Levels: alg,indep
+Qubits: min=3, max=10, step=1
+Mirror: False
+Random parameters: True
+Opt level: 2
+Total cases: 224
+Compressed: 16
+Not compressed: 142
+Errors: 66
+Avg qubit reduction (abs): 3.62
+Avg qubit reduction (%): 48.24
+
+--- COMPRESSED ---
+ghz:alg:4 | Q 4->3 | D 5->6 | G 9->9
+ghz:alg:5 | Q 5->3 | D 6->7 | G 11->12
+ghz:alg:6 | Q 6->3 | D 7->9 | G 13->15
+ghz:alg:7 | Q 7->3 | D 8->10 | G 15->18
+ghz:alg:8 | Q 8->3 | D 9->12 | G 17->21
+ghz:alg:9 | Q 9->3 | D 10->13 | G 19->24
+ghz:alg:10 | Q 10->3 | D 11->15 | G 21->27
+ghz:indep:4 | Q 4->3 | D 5->6 | G 9->9
+ghz:indep:5 | Q 5->3 | D 6->7 | G 11->12
+ghz:indep:6 | Q 6->3 | D 7->9 | G 13->15
+ghz:indep:7 | Q 7->3 | D 8->10 | G 15->18
+ghz:indep:8 | Q 8->3 | D 9->12 | G 17->21
+ghz:indep:9 | Q 9->3 | D 10->13 | G 19->24
+ghz:indep:10 | Q 10->3 | D 11->15 | G 21->27
+modular_adder:indep:6 | Q 6->5 | D 12->13 | G 20->20
+modular_adder:indep:8 | Q 8->7 | D 16->16 | G 30->30
+
+--- NOT COMPRESSED ---
+ghz:alg:3 | Q 3->3 | D 4->4 | G 7->7
+ghz:indep:3 | Q 3->3 | D 4->4 | G 7->7
+dj:alg:3 | Q 3->3 | D 5->5 | G 10->10
+dj:alg:4 | Q 4->4 | D 5->5 | G 13->13
+dj:alg:5 | Q 5->5 | D 5->5 | G 16->16
+dj:alg:6 | Q 6->6 | D 5->5 | G 19->19
+dj:alg:7 | Q 7->7 | D 5->5 | G 22->22
+dj:alg:8 | Q 8->8 | D 5->5 | G 25->25
+dj:alg:9 | Q 9->9 | D 5->5 | G 28->28
+dj:alg:10 | Q 10->10 | D 5->5 | G 31->31
+dj:indep:3 | Q 3->3 | D 4->4 | G 9->9
+dj:indep:4 | Q 4->4 | D 4->4 | G 12->12
+dj:indep:5 | Q 5->5 | D 4->4 | G 15->15
+dj:indep:6 | Q 6->6 | D 4->4 | G 18->18
+dj:indep:7 | Q 7->7 | D 4->4 | G 21->21
+dj:indep:8 | Q 8->8 | D 4->4 | G 24->24
+dj:indep:9 | Q 9->9 | D 4->4 | G 27->27
+dj:indep:10 | Q 10->10 | D 4->4 | G 30->30
+qft:alg:3 | Q 3->3 | D 2->2 | G 5->5
+qft:alg:4 | Q 4->4 | D 2->2 | G 6->6
+qft:alg:5 | Q 5->5 | D 2->2 | G 7->7
+qft:alg:6 | Q 6->6 | D 2->2 | G 8->8
+qft:alg:7 | Q 7->7 | D 2->2 | G 9->9
+qft:alg:8 | Q 8->8 | D 2->2 | G 10->10
+qft:alg:9 | Q 9->9 | D 2->2 | G 11->11
+qft:alg:10 | Q 10->10 | D 2->2 | G 12->12
+qft:indep:3 | Q 3->3 | D 6->6 | G 10->10
+qft:indep:4 | Q 4->4 | D 8->8 | G 15->15
+qft:indep:5 | Q 5->5 | D 10->10 | G 21->21
+qft:indep:6 | Q 6->6 | D 12->12 | G 28->28
+qft:indep:7 | Q 7->7 | D 14->14 | G 36->36
+qft:indep:8 | Q 8->8 | D 16->16 | G 45->45
+qft:indep:9 | Q 9->9 | D 18->18 | G 55->55
+qft:indep:10 | Q 10->10 | D 20->20 | G 66->66
+graphstate:alg:3 | Q 3->3 | D 5->5 | G 10->10
+graphstate:alg:4 | Q 4->4 | D 5->5 | G 13->13
+graphstate:alg:5 | Q 5->5 | D 6->6 | G 16->16
+graphstate:alg:6 | Q 6->6 | D 5->5 | G 19->19
+graphstate:alg:7 | Q 7->7 | D 7->7 | G 22->22
+graphstate:alg:8 | Q 8->8 | D 7->7 | G 25->25
+graphstate:alg:9 | Q 9->9 | D 7->7 | G 28->28
+graphstate:alg:10 | Q 10->10 | D 6->6 | G 31->31
+graphstate:indep:3 | Q 3->3 | D 5->5 | G 10->10
+graphstate:indep:4 | Q 4->4 | D 5->5 | G 13->13
+graphstate:indep:5 | Q 5->5 | D 6->6 | G 16->16
+graphstate:indep:6 | Q 6->6 | D 5->5 | G 19->19
+graphstate:indep:7 | Q 7->7 | D 6->6 | G 22->22
+graphstate:indep:8 | Q 8->8 | D 5->5 | G 25->25
+graphstate:indep:9 | Q 9->9 | D 6->6 | G 28->28
+graphstate:indep:10 | Q 10->10 | D 6->6 | G 31->31
+wstate:alg:3 | Q 3->3 | D 7->7 | G 13->13
+wstate:alg:4 | Q 4->4 | D 9->9 | G 18->18
+wstate:alg:5 | Q 5->5 | D 11->11 | G 23->23
+wstate:alg:6 | Q 6->6 | D 13->13 | G 28->28
+wstate:alg:7 | Q 7->7 | D 15->15 | G 33->33
+wstate:alg:8 | Q 8->8 | D 17->17 | G 38->38
+wstate:alg:9 | Q 9->9 | D 19->19 | G 43->43
+wstate:alg:10 | Q 10->10 | D 21->21 | G 48->48
+wstate:indep:3 | Q 3->3 | D 7->7 | G 13->13
+wstate:indep:4 | Q 4->4 | D 9->9 | G 18->18
+wstate:indep:5 | Q 5->5 | D 11->11 | G 23->23
+wstate:indep:6 | Q 6->6 | D 13->13 | G 28->28
+wstate:indep:7 | Q 7->7 | D 15->15 | G 33->33
+wstate:indep:8 | Q 8->8 | D 17->17 | G 38->38
+wstate:indep:9 | Q 9->9 | D 19->19 | G 43->43
+wstate:indep:10 | Q 10->10 | D 21->21 | G 48->48
+grover:alg:3 | Q 3->3 | D 3->3 | G 8->8
+grover:alg:4 | Q 4->4 | D 4->4 | G 11->11
+grover:alg:5 | Q 5->5 | D 5->5 | G 14->14
+grover:alg:6 | Q 6->6 | D 6->6 | G 17->17
+grover:alg:7 | Q 7->7 | D 8->8 | G 21->21
+grover:alg:8 | Q 8->8 | D 10->10 | G 25->25
+grover:alg:9 | Q 9->9 | D 14->14 | G 31->31
+grover:alg:10 | Q 10->10 | D 19->19 | G 38->38
+grover:indep:3 | Q 3->3 | D 3->3 | G 8->8
+grover:indep:4 | Q 4->4 | D 4->4 | G 11->11
+grover:indep:5 | Q 5->5 | D 5->5 | G 14->14
+grover:indep:6 | Q 6->6 | D 6->6 | G 17->17
+grover:indep:7 | Q 7->7 | D 8->8 | G 21->21
+grover:indep:8 | Q 8->8 | D 10->10 | G 25->25
+grover:indep:9 | Q 9->9 | D 14->14 | G 31->31
+grover:indep:10 | Q 10->10 | D 19->19 | G 38->38
+cdkm_ripple_carry_adder:alg:4 | Q 4->4 | D 4->4 | G 8->8
+cdkm_ripple_carry_adder:alg:6 | Q 6->6 | D 6->6 | G 12->12
+cdkm_ripple_carry_adder:alg:8 | Q 8->8 | D 8->8 | G 16->16
+cdkm_ripple_carry_adder:alg:10 | Q 10->10 | D 10->10 | G 20->20
+cdkm_ripple_carry_adder:indep:4 | Q 4->4 | D 4->4 | G 8->8
+cdkm_ripple_carry_adder:indep:6 | Q 6->6 | D 6->6 | G 12->12
+cdkm_ripple_carry_adder:indep:8 | Q 8->8 | D 8->8 | G 16->16
+cdkm_ripple_carry_adder:indep:10 | Q 10->10 | D 10->10 | G 20->20
+vbe_ripple_carry_adder:alg:4 | Q 4->4 | D 4->4 | G 8->8
+vbe_ripple_carry_adder:alg:7 | Q 7->7 | D 7->7 | G 14->14
+vbe_ripple_carry_adder:alg:10 | Q 10->10 | D 10->10 | G 20->20
+vbe_ripple_carry_adder:indep:4 | Q 4->4 | D 4->4 | G 8->8
+vbe_ripple_carry_adder:indep:7 | Q 7->7 | D 7->7 | G 14->14
+vbe_ripple_carry_adder:indep:10 | Q 10->10 | D 10->10 | G 20->20
+hrs_cumulative_multiplier:alg:5 | Q 5->5 | D 2->2 | G 7->7
+hrs_cumulative_multiplier:alg:9 | Q 9->9 | D 3->3 | G 12->12
+hrs_cumulative_multiplier:indep:5 | Q 5->5 | D 2->2 | G 7->7
+hrs_cumulative_multiplier:indep:9 | Q 9->9 | D 3->3 | G 12->12
+multiplier:alg:4 | Q 4->4 | D 2->2 | G 6->6
+multiplier:alg:8 | Q 12->12 | D 2->2 | G 14->14
+multiplier:indep:4 | Q 4->4 | D 25->25 | G 32->32
+multiplier:indep:8 | Q 12->12 | D 295->295 | G 340->340
+modular_adder:alg:4 | Q 4->4 | D 2->2 | G 6->6
+modular_adder:alg:6 | Q 6->6 | D 2->2 | G 8->8
+modular_adder:alg:8 | Q 8->8 | D 2->2 | G 10->10
+modular_adder:alg:10 | Q 10->10 | D 2->2 | G 12->12
+modular_adder:indep:4 | Q 4->4 | D 9->9 | G 13->13
+modular_adder:indep:10 | Q 10->10 | D 47->47 | G 60->60
+hhl:alg:3 | Q 3->3 | D 7->7 | G 9->9
+hhl:alg:4 | Q 4->4 | D 10->10 | G 14->14
+hhl:alg:5 | Q 5->5 | D 13->13 | G 19->19
+hhl:alg:6 | Q 6->6 | D 16->16 | G 24->24
+hhl:alg:7 | Q 7->7 | D 19->19 | G 29->29
+hhl:alg:8 | Q 8->8 | D 22->22 | G 34->34
+hhl:alg:9 | Q 9->9 | D 25->25 | G 39->39
+hhl:alg:10 | Q 10->10 | D 28->28 | G 44->44
+hhl:indep:3 | Q 3->3 | D 7->7 | G 9->9
+hhl:indep:4 | Q 4->4 | D 13->13 | G 17->17
+hhl:indep:5 | Q 5->5 | D 17->17 | G 24->24
+hhl:indep:6 | Q 6->6 | D 22->22 | G 33->33
+hhl:indep:7 | Q 7->7 | D 27->27 | G 43->43
+hhl:indep:8 | Q 8->8 | D 32->32 | G 54->54
+hhl:indep:9 | Q 9->9 | D 37->37 | G 66->66
+hhl:indep:10 | Q 10->10 | D 42->42 | G 79->79
+qwalk:alg:3 | Q 3->3 | D 22->22 | G 31->31
+qwalk:alg:4 | Q 4->4 | D 28->28 | G 44->44
+qwalk:alg:5 | Q 5->5 | D 34->34 | G 57->57
+qwalk:alg:6 | Q 6->6 | D 40->40 | G 70->70
+qwalk:alg:7 | Q 7->7 | D 46->46 | G 83->83
+qwalk:alg:8 | Q 8->8 | D 52->52 | G 96->96
+qwalk:alg:9 | Q 9->9 | D 58->58 | G 109->109
+qwalk:alg:10 | Q 10->10 | D 64->64 | G 122->122
+qwalk:indep:3 | Q 3->3 | D 20->20 | G 29->29
+qwalk:indep:4 | Q 4->4 | D 170->170 | G 195->195
+qwalk:indep:5 | Q 5->5 | D 404->404 | G 459->459
+qwalk:indep:6 | Q 6->6 | D 242->242 | G 290->290
+qwalk:indep:7 | Q 7->7 | D 1731->1731 | G 2308->2308
+qwalk:indep:8 | Q 8->8 | D 2211->2211 | G 3179->3179
+qwalk:indep:9 | Q 9->9 | D 3350->3350 | G 4539->4539
+qwalk:indep:10 | Q 10->10 | D 4382->4382 | G 5806->5806
+
+--- ERRORS ---
+cdkm_ripple_carry_adder:alg:3 | num_qubits must be an even integer ≥ 4.
+cdkm_ripple_carry_adder:alg:5 | num_qubits must be an even integer ≥ 4.
+cdkm_ripple_carry_adder:alg:7 | num_qubits must be an even integer ≥ 4.
+cdkm_ripple_carry_adder:alg:9 | num_qubits must be an even integer ≥ 4.
+cdkm_ripple_carry_adder:indep:3 | num_qubits must be an even integer ≥ 4.
+cdkm_ripple_carry_adder:indep:5 | num_qubits must be an even integer ≥ 4.
+cdkm_ripple_carry_adder:indep:7 | num_qubits must be an even integer ≥ 4.
+cdkm_ripple_carry_adder:indep:9 | num_qubits must be an even integer ≥ 4.
+vbe_ripple_carry_adder:alg:3 | num_qubits must be an integer ≥ 4 and (num_qubits - 1) must be divisible by 3.
+vbe_ripple_carry_adder:alg:5 | num_qubits must be an integer ≥ 4 and (num_qubits - 1) must be divisible by 3.
+vbe_ripple_carry_adder:alg:6 | num_qubits must be an integer ≥ 4 and (num_qubits - 1) must be divisible by 3.
+vbe_ripple_carry_adder:alg:8 | num_qubits must be an integer ≥ 4 and (num_qubits - 1) must be divisible by 3.
+vbe_ripple_carry_adder:alg:9 | num_qubits must be an integer ≥ 4 and (num_qubits - 1) must be divisible by 3.
+vbe_ripple_carry_adder:indep:3 | num_qubits must be an integer ≥ 4 and (num_qubits - 1) must be divisible by 3.
+vbe_ripple_carry_adder:indep:5 | num_qubits must be an integer ≥ 4 and (num_qubits - 1) must be divisible by 3.
+vbe_ripple_carry_adder:indep:6 | num_qubits must be an integer ≥ 4 and (num_qubits - 1) must be divisible by 3.
+vbe_ripple_carry_adder:indep:8 | num_qubits must be an integer ≥ 4 and (num_qubits - 1) must be divisible by 3.
+vbe_ripple_carry_adder:indep:9 | num_qubits must be an integer ≥ 4 and (num_qubits - 1) must be divisible by 3.
+hrs_cumulative_multiplier:alg:3 | num_qubits must be an integer ≥ 5 and (num_qubits - 1) must be divisible by 4.
+hrs_cumulative_multiplier:alg:4 | num_qubits must be an integer ≥ 5 and (num_qubits - 1) must be divisible by 4.
+hrs_cumulative_multiplier:alg:6 | num_qubits must be an integer ≥ 5 and (num_qubits - 1) must be divisible by 4.
+hrs_cumulative_multiplier:alg:7 | num_qubits must be an integer ≥ 5 and (num_qubits - 1) must be divisible by 4.
+hrs_cumulative_multiplier:alg:8 | num_qubits must be an integer ≥ 5 and (num_qubits - 1) must be divisible by 4.
+hrs_cumulative_multiplier:alg:10 | num_qubits must be an integer ≥ 5 and (num_qubits - 1) must be divisible by 4.
+hrs_cumulative_multiplier:indep:3 | num_qubits must be an integer ≥ 5 and (num_qubits - 1) must be divisible by 4.
+hrs_cumulative_multiplier:indep:4 | num_qubits must be an integer ≥ 5 and (num_qubits - 1) must be divisible by 4.
+hrs_cumulative_multiplier:indep:6 | num_qubits must be an integer ≥ 5 and (num_qubits - 1) must be divisible by 4.
+hrs_cumulative_multiplier:indep:7 | num_qubits must be an integer ≥ 5 and (num_qubits - 1) must be divisible by 4.
+hrs_cumulative_multiplier:indep:8 | num_qubits must be an integer ≥ 5 and (num_qubits - 1) must be divisible by 4.
+hrs_cumulative_multiplier:indep:10 | num_qubits must be an integer ≥ 5 and (num_qubits - 1) must be divisible by 4.
+multiplier:alg:3 | num_qubits must be an integer ≥ 4 and divisible by 4.
+multiplier:alg:5 | num_qubits must be an integer ≥ 4 and divisible by 4.
+multiplier:alg:6 | num_qubits must be an integer ≥ 4 and divisible by 4.
+multiplier:alg:7 | num_qubits must be an integer ≥ 4 and divisible by 4.
+multiplier:alg:9 | num_qubits must be an integer ≥ 4 and divisible by 4.
+multiplier:alg:10 | num_qubits must be an integer ≥ 4 and divisible by 4.
+multiplier:indep:3 | num_qubits must be an integer ≥ 4 and divisible by 4.
+multiplier:indep:5 | num_qubits must be an integer ≥ 4 and divisible by 4.
+multiplier:indep:6 | num_qubits must be an integer ≥ 4 and divisible by 4.
+multiplier:indep:7 | num_qubits must be an integer ≥ 4 and divisible by 4.
+multiplier:indep:9 | num_qubits must be an integer ≥ 4 and divisible by 4.
+multiplier:indep:10 | num_qubits must be an integer ≥ 4 and divisible by 4.
+modular_adder:alg:3 | num_qubits must be an even integer ≥ 2.
+modular_adder:alg:5 | num_qubits must be an even integer ≥ 2.
+modular_adder:alg:7 | num_qubits must be an even integer ≥ 2.
+modular_adder:alg:9 | num_qubits must be an even integer ≥ 2.
+modular_adder:indep:3 | num_qubits must be an even integer ≥ 2.
+modular_adder:indep:5 | num_qubits must be an even integer ≥ 2.
+modular_adder:indep:7 | num_qubits must be an even integer ≥ 2.
+modular_adder:indep:9 | num_qubits must be an even integer ≥ 2.
+shor:alg:3 | No Shor instance for circuit_size=3. Available: 18, 42, 58, 74.
+shor:alg:4 | No Shor instance for circuit_size=4. Available: 18, 42, 58, 74.
+shor:alg:5 | No Shor instance for circuit_size=5. Available: 18, 42, 58, 74.
+shor:alg:6 | No Shor instance for circuit_size=6. Available: 18, 42, 58, 74.
+shor:alg:7 | No Shor instance for circuit_size=7. Available: 18, 42, 58, 74.
+shor:alg:8 | No Shor instance for circuit_size=8. Available: 18, 42, 58, 74.
+shor:alg:9 | No Shor instance for circuit_size=9. Available: 18, 42, 58, 74.
+shor:alg:10 | No Shor instance for circuit_size=10. Available: 18, 42, 58, 74.
+shor:indep:3 | No Shor instance for circuit_size=3. Available: 18, 42, 58, 74.
+shor:indep:4 | No Shor instance for circuit_size=4. Available: 18, 42, 58, 74.
+shor:indep:5 | No Shor instance for circuit_size=5. Available: 18, 42, 58, 74.
+shor:indep:6 | No Shor instance for circuit_size=6. Available: 18, 42, 58, 74.
+shor:indep:7 | No Shor instance for circuit_size=7. Available: 18, 42, 58, 74.
+shor:indep:8 | No Shor instance for circuit_size=8. Available: 18, 42, 58, 74.
+shor:indep:9 | No Shor instance for circuit_size=9. Available: 18, 42, 58, 74.
+shor:indep:10 | No Shor instance for circuit_size=10. Available: 18, 42, 58, 74.
