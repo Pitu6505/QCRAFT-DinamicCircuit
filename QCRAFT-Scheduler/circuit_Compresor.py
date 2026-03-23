@@ -1,11 +1,15 @@
 # circuit_Compresor.py
 from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, transpile
 from qiskit.transpiler import CouplingMap
+from collections import defaultdict
 
 class AdvancedTopologyCompressor:
     """
     Compresor Dinámico que adelanta medidas, reutiliza qubits y mapea 
     el resultado a la topología física de una máquina real.
+    
+    IMPORTANTE: Detecta y preserva el entanglement entre qubits.
+    Qubits entangled NO pueden compartir el mismo qubit físico.
     """
     def __init__(self, coupling_map=None):
         self.coupling_map = coupling_map
@@ -80,6 +84,83 @@ class AdvancedTopologyCompressor:
                 
         return qubit_lifetimes
 
+    def _build_entanglement_graph(self, circuit):
+        """
+        Construye un grafo de entanglement entre qubits.
+        Si dos qubits han interactuado mediante un gate multi-qubit,
+        están entangled y NO pueden compartir el mismo qubit físico.
+        
+        Returns:
+            dict: {qubit: set(qubits_entangled_with_it)}
+        """
+        entanglement_graph = defaultdict(set)
+        
+        for inst in circuit.data:
+            qargs = inst.qubits
+            
+            # Ignorar barriers y medidas (no crean entanglement)
+            if inst.operation.name in ['barrier', 'measure']:
+                continue
+            
+            # Si el gate actúa sobre 2+ qubits, crea entanglement
+            if len(qargs) >= 2:
+                # Todos los qubits involucrados están entangled entre sí
+                for i, q1 in enumerate(qargs):
+                    for q2 in qargs[i+1:]:
+                        entanglement_graph[q1].add(q2)
+                        entanglement_graph[q2].add(q1)
+                        
+        return entanglement_graph
+
+    def _can_reuse_physical_lane(self, logical_q, lane_idx, physical_lanes_info, 
+                                  entanglement_graph, lifetimes):
+        """
+        Verifica si un qubit lógico puede reutilizar un carril físico.
+        
+        NO puede reutilizar si:
+        1. El carril aún está en uso (tiempo)
+        2. Está entangled con algún qubit que ya usa ese mismo carril Y se superponen en tiempo
+        
+        Args:
+            logical_q: Qubit lógico a asignar
+            lane_idx: Índice del carril físico candidato
+            physical_lanes_info: Lista de dict con info de cada carril
+            entanglement_graph: Grafo de entanglement
+            lifetimes: Tiempos de vida de cada qubit
+            
+        Returns:
+            bool: True si puede reutilizar, False si no
+        """
+        lane_info = physical_lanes_info[lane_idx]
+        lane_end_time = lane_info['end_time']
+        logical_q_start = lifetimes[logical_q]['start']
+        logical_q_end = lifetimes[logical_q]['end']
+        
+        # 1. Verificar tiempo: el carril debe estar libre
+        if lane_end_time > logical_q_start:
+            return False
+        
+        # 2. Verificar entanglement: no debe estar entangled con qubits que usan este carril
+        #    y que se superponen en tiempo
+        entangled_qubits = entanglement_graph.get(logical_q, set())
+        
+        for other_logical_q in lane_info['qubits_history']:
+            # Si logical_q está entangled con other_logical_q
+            if other_logical_q in entangled_qubits:
+                # Verificar si se superponen en tiempo
+                other_start = lifetimes[other_logical_q]['start']
+                other_end = lifetimes[other_logical_q]['end']
+                
+                # Verificar superposición temporal
+                # Se superponen si: not (logical_q termina antes que other empiece O other termina antes que logical empiece)
+                overlaps = not (logical_q_end <= other_start or other_end <= logical_q_start)
+                
+                if overlaps:
+                    # Están entangled Y se superponen → NO puede reutilizar
+                    return False
+        
+        return True
+
     def _rebuild_circuit(self, original_circuit, mapping, resets, num_phys):
         qr_phys = QuantumRegister(num_phys, 'q_phys')
         new_qc = QuantumCircuit(qr_phys)
@@ -132,33 +213,62 @@ class AdvancedTopologyCompressor:
                 print("-> ⚠️ Advertencia: _advance_measurements retornó None, usando circuito original")
                 return circuit
             
+            # PASO 1: Obtener tiempos de vida
             lifetimes = self._get_qubit_lifetimes(qc_early)
+            
+            # PASO 2: Construir grafo de entanglement
+            entanglement_graph = self._build_entanglement_graph(qc_early)
+            
+            # DEBUG: Mostrar entanglement detectado
+            if entanglement_graph:
+                print(f"-> 🔗 Entanglement detectado:")
+                for q, entangled_with in entanglement_graph.items():
+                    if entangled_with:
+                        q_idx = circuit.qubits.index(q) if q in circuit.qubits else '?'
+                        entangled_indices = [circuit.qubits.index(eq) for eq in entangled_with if eq in circuit.qubits]
+                        print(f"   Q[{q_idx}] entangled con Q{entangled_indices}")
+            else:
+                print(f"-> ℹ️ No se detectó entanglement (circuito puede comprimirse más)")
+            
+            # PASO 3: Asignar qubits lógicos a carriles físicos (respetando entanglement)
             sorted_qubits = sorted(lifetimes.keys(), key=lambda q: lifetimes[q]['start'])
             
-            physical_lanes_end_time = []
+            # Estructura mejorada: cada carril tiene end_time e historial de qubits
+            physical_lanes_info = []  # [{end_time: int, qubits_history: [qubits]}]
             logical_to_physical_map = {}
             resets_needed = {}
 
             for logical_q in sorted_qubits:
                 start = lifetimes[logical_q]['start']
                 end = lifetimes[logical_q]['end']
-                if start == float('inf'): continue
+                if start == float('inf'): 
+                    continue
                     
                 assigned = False
-                for lane_idx, lane_end_time in enumerate(physical_lanes_end_time):
-                    if lane_end_time <= start:
-                        physical_lanes_end_time[lane_idx] = end
+                
+                # Intentar reutilizar un carril existente
+                for lane_idx in range(len(physical_lanes_info)):
+                    if self._can_reuse_physical_lane(logical_q, lane_idx, physical_lanes_info, 
+                                                     entanglement_graph, lifetimes):
+                        # Puede reutilizar este carril
+                        physical_lanes_info[lane_idx]['end_time'] = end
+                        physical_lanes_info[lane_idx]['qubits_history'].append(logical_q)
                         logical_to_physical_map[logical_q] = lane_idx
                         resets_needed[logical_q] = True
                         assigned = True
                         break
                 
+                # Si no pudo reutilizar, crear nuevo carril físico
                 if not assigned:
-                    physical_lanes_end_time.append(end)
-                    logical_to_physical_map[logical_q] = len(physical_lanes_end_time) - 1
+                    new_lane_idx = len(physical_lanes_info)
+                    physical_lanes_info.append({
+                        'end_time': end,
+                        'qubits_history': [logical_q]
+                    })
+                    logical_to_physical_map[logical_q] = new_lane_idx
                     resets_needed[logical_q] = False
 
-            num_phys = len(physical_lanes_end_time)
+            num_phys = len(physical_lanes_info)
             
             # Si no se pudo comprimir (misma cantidad de qubits), retornar original
             if num_phys == 0 or num_phys >= circuit.num_qubits:

@@ -362,3 +362,38 @@ Circuitos en cola restante: 0
    âœ… Resultados enviados correctamente: 2 estados
 âœ… EjecuciÃ³n completada
 ============================================================
+============================================================
+Timestamp: 2026-03-10 09:39:36
+Provider: ibm
+Circuitos procesados: 1
+Qubits lógicos totales: 20
+Qubits por circuito: [20]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 0
+
+============================================================
+Timestamp: 2026-03-10 09:43:13
+Provider: ibm
+Circuitos procesados: 1
+Qubits lógicos totales: 20
+Qubits por circuito: [20]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 0
+
+============================================================
+Timestamp: 2026-03-10 09:50:46
+Provider: ibm
+Circuitos procesados: 1
+Qubits lógicos totales: 20
+Qubits por circuito: [20]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 0
+
+============================================================
+Timestamp: 2026-03-10 09:52:35
+Provider: ibm
+Circuitos procesados: 1
+Qubits lógicos totales: 20
+Qubits por circuito: [20]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 0

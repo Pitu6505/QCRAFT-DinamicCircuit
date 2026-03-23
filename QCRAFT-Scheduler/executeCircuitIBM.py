@@ -339,7 +339,9 @@ class executeCircuitIBM:
         service = self.service
         job = service.job(id)
         result = job.result()
-        counts = result[0].data.creg_c.get_counts()
+        # Get the classical register name from the circuit metadata
+        creg_name = list(result[0].data._fields.keys())[0] if hasattr(result[0].data, '_fields') else 'c'
+        counts = getattr(result[0].data, creg_name).get_counts()
         return counts
 
     def runIBM_save(self, machine:str, circuit:QuantumCircuit, shots:int,users:list, qubit_number:list, circuit_names:list) -> dict:
@@ -399,7 +401,9 @@ class executeCircuitIBM:
             # -----------------------------------------------------#
 
             result = job.result()
-            counts = result[0].data.creg_c.get_counts()
+            # Get the classical register name dynamically
+            creg_name = list(result[0].data._fields.keys())[0] if hasattr(result[0].data, '_fields') else 'c'
+            counts = getattr(result[0].data, creg_name).get_counts()
 
             with self.condition:
                 self.queued_jobs -= 1

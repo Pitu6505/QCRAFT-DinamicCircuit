@@ -2605,3 +2605,51 @@ Depth: 6 | Gates: 6
 Circuitos en el batch:
   1. ID: 277042219579347757512448965390870995432 | 20QBT_4CYC_8GN_1.0P2_0_vq.py | 20 qubits
 ======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 09:39:36
+Provider: IBM | Machine: ibm_fez
+Tipo: Compresión de topología (batch)
+Circuitos comprimidos juntos: 1
+Qubits: 20 → 1 (Ahorro: 95.0%)
+Depth: 6 | Gates: 6
+
+Circuitos en el batch:
+  1. ID: 175482827129753126252522055787173841990 | 20QBT_4CYC_8GN_1.0P2_0_vq.py | 20 qubits
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 09:43:13
+Provider: IBM | Machine: ibm_fez
+Tipo: Compresión de topología (batch)
+Circuitos comprimidos juntos: 1
+Qubits: 20 → 1 (Ahorro: 95.0%)
+Depth: 6 | Gates: 6
+
+Circuitos en el batch:
+  1. ID: 224284420759900258134556506877032732382 | 20QBT_4CYC_8GN_1.0P2_0_vq.py | 20 qubits
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 09:50:46
+Provider: IBM | Machine: ibm_fez
+Tipo: Compresión de topología (batch)
+Circuitos comprimidos juntos: 1
+Qubits: 20 → 1 (Ahorro: 95.0%)
+Depth: 6 | Gates: 6
+
+Circuitos en el batch:
+  1. ID: 289007780554675288265999586798909539203 | 20QBT_4CYC_8GN_1.0P2_0_vq.py | 20 qubits
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-10 09:52:35
+Provider: IBM | Machine: ibm_fez
+Tipo: Compresión de topología (batch)
+Circuitos comprimidos juntos: 1
+Qubits: 20 → 1 (Ahorro: 95.0%)
+Depth: 6 | Gates: 6
+
+Circuitos en el batch:
+  1. ID: 314829289741577018522603644853610589516 | 20QBT_4CYC_8GN_1.0P2_0_vq.py | 20 qubits
+======================================================================
