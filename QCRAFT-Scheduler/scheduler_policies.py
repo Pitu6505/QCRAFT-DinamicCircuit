@@ -332,9 +332,63 @@ class SchedulerPolicies:
                 data = json.loads(x.text)
                 for elem in data['code']:
                     code.append(elem)
+            elif 'github' in url or 'raw.githubusercontent' in url:
+                # Descargar código desde GitHub
+                try:
+                    response = requests.get(url, timeout=10)
+                    if response.status_code == 200:
+                        circuit_code = response.text
+                        lines = circuit_code.split('\n')
+                        for i, line in enumerate(lines):
+                            # Filtrar líneas que definen registros o circuito (ya se añaden al principio)
+                            stripped_line = line.strip()
+                            if (stripped_line.startswith('qreg_') or 
+                                stripped_line.startswith('creg_') or 
+                                stripped_line.startswith('circuit = QuantumCircuit') or
+                                stripped_line.startswith('from qiskit') or
+                                stripped_line.startswith('from braket') or
+                                stripped_line.startswith('import ') or
+                                stripped_line.startswith('#') or
+                                not stripped_line):  # Líneas vacías
+                                continue
+                            
+                            if provider == 'ibm':
+                                line = line.replace('qreg_q[', f'qreg_q[{composition_qubits}+')
+                                line = line.replace('creg_c[', f'creg_c[{composition_qubits}+')
+                            elif provider == 'aws':
+                                # In the AWS case, all elements have circuit. the integer elements in this line will be replaced by the element+composition_qubits
+                                gate_name = re.search(r'circuit\.(.*?)\(', line).group(1)
+                                if gate_name in ['rx', 'ry', 'rz', 'gpi', 'gpi2', 'phaseshift']:
+                                    # These gates have a parameter
+                                    # Edit the first parameter
+                                    line = re.sub(rf'{gate_name}\(\s*(\d+)', lambda m: f"{gate_name}({int(m.group(1)) + composition_qubits}", line, count=1)
+                                elif gate_name in ['xx', 'yy', 'zz','ms'] or 'cphase' in gate_name:
+                                    # These gates have 2 parameters
+                                    # Edit the first and second parameters
+                                    line= re.sub(rf'{gate_name}\((\d+),\s*(\d+)', lambda m: f"{gate_name}({int(m.group(1)) + composition_qubits},{int(m.group(2)) + composition_qubits}", line, count=1)
+                                else:
+                                    # These gates have no parameters, so change the number of qubits on all
+                                    line = re.sub(r'(\d+)', lambda m: str(int(m.group(1)) + composition_qubits), line)
+                            code.append(line)
+                    else:
+                        print(f"⚠️ Error descargando desde GitHub (status {response.status_code})")
+                except Exception as e:
+                    print(f"⚠️ Error descargando código desde GitHub: {e}")
             else:
                 lines = url.split('\n')
                 for i, line in enumerate(lines):
+                    # Filtrar líneas que definen registros o circuito (ya se añaden al principio)
+                    stripped_line = line.strip()
+                    if (stripped_line.startswith('qreg_') or 
+                        stripped_line.startswith('creg_') or 
+                        stripped_line.startswith('circuit = QuantumCircuit') or
+                        stripped_line.startswith('from qiskit') or
+                        stripped_line.startswith('from braket') or
+                        stripped_line.startswith('import ') or
+                        stripped_line.startswith('#') or
+                        not stripped_line):  # Líneas vacías
+                        continue
+                    
                     if provider == 'ibm':
                         line = line.replace('qreg_q[', f'qreg_q[{composition_qubits}+')
                         line = line.replace('creg_c[', f'creg_c[{composition_qubits}+')
