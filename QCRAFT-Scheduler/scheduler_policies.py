@@ -898,6 +898,7 @@ class SchedulerPolicies:
                 print(f"   - Qubits: {loc['circuit'].num_qubits}")
                 print(f"   - Depth: {loc['circuit'].depth()}")
                 print(f"   - Gates: {len(loc['circuit'].data)}")
+                print(f"   - Operaciones: {dict(loc['circuit'].count_ops())}")
             else:
                 print(f"\n⚙️  Convirtiendo código a Circuit (AWS)...")
                 loc['circuit'] = code_to_circuit_aws(circuit_code)

@@ -1079,3 +1079,25 @@ Utilización: 3.2%
 Tiempo total: 0.906250 seg
 Detalles compresión:
   - 20QBT_4CYC_8GN_1.0P2_0_vq.py: 17 → 5 qubits
+
+============================================================
+Timestamp: 2026-03-23 09:27:02
+Provider: ibm
+Circuitos comprimidos: 1
+Circuitos seleccionados: 1
+Qubits totales (comprimidos): 3/156
+Utilización: 1.9%
+Tiempo total: 1.046875 seg
+Detalles compresión:
+  - tsp_qcraft.py: 3 → 3 qubits
+
+============================================================
+Timestamp: 2026-03-23 09:29:49
+Provider: ibm
+Circuitos comprimidos: 1
+Circuitos seleccionados: 1
+Qubits totales (comprimidos): 3/156
+Utilización: 1.9%
+Tiempo total: 1.015625 seg
+Detalles compresión:
+  - tsp_qcraft.py: 3 → 3 qubits

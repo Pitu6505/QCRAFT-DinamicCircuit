@@ -2653,3 +2653,61 @@ Depth: 6 | Gates: 6
 Circuitos en el batch:
   1. ID: 314829289741577018522603644853610589516 | 20QBT_4CYC_8GN_1.0P2_0_vq.py | 20 qubits
 ======================================================================
+
+======================================================================
+Timestamp: 2026-03-23 09:26:48
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 197663121305263519118986818111469392996 | Circuit: tsp_qcraft.py
+Qubits: 3 → 3 (Ahorro: 0.0%)
+Depth: 5 → 5
+Gates: 10 → 10
+Classical bits: 3 → 3
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-23 09:29:34
+Provider: IBM
+Tipo: Compresión individual (ML Knapsack)
+ID: 202849741547077936471160359496806459133 | Circuit: tsp_qcraft.py
+Qubits: 3 → 3 (Ahorro: 0.0%)
+Depth: 5 → 5
+Gates: 10 → 10
+Classical bits: 3 → 3
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-23 09:32:08
+Provider: IBM | Machine: ibm_fez
+Tipo: Compresión de topología (batch)
+Circuitos comprimidos juntos: 1
+Qubits: 5 → 1 (Ahorro: 80.0%)
+Depth: 5 | Gates: 5
+
+Circuitos en el batch:
+  1. ID: 325804590563140930965103311313325866062 | tsp_qcraft.py | 5 qubits
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-23 09:37:43
+Provider: IBM | Machine: ibm_fez
+Tipo: Compresión de topología (batch)
+Circuitos comprimidos juntos: 1
+Qubits: 5 → 1 (Ahorro: 80.0%)
+Depth: 4 | Gates: 4
+
+Circuitos en el batch:
+  1. ID: 25248345323112124191861096430919655197 | tsp_qcraft.py | 5 qubits
+======================================================================
+
+======================================================================
+Timestamp: 2026-03-23 09:41:24
+Provider: IBM | Machine: ibm_fez
+Tipo: Compresión de topología (batch)
+Circuitos comprimidos juntos: 1
+Qubits: 5 → 3 (Ahorro: 40.0%)
+Depth: 6 | Gates: 10
+
+Circuitos en el batch:
+  1. ID: 139205482327754048240940322203103086608 | tsp_qcraft.py | 5 qubits
+======================================================================

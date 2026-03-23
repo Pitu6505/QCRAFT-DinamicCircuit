@@ -397,3 +397,30 @@ Qubits lógicos totales: 20
 Qubits por circuito: [20]
 Tiempo de scheduling: 0.000000 seg
 Circuitos en cola restante: 0
+
+============================================================
+Timestamp: 2026-03-23 09:32:08
+Provider: ibm
+Circuitos procesados: 1
+Qubits lógicos totales: 5
+Qubits por circuito: [5]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 0
+
+============================================================
+Timestamp: 2026-03-23 09:37:42
+Provider: ibm
+Circuitos procesados: 1
+Qubits lógicos totales: 5
+Qubits por circuito: [5]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 0
+
+============================================================
+Timestamp: 2026-03-23 09:41:24
+Provider: ibm
+Circuitos procesados: 1
+Qubits lógicos totales: 5
+Qubits por circuito: [5]
+Tiempo de scheduling: 0.000000 seg
+Circuitos en cola restante: 0
