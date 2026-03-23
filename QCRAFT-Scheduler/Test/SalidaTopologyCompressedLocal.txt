@@ -1,0 +1,115 @@
+==========================================================================================
+REPORTE LOCAL: TOPOLOGY COMPRESSION
+==========================================================================================
+Archivo origen URLs: c:\Users\Usuario\Desktop\Investigacion\QCRAFT-DinamicCircuit\QCRAFT-Scheduler\Test\scheduler-async-compressed.py
+Total circuitos analizados: 98
+Comprimidos: 11
+No comprimidos: 87
+Saltados: 0
+Errores: 0
+
+--- COMPRIMIDOS ---
+20QBT_16CYC_32GN_1.0P2_0_vq.py | Q 20->14 | D 17->20 | G 49->52 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/mapping/20QBT_16CYC_32GN_1.0P2_0_vq.py
+20QBT_4CYC_8GN_1.0P2_0_vq.py | Q 20->4 | D 5->5 | G 13->14 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/mapping/20QBT_4CYC_8GN_1.0P2_0_vq.py
+20QBT_8CYC_16GN_1.0P2_0_vq.py | Q 20->10 | D 9->10 | G 28->30 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/mapping/20QBT_8CYC_16GN_1.0P2_0_vq.py
+6symd2_vq.py | Q 10->8 | D 12->13 | G 30->32 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/reversible/6symd2_vq.py
+dqc_error_stateflip_vq.py | Q 6->5 | D 6->8 | G 12->13 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/dynamic/errorconection/dqc_error_stateflip_vq.py
+kickback_7_vq.py | Q 7->3 | D 8->13 | G 10->14 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/kickback/kickback_7_vq.py
+kickback_qcraft.py | Q 4->2 | D 5->5 | G 8->8 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/kickback/kickback_qcraft.py
+qft_qcraft.py | Q 4->3 | D 9->8 | G 14->13 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/qft/qft_qcraft.py
+shor_mod15_mqt.py | Q 5->4 | D 12->12 | G 20->20 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/shor/shor_mod15_mqt.py
+tsp.py | Q 5->3 | D 5->5 | G 11->9 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/tsp.py
+tsp_qcraft.py | Q 5->3 | D 5->5 | G 11->9 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/tsp/tsp_qcraft.py
+
+--- NO COMPRIMIDOS ---
+3_17tc_vq.py | Q 3->3 | D 7->7 | G 9->9 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/reversible/3_17tc_vq.py
+Deutsch-Jozsa.py | Q 4->4 | D 8->8 | G 22->22 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/Deutsch-Jozsa.py
+Deutsch-Jozsa_qcraft.py | Q 4->4 | D 8->8 | G 22->22 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/Deutsch-Jozsa/Deutsch-Jozsa_qcraft.py
+adder_n10_vq.py | Q 10->10 | D 7->7 | G 21->21 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/adder/adder_n10_vq.py
+adder_n13_vq.py | Q 13->13 | D 8->8 | G 29->29 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/adder/adder_n13_vq.py
+adder_n16_vq.py | Q 16->16 | D 9->9 | G 36->36 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/adder/adder_n16_vq.py
+adder_n4_vq.py | Q 4->4 | D 5->5 | G 8->8 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/adder/adder_n4_vq.py
+adder_n7_vq.py | Q 7->7 | D 6->6 | G 15->15 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/adder/adder_n7_vq.py
+adder_qcraft.py | Q 4->4 | D 7->7 | G 14->14 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/adder/adder_qcraft.py
+bernstein-vazirani.py | Q 4->4 | D 7->7 | G 16->16 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/bernstein-vazirani.py
+bernstein-vazirani_qcraft.py | Q 4->4 | D 7->7 | G 16->16 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/bernstein-vazirani/bernstein-vazirani_qcraft.py
+bv_14_vq.py | Q 14->14 | D 17->17 | G 55->55 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/bernstein-vazirani/bv_14_vq.py
+bv_2_vq.py | Q 2->2 | D 5->5 | G 8->8 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/bernstein-vazirani/bv_2_vq.py
+bv_3_vq.py | Q 3->3 | D 6->6 | G 12->12 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/bernstein-vazirani/bv_3_vq.py
+bv_4_vq.py | Q 4->4 | D 7->7 | G 16->16 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/bernstein-vazirani/bv_4_vq.py
+bv_5_vq.py | Q 5->5 | D 8->8 | G 20->20 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/bernstein-vazirani/bv_5_vq.py
+bv_9_vq.py | Q 9->9 | D 12->12 | G 36->36 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/bernstein-vazirani/bv_9_vq.py
+dj_indep_14_mqt.py | Q 14->14 | D 16->16 | G 54->54 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/Deutsch-Jozsa/dj_indep_14_mqt.py
+dj_indep_4_mqt.py | Q 4->4 | D 6->6 | G 14->14 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/Deutsch-Jozsa/dj_indep_4_mqt.py
+dj_indep_5_mqt.py | Q 5->5 | D 7->7 | G 18->18 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/Deutsch-Jozsa/dj_indep_5_mqt.py
+dj_indep_7_mqt.py | Q 7->7 | D 9->9 | G 26->26 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/Deutsch-Jozsa/dj_indep_7_mqt.py
+dqc_error_phaseflip_vq.py | Q 6->6 | D 8->8 | G 18->18 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/dynamic/errorconection/dqc_error_phaseflip_vq.py
+dqc_pe_4_vq.py | Q 5->5 | D 7->7 | G 22->22 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/dynamic/iterativephaseestimation/dqc_pe_4_vq.py
+dqc_pe_6_vq.py | Q 7->7 | D 9->9 | G 39->39 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/dynamic/iterativephaseestimation/dqc_pe_6_vq.py
+dqc_qft_3_vq.py | Q 3->3 | D 4->4 | G 9->9 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/dynamic/qft/dqc_qft_3_vq.py
+dqc_qft_7._vq.py | Q 7->7 | D 8->8 | G 35->35 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/dynamic/qft/dqc_qft_7._vq.py
+dqc_state_injection_S.py | Q 2->2 | D 4->4 | G 5->5 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/dynamic/stateinjection/dqc_state_injection_S.py
+dqc_state_injection_T.py | Q 2->2 | D 4->4 | G 5->5 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/dynamic/stateinjection/dqc_state_injection_T.py
+full_adder.py | Q 4->4 | D 7->7 | G 14->14 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/full_adder.py
+grover-noancilla_3_mqt.py | Q 3->3 | D 10->10 | G 17->17 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/grover/grover-noancilla_3_mqt.py
+grover-noancilla_4_mqt.py | Q 4->4 | D 34->34 | G 49->49 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/grover/grover-noancilla_4_mqt.py
+grover-v-chain_3_mqt.py | Q 3->3 | D 10->10 | G 17->17 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/grover/grover-v-chain_3_mqt.py
+grover-v-chain_4_mqt.py | Q 4->4 | D 34->34 | G 49->49 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/grover/grover-v-chain_4_mqt.py
+grover.py | Q 2->2 | D 8->8 | G 10->10 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/grover.py
+grover_3_vq.py | Q 3->3 | D 10->10 | G 19->19 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/grover/grover_3_vq.py
+grover_7_vq.py | Q 7->7 | D 14->14 | G 39->39 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/grover/grover_7_vq.py
+grover_9_vq.py | Q 9->9 | D 18->18 | G 50->50 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/grover/grover_9_vq.py
+grover_qcraft.py | Q 2->2 | D 8->8 | G 10->10 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/grover/grover_qcraft.py
+kickback.py | Q 2->2 | D 5->5 | G 8->8 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/kickback.py
+pe_2_vq.py | Q 3->3 | D 7->7 | G 10->10 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/phase_estimation/pe_2_vq.py
+pe_3_mqt.py | Q 3->3 | D 7->7 | G 11->11 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/phase_estimation/pe_3_mqt.py
+pe_4_mqt.py | Q 4->4 | D 9->9 | G 16->16 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/phase_estimation/pe_4_mqt.py
+pe_5_mqt.py | Q 5->5 | D 14->14 | G 26->26 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/phase_estimation/pe_5_mqt.py
+pe_5_vq.py | Q 6->6 | D 15->15 | G 30->30 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/phase_estimation/pe_5_vq.py
+pe_6_mqt.py | Q 6->6 | D 15->15 | G 33->33 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/phase_estimation/pe_6_mqt.py
+pe_6_vq.py | Q 7->7 | D 19->19 | G 39->39 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/phase_estimation/pe_6_vq.py
+pe_7_mqt.py | Q 7->7 | D 16->16 | G 42->42 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/phase_estimation/pe_7_mqt.py
+phase_estimation.py | Q 4->4 | D 15->15 | G 23->23 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/phase_estimation.py
+phase_estimation_qcraft.py | Q 4->4 | D 15->15 | G 23->23 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/phase_estimation/phase_estimation_qcraft.py
+qaoa.py | Q 2->2 | D 7->7 | G 10->10 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/qaoa.py
+qaoa_6_vq.py | Q 6->6 | D 33->33 | G 116->116 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/variational/qaoa/qaoa_6_vq.py
+qaoa_indep_3_mqt.py | Q 3->3 | D 10->10 | G 19->19 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/variational/qaoa/qaoa_indep_3_mqt.py
+qaoa_indep_4_mqt.py | Q 4->4 | D 9->9 | G 25->25 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/variational/qaoa/qaoa_indep_4_mqt.py
+qaoa_indep_5_mqt.py | Q 5->5 | D 10->10 | G 31->31 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/variational/qaoa/qaoa_indep_5_mqt.py
+qaoa_indep_6_mqt.py | Q 6->6 | D 9->9 | G 37->37 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/variational/qaoa/qaoa_indep_6_mqt.py
+qaoa_qcraft.py | Q 2->2 | D 7->7 | G 10->10 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/variational/qaoa/qaoa_qcraft.py
+qft.py | Q 3->3 | D 9->9 | G 14->14 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/qft.py
+qft_2_mqt.py | Q 2->2 | D 5->5 | G 7->7 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/qft/qft_2_mqt.py
+qft_3_mqt.py | Q 3->3 | D 7->7 | G 11->11 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/qft/qft_3_mqt.py
+qft_3_vq.py | Q 3->3 | D 6->6 | G 9->9 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/qft/qft_3_vq.py
+qft_4_mqt.py | Q 4->4 | D 9->9 | G 17->17 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/qft/qft_4_mqt.py
+qft_6_mqt.py | Q 6->6 | D 13->13 | G 31->31 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/qft/qft_6_mqt.py
+qft_7_vq.py | Q 7->7 | D 14->14 | G 35->35 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/qft/qft_7_vq.py
+qwalk-noancilla_3_mqt.py | Q 3->3 | D 20->20 | G 29->29 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/sequential/qwalk/qwalk-noancilla_3_mqt.py
+qwalk-v-chain_3_mqt.py | Q 3->3 | D 20->20 | G 29->29 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/sequential/qwalk/qwalk-v-chain_3_mqt.py
+qwalk-v-chain_5_mqt.py | Q 5->5 | D 38->38 | G 54->54 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/sequential/qwalk/qwalk-v-chain_5_mqt.py
+qwalk.py | Q 3->3 | D 16->16 | G 20->20 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/qwalk.py
+qwalk_qcraft.py | Q 3->3 | D 16->16 | G 20->20 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/sequential/qwalk/qwalk_qcraft.py
+reversible_5_adder_vq.py | Q 11->11 | D 23->23 | G 39->39 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/reversible/reversible_5_adder_vq.py
+shor.py | Q 4->4 | D 12->12 | G 22->22 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/shor.py
+shor_mod21_mqt.py | Q 8->8 | D 10->10 | G 21->21 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/shor/shor_mod21_mqt.py
+shor_qcraft.py | Q 4->4 | D 12->12 | G 22->22 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/shor/shor_qcraft.py
+simon.py | Q 6->6 | D 6->6 | G 19->19 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/simon.py
+simon_qcraft.py | Q 6->6 | D 6->6 | G 19->19 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/simon/simon_qcraft.py
+simon_vq.py | Q 6->6 | D 5->5 | G 16->16 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/simon/simon_vq.py
+su2_5_vq.py | Q 4->4 | D 8->8 | G 23->23 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/variational/EfficientSU2/su2_5_vq.py
+su2random_3_mqt.py | Q 3->3 | D 14->14 | G 24->24 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/variational/EfficientSU2/su2random_3_mqt.py
+su2random_4_mqt.py | Q 4->4 | D 18->18 | G 39->39 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/variational/EfficientSU2/su2random_4_mqt.py
+teleportation.py | Q 3->3 | D 11->11 | G 17->17 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/teleportation.py
+teleportation_qcraft.py | Q 3->3 | D 11->11 | G 17->17 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/dynamic/teleportation/teleportation_qcraft.py
+teleportation_vq.py | Q 3->3 | D 5->5 | G 9->9 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/dynamic/teleportation/teleportation_vq.py
+tsp_indep_4_mqt.py | Q 4->4 | D 18->18 | G 44->44 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/tsp/tsp_indep_4_mqt.py
+tsp_indep_5_mqt.py | Q 5->5 | D 14->14 | G 29->29 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/combinational/popularalgorithms/tsp/tsp_indep_5_mqt.py
+vqe_indep_3_mqt.py | Q 3->3 | D 8->8 | G 17->17 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/variational/vqe/vqe_indep_3_mqt.py
+vqe_indep_4_mqt.py | Q 4->4 | D 9->9 | G 23->23 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/variational/vqe/vqe_indep_4_mqt.py
+vqe_indep_5_mqt.py | Q 5->5 | D 10->10 | G 29->29 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/variational/vqe/vqe_indep_5_mqt.py
+vqe_indep_6_mqt.py | Q 6->6 | D 11->11 | G 35->35 | https://raw.githubusercontent.com/Qcraft-UEx/QCRAFT-Scheduler/main/circuits-code/variational/vqe/vqe_indep_6_mqt.py
+
+--- SALTADOS ---
+
+--- ERRORES ---

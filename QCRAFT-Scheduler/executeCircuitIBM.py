@@ -71,6 +71,17 @@ class executeCircuitIBM:
             qreg = creg = circuit = None
             qreg_name = "qreg_q"
             creg_name = "creg_c"
+
+            def _extract_index(token: str) -> int:
+                """
+                Extrae y evalua el indice dentro de corchetes, soportando expresiones
+                como qreg_q[0+2] ademas de indices directos qreg_q[2].
+                """
+                match = re.search(r'\[(.*?)\]', token)
+                if not match:
+                    raise ValueError(f"No index found in token: {token}")
+                expr = match.group(1).strip()
+                return int(eval(expr, {"__builtins__": None, "np": np, "pi": np.pi}, {}))
             
             # First pass: try to find register definitions and determine max indices
             max_qubit_index = -1
@@ -175,14 +186,27 @@ class executeCircuitIBM:
                             continue
                         
                         if gate_name == "measure":
-                            if len(args) >= 2 and '[' in args[0] and '[' in args[1]:
-                                try:
-                                    qubit_idx = int(args[0].split('[')[1].strip(']').split('+')[0])
-                                    cbit_idx = int(args[1].split('[')[1].strip(']').split('+')[0])
-                                    if qreg and creg:
-                                        circuit.measure(qreg[qubit_idx], creg[cbit_idx])
-                                except:
-                                    pass
+                            # Soporta tanto:
+                            # 1) circuit.measure(qreg_q[i], creg_c[j])
+                            # 2) circuit.measure([qreg_q[i], ...], [creg_c[j], ...])
+                            # Si se parsea mal este bloque, el circuito puede degradarse y
+                            # aparentar una compresion irreal (ej. 5 -> 1 qubit).
+                            try:
+                                q_pattern = rf"(?:{re.escape(qreg_name)}|qreg_q|_q)\[([^\]]+)\]"
+                                c_pattern = rf"(?:{re.escape(creg_name)}|creg_c|_c)\[([^\]]+)\]"
+                                q_indices = [int(eval(x.strip(), {"__builtins__": None, "np": np, "pi": np.pi}, {})) for x in re.findall(q_pattern, operation)]
+                                c_indices = [int(eval(x.strip(), {"__builtins__": None, "np": np, "pi": np.pi}, {})) for x in re.findall(c_pattern, operation)]
+
+                                if qreg and creg and q_indices and c_indices:
+                                    # Mapeo 1-1 para medidas vectoriales.
+                                    if len(q_indices) == len(c_indices):
+                                        for q_idx, c_idx in zip(q_indices, c_indices):
+                                            circuit.measure(qreg[q_idx], creg[c_idx])
+                                    else:
+                                        # Fallback seguro: usar la primera pareja valida.
+                                        circuit.measure(qreg[q_indices[0]], creg[c_indices[0]])
+                            except:
+                                pass
                                     
                         elif gate_name == "barrier":
                             if not args[0] or args[0] == '':
@@ -195,7 +219,7 @@ class executeCircuitIBM:
                                     qubit_indices = []
                                     for arg in args:
                                         if '[' in arg:
-                                            idx = int(arg.split('[')[1].strip(']').split('+')[0])
+                                            idx = _extract_index(arg)
                                             qubit_indices.append(qreg[idx])
                                     if qubit_indices:
                                         circuit.barrier(*qubit_indices)
@@ -206,7 +230,7 @@ class executeCircuitIBM:
                             # Manejar gates multi-control
                             try:
                                 gate_type = args[0]
-                                qubits = [qreg[int(re.search(r'\[(\d+)\]', arg).group(1))] for arg in args[1:] if '[' in arg]
+                                qubits = [qreg[_extract_index(arg)] for arg in args[1:] if '[' in arg]
                                 control_qubits = qubits[:-1]
                                 target_qubit = qubits[-1]
                                 if gate_type == 'mc_x_gate':
@@ -231,7 +255,7 @@ class executeCircuitIBM:
                                 qubit_args = [arg for arg in args if '[' in arg]
                                 qubits = []
                                 for arg in qubit_args:
-                                    idx = int(arg.split('[')[1].strip(']').split('+')[0])
+                                    idx = _extract_index(arg)
                                     qubits.append(qreg[idx])
                                 
                                 # Extraer parámetros (argumentos sin '[')
@@ -339,10 +363,45 @@ class executeCircuitIBM:
         service = self.service
         job = service.job(id)
         result = job.result()
-        # Get the classical register name from the circuit metadata
-        creg_name = list(result[0].data._fields.keys())[0] if hasattr(result[0].data, '_fields') else 'c'
-        counts = getattr(result[0].data, creg_name).get_counts()
-        return counts
+        return self._extract_counts_from_sampler_result(result)
+
+    def _extract_counts_from_sampler_result(self, result) -> dict:
+        """
+        Extrae counts de un resultado de SamplerV2 de forma robusta.
+        Dependiendo de la version de qiskit-ibm-runtime, los bits clasicos pueden
+        aparecer en result[0].data.meas, result[0].data.c u otro campo.
+        """
+        pub_result = result[0]
+        data_bin = pub_result.data
+
+        # Caso directo: el propio DataBin implementa get_counts.
+        if hasattr(data_bin, 'get_counts'):
+            return data_bin.get_counts()
+
+        # Campos mas habituales en SamplerV2.
+        for field_name in ('meas', 'c', 'memory'):
+            if hasattr(data_bin, field_name):
+                field_obj = getattr(data_bin, field_name)
+                if hasattr(field_obj, 'get_counts'):
+                    return field_obj.get_counts()
+
+        # Fallback: inspeccionar atributos publicos y buscar cualquier objeto
+        # que implemente get_counts (ej. nombre de registro clasico distinto).
+        for attr_name in dir(data_bin):
+            if attr_name.startswith('_'):
+                continue
+            try:
+                attr_obj = getattr(data_bin, attr_name)
+            except Exception:
+                continue
+            if hasattr(attr_obj, 'get_counts'):
+                return attr_obj.get_counts()
+
+        # Si no se encuentra formato compatible, dar contexto para depurar rapido.
+        available_public_fields = [name for name in dir(data_bin) if not name.startswith('_')]
+        raise AttributeError(
+            f"No se pudo extraer counts desde DataBin. Campos disponibles: {available_public_fields}"
+        )
 
     def runIBM_save(self, machine:str, circuit:QuantumCircuit, shots:int,users:list, qubit_number:list, circuit_names:list) -> dict:
         """
@@ -400,14 +459,14 @@ class executeCircuitIBM:
             # Write the id in a file, along with the users, and their qubit numbers
             # -----------------------------------------------------#
 
-            result = job.result()
-            # Get the classical register name dynamically
-            creg_name = list(result[0].data._fields.keys())[0] if hasattr(result[0].data, '_fields') else 'c'
-            counts = getattr(result[0].data, creg_name).get_counts()
-
-            with self.condition:
-                self.queued_jobs -= 1
-                self.condition.notify()
+            try:
+                result = job.result()
+                counts = self._extract_counts_from_sampler_result(result)
+            finally:
+                # Liberar siempre la cola interna aunque falle el parseo del resultado.
+                with self.condition:
+                    self.queued_jobs -= 1
+                    self.condition.notify()
 
             # -----------------------------------------------------#
 
