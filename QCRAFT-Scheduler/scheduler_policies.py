@@ -924,9 +924,11 @@ class SchedulerPolicies:
             else:
                 compressed_qubits = compressed_circuit.num_qubits
                 compression_ratio = (1 - compressed_qubits / original_qubits) * 100 if original_qubits > 0 else 0
+                total_qubits_reduced = original_qubits - compressed_qubits
                 
                 print(f"\n✨ COMPRESIÓN COMPLETADA:")
                 print(f"   📉 Qubits: {original_qubits} → {compressed_qubits}")
+                print(f"   🧮 Reducción total batch: {total_qubits_reduced} qubits")
                 print(f"   💾 Ahorro: {compression_ratio:.1f}%")
                 print(f"   📏 Depth comprimido: {compressed_circuit.depth()}")
                 print(f"   🚪 Gates comprimidos: {len(compressed_circuit.data)}")
@@ -940,6 +942,7 @@ class SchedulerPolicies:
                         file.write(f"Tipo: Compresión de topología (batch)\n")
                         file.write(f"Circuitos comprimidos juntos: {len(urls)}\n")
                         file.write(f"Qubits: {original_qubits} → {compressed_qubits} (Ahorro: {compression_ratio:.1f}%)\n")
+                        file.write(f"Reducción total batch: {total_qubits_reduced} qubits\n")
                         file.write(f"Depth: {compressed_circuit.depth()} | Gates: {len(compressed_circuit.data)}\n")
                         file.write(f"\nCircuitos en el batch:\n")
                         for i, (circuit, num_qubits, shot, user, circuit_name, maxDepth) in enumerate(urls, 1):
@@ -1115,6 +1118,11 @@ class SchedulerPolicies:
             file.write(f"Circuitos procesados: {len(urls)}\n")
             file.write(f"Qubits lógicos totales: {sumQb}\n")
             file.write(f"Qubits por circuito: {qb}\n")
+            file.write(f"\nDetalle por circuito (entrada al batch):\n")
+            for i, (_, num_qubits, _, user, circuit_name, _, iteracion) in enumerate(urls, 1):
+                file.write(
+                    f"  {i}. Iteración {iteracion} | {circuit_name} | User {user} | {num_qubits} qubits\n"
+                )
             file.write(f"Tiempo de scheduling: {elapsed_time:.6f} seg\n")
             file.write(f"Circuitos en cola restante: {len(queue)}\n")
         
@@ -1393,6 +1401,14 @@ class SchedulerPolicies:
         print(f"\n   ✅ Seleccionados: {len(seleccionados)} circuitos")
         print(f"   📊 Qubits totales (comprimidos): {selected_qubits}/{max_qubits}")
         print(f"   📈 Utilización: {selected_qubits/max_qubits*100:.1f}%")
+
+        # Métricas globales de compresión (pre y post selección)
+        total_original_pre = sum(item['original_qubits'] for item in compressed_data)
+        total_compressed_pre = sum(item['qubits_compressed'] for item in compressed_data)
+        total_reduced_pre = total_original_pre - total_compressed_pre
+
+        selected_original_post = 0
+        selected_compressed_post = 0
         
         # PASO 4: PREPARAR EJECUCIÓN (SIN RE-COMPRIMIR)
         print(f"\n🚀 FASE 3: PREPARACIÓN PARA EJECUCIÓN")
@@ -1403,6 +1419,10 @@ class SchedulerPolicies:
         # Filtrar circuitos comprimidos seleccionados (por unique_id)
         selected_compressed = [item for item in compressed_data 
                               if item['unique_id'] in seleccionados_ids]
+
+        selected_original_post = sum(item['original_qubits'] for item in selected_compressed)
+        selected_compressed_post = sum(item['qubits_compressed'] for item in selected_compressed)
+        selected_reduced_post = selected_original_post - selected_compressed_post
         
         # COMPONER MANUALMENTE los circuitos comprimidos
         print(f"   🔨 Componiendo {len(selected_compressed)} circuitos comprimidos...")
@@ -1538,10 +1558,55 @@ class SchedulerPolicies:
             file.write(f"Circuitos seleccionados: {len(seleccionados)}\n")
             file.write(f"Qubits totales (comprimidos): {selected_qubits}/{max_qubits}\n")
             file.write(f"Utilización: {selected_qubits/max_qubits*100:.1f}%\n")
+            file.write(f"\nResumen PRE (todos los circuitos comprimidos individualmente):\n")
+            file.write(f"  Qubits totales: {total_original_pre} → {total_compressed_pre}\n")
+            file.write(f"  Reducción total PRE: {total_reduced_pre} qubits\n")
+            file.write(f"\nResumen POST (solo circuitos seleccionados para ejecutar):\n")
+            file.write(f"  Qubits totales: {selected_original_post} → {selected_compressed_post}\n")
+            file.write(f"  Reducción total POST: {selected_reduced_post} qubits\n")
             file.write(f"Tiempo total: {elapsed_time:.6f} seg\n")
+            file.write(f"\nAgregado por iteración (PRE):\n")
+            pre_by_iter = {}
+            for item in compressed_data:
+                it = item['iteracion']
+                if it not in pre_by_iter:
+                    pre_by_iter[it] = {'orig': 0, 'comp': 0, 'count': 0}
+                pre_by_iter[it]['orig'] += item['original_qubits']
+                pre_by_iter[it]['comp'] += item['qubits_compressed']
+                pre_by_iter[it]['count'] += 1
+            for it in sorted(pre_by_iter):
+                orig = pre_by_iter[it]['orig']
+                comp = pre_by_iter[it]['comp']
+                file.write(
+                    f"  Iteración {it}: {pre_by_iter[it]['count']} circuitos | "
+                    f"{orig}→{comp} | Reducción {orig-comp} qubits\n"
+                )
+
+            file.write(f"\nAgregado por iteración (POST seleccionado):\n")
+            post_by_iter = {}
+            for item in selected_compressed:
+                it = item['iteracion']
+                if it not in post_by_iter:
+                    post_by_iter[it] = {'orig': 0, 'comp': 0, 'count': 0}
+                post_by_iter[it]['orig'] += item['original_qubits']
+                post_by_iter[it]['comp'] += item['qubits_compressed']
+                post_by_iter[it]['count'] += 1
+            for it in sorted(post_by_iter):
+                orig = post_by_iter[it]['orig']
+                comp = post_by_iter[it]['comp']
+                file.write(
+                    f"  Iteración {it}: {post_by_iter[it]['count']} circuitos | "
+                    f"{orig}→{comp} | Reducción {orig-comp} qubits\n"
+                )
+
             file.write(f"Detalles compresión:\n")
             for item in selected_compressed:
-                file.write(f"  - {item['circuit_name']}: {item['original_qubits']} → {item['qubits_compressed']} qubits\n")
+                reduced = item['original_qubits'] - item['qubits_compressed']
+                file.write(
+                    f"  - Iter {item['iteracion']} | {item['circuit_name']}: "
+                    f"{item['original_qubits']} → {item['qubits_compressed']} "
+                    f"(Reducción {reduced} qubits)\n"
+                )
         
         # Gestión del temporizador
         if not queue:

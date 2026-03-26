@@ -8,3 +8,39 @@ Suma de qBits:20
 Tiempo Ejecucion:0.0
 Suma de qBits:5
 Tiempo Ejecucion:0.015625
+Suma de qBits:5
+Tiempo Ejecucion:0.015625
+Suma de qBits:7
+Tiempo Ejecucion:0.015625
+Suma de qBits:10
+Tiempo Ejecucion:0.0
+Suma de qBits:8
+Tiempo Ejecucion:0.0
+Suma de qBits:5
+Tiempo Ejecucion:0.0
+Suma de qBits:6
+Tiempo Ejecucion:0.0
+Suma de qBits:8
+Tiempo Ejecucion:0.0
+Suma de qBits:4
+Tiempo Ejecucion:0.0
+Suma de qBits:5
+Tiempo Ejecucion:0.0
+Suma de qBits:6
+Tiempo Ejecucion:0.0
+Suma de qBits:8
+Tiempo Ejecucion:0.0
+Suma de qBits:8
+Tiempo Ejecucion:0.0
+Suma de qBits:9
+Tiempo Ejecucion:0.0
+Suma de qBits:7
+Tiempo Ejecucion:0.0
+Suma de qBits:87
+Tiempo Ejecucion:0.015625
+Suma de qBits:155
+Tiempo Ejecucion:0.0
+Suma de qBits:147
+Tiempo Ejecucion:0.015625
+Suma de qBits:32
+Tiempo Ejecucion:0.0
