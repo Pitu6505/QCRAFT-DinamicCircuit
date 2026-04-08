@@ -22,19 +22,3 @@ circuit.x(0)
 # 4. SEGUNDA MEDICIÓN en el mismo qubit 0
 circuit.measure(0)
 
-# --- Ejecución en el simulador local ---
-device = LocalSimulator()
-
-# Ejecutamos el circuito
-task = device.run(circuit, shots=shots)
-result = task.result()
-
-# Mostramos el circuito por consola para visualizarlo
-print("Circuito:")
-print(circuit)
-print("\n")
-
-# Obtenemos y mostramos el conteo de las mediciones
-counts = result.measurement_counts
-print("Resultados de las mediciones (Primera medición, Segunda medición):")
-print(counts)
